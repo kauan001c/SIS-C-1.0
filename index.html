@@ -8,25 +8,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+    <script>
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.worker.min.js';
+        }
+    </script>
+    <!-- jsPDF + autotable for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         :root {
-            --primary: #0066cc;
-            --primary-dark: #0052a3;
-            --primary-light: #e6f2ff;
-            --secondary: #00a86b;
-            --secondary-dark: #008c5a;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --success: #28a745;
-            --info: #17a2b8;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --gray-light: #e9ecef;
-            --border: #dee2e6;
+            /* Paleta: 30% Branco Escuro, 60% Cinza, 10% Azul Claro */
+            --primary: #1e90ff;          /* Azul mais vivo */
+            --primary-dark: #1464c6;
+            --primary-light: #e5f2ff;
+
+            --secondary: #7a8a99;        /* Cinza azulado mais quente */
+            --secondary-dark: #5d6b7a;
+
+            --danger: #d9534f;
+            --warning: #f0ad4e;
+            --success: #3fa35b;
+            --info: #4aa9d8;
+
+            --light: #f8f9fb;            /* Branco claro */
+            --dark: #121d2c;             /* Texto escuro com mais profundidade */
+            --gray: #4b5566;             /* Cinza mais marcante */
+            --gray-light: #e9eef4;       /* Cinza suave para fundo */
+            --border: #c1c8d0;
+
             --border-radius: 8px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18);
             --transition: all 0.3s ease;
         }
 
@@ -38,7 +52,7 @@
         }
 
         body {
-            background-color: #f5f7fb;
+            background-color: var(--gray-light);
             color: var(--dark);
             min-height: 100vh;
             line-height: 1.6;
@@ -53,7 +67,7 @@
 
         /* SIDEBAR */
         .sidebar {
-            background-color: white;
+            background-color: var(--light);
             border-right: 1px solid var(--border);
             box-shadow: var(--shadow);
             padding: 24px 0;
@@ -217,7 +231,7 @@
 
         /* CARDS */
         .card {
-            background-color: white;
+            background-color: var(--light);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 24px;
@@ -357,7 +371,7 @@
             border-radius: var(--border-radius);
             font-size: 1rem;
             transition: var(--transition);
-            background-color: white;
+            background-color: var(--light);
         }
 
         .input-field:focus {
@@ -415,7 +429,7 @@
         }
 
         .format-badge {
-            background-color: white;
+            background-color: var(--light);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -442,7 +456,7 @@
             align-items: center;
             margin-bottom: 15px;
             padding: 15px;
-            background-color: white;
+            background-color: var(--light);
             border-radius: var(--border-radius);
         }
 
@@ -462,7 +476,7 @@
             gap: 12px;
             margin-bottom: 12px;
             padding: 12px;
-            background-color: white;
+            background-color: var(--light);
             border-radius: var(--border-radius);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             align-items: center;
@@ -479,7 +493,7 @@
             padding: 10px 12px;
             border-radius: var(--border-radius);
             border: 1px solid var(--border);
-            background-color: white;
+            background-color: var(--light);
             cursor: pointer;
             font-size: 0.95rem;
         }
@@ -1445,6 +1459,28 @@
                 
                 <div class="card">
                     <div class="card-header">
+                        <div>
+                            <div class="card-title">
+                                <i class="fas fa-key"></i> Regras de Histórico por Complemento
+                            </div>
+                            <div class="card-subtitle">Defina históricos a partir de palavras-chave encontradas no complemento.</div>
+                        </div>
+                        <button class="btn btn-success" onclick="addKeywordHistoryRule()">
+                            <i class="fas fa-plus"></i> Nova Regra de Histórico
+                        </button>
+                    </div>
+                    
+                    <div class="rules-container" id="keywordHistoryRulesContainer">
+                        <!-- Regras de histórico serão carregadas aqui -->
+                    </div>
+                    
+                    <div class="mt-10" style="font-size: 0.85rem; color: var(--gray);">
+                        Use palavras-chave separadas por vírgula para mapear complementos a históricos (ex: "PIX,TRANSFERÊNCIA" -> "PIX Recebido").
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
                         <div class="card-title">
                             <i class="fas fa-lightbulb"></i> Exemplos de Regras
                         </div>
@@ -1516,6 +1552,18 @@
                         <div class="summary-value neutral" id="summaryFinalBalance">R$ 0,00</div>
                         <div class="summary-desc">Saldo após movimentações</div>
                     </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 16px;">
+                    <button class="btn btn-secondary" onclick="showStatementModal()">
+                        <i class="fas fa-file-invoice-dollar"></i> Extrato Bancário
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportStatement()">
+                        <i class="fas fa-download"></i> Exportar Extrato (CSV)
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportStatementPDF()">
+                        <i class="fas fa-file-pdf"></i> Exportar Extrato (PDF)
+                    </button>
                 </div>
                 
                 <div class="card">
@@ -1707,6 +1755,12 @@
                             </button>
                             <button class="btn btn-warning" onclick="applyRulesToTransactions()" id="applyRulesBtn2" disabled>
                                 <i class="fas fa-magic"></i> Aplicar Regras
+                            </button>
+                            <button class="btn btn-secondary" onclick="applyHistoryRules()">
+                                <i class="fas fa-history"></i> Aplicar Regras de Histórico
+                            </button>
+                            <button class="btn btn-info" onclick="showStatementModal()">
+                                <i class="fas fa-file-invoice-dollar"></i> Extrato Bancário
                             </button>
                             <button class="btn btn-info" onclick="showReportModal()">
                                 <i class="fas fa-chart-bar"></i> Relatório
@@ -2264,6 +2318,36 @@
         </div>
     </div>
 
+    <!-- MODAL DE EXTRATO BANCÁRIO -->
+    <div class="modal" id="statementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-file-invoice-dollar"></i> Extrato Bancário
+                </div>
+                <div class="close-modal" onclick="closeStatementModal()">&times;</div>
+            </div>
+
+            <div id="statementContent">
+                <!-- Conteúdo do extrato será gerado aqui -->
+            </div>
+
+            <div class="d-flex justify-between mt-30">
+                <button class="btn btn-outline" onclick="closeStatementModal()">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="exportStatement()">
+                        <i class="fas fa-file-csv"></i> Exportar CSV
+                    </button>
+                    <button class="btn btn-primary" onclick="exportStatementPDF()">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Dados globais do sistema
         let transactions = [];
@@ -2411,6 +2495,10 @@
                 loadDefaultRules();
             }
             renderRules();
+
+            // Carregar regras de histórico (por palavra-chave no complemento)
+            loadKeywordHistoryRules();
+            renderKeywordHistoryRules();
             
             // Carregar regras de complemento
             const storedComplementRules = localStorage.getItem('complementRules');
@@ -2455,6 +2543,13 @@
                     rawTransactions = data.rawTransactions || [];
                     totalCredits = data.totalCredits || 0;
                     totalDebits = data.totalDebits || 0;
+
+                    // Garantir que cada transação possua histórico calculado
+                    transactions.forEach(tx => {
+                        if (!tx.history) {
+                            tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+                        }
+                    });
                     
                     if (transactions.length > 0) {
                         displayTransactions();
@@ -3299,11 +3394,15 @@
                     creditCode: '',
                     type: rawTrans.type,
                     originalDescription: rawTrans.description,
+                    history: defaultHistory,
                     id: generateId()
                 };
                 
                 applyRulesToTransaction(transaction);
                 applyAutoComplementLogic(transaction);
+
+                // Preencher histórico baseado em palavras-chave no complemento
+                transaction.history = getHistoryFromKeywords(transaction.description) || defaultHistory;
                 
                 transactions.push(transaction);
             });
@@ -3458,7 +3557,7 @@
                         <td>${debitCell}</td>
                         <td>${creditCell}</td>
                         <td>${amountCell}</td>
-                        <td>${defaultHistory}</td>
+                        <td>${trans.history || defaultHistory}</td>
                         <td></td>
                         <td>
                             <div style="position: relative;">
@@ -3495,6 +3594,7 @@
             const newComplement = prompt("Editar complemento:", transactions[index].description);
             if (newComplement !== null) {
                 transactions[index].description = newComplement;
+                transactions[index].history = getHistoryFromKeywords(newComplement) || defaultHistory;
                 displayTransactions();
                 saveToLocalStorage();
                 showStatus("Complemento editado com sucesso.", "success");
@@ -3651,6 +3751,8 @@
                         // Atualizar histórico padrão
                         defaultHistory = value;
                         defaultHistoryInput.value = value;
+                        // Atualizar histórico nas transações selecionadas
+                        trans.history = value;
                     } else if (field === 'complement') {
                         if (action === 'replace') {
                             trans.description = value;
@@ -3962,6 +4064,22 @@
             saveToLocalStorage();
             
             showStatus(`Regras aplicadas a ${transactions.length} transações.`, "success");
+        }
+
+        // Aplicar regras de histórico (com base no complemento)
+        function applyHistoryRules() {
+            if (transactions.length === 0) {
+                showStatus("Não há transações para aplicar regras de histórico.", "error");
+                return;
+            }
+
+            transactions.forEach(transaction => {
+                transaction.history = getHistoryFromKeywords(transaction.description) || defaultHistory;
+            });
+
+            displayTransactions();
+            saveToLocalStorage();
+            showStatus("Históricos atualizados com base nas regras de palavras-chave.", "success");
         }
         
         // Mostrar modal de estrutura de arquivos
@@ -4428,13 +4546,238 @@
             
             showStatus("Relatório exportado com sucesso!", "success");
         }
-        
-        function getAccountDescription(code) {
-            const account = chartOfAccounts.find(acc => acc.code === code);
-            return account ? account.description : '';
+
+        function showStatementModal() {
+            if (transactions.length === 0) {
+                showStatus("Não há transações para gerar extrato.", "error");
+                return;
+            }
+
+            const statementContent = document.getElementById('statementContent');
+            const startBalance = parseFloat(previousBalance) || 0;
+            let runningBalance = startBalance;
+
+            const sorted = [...transactions].sort((a, b) => {
+                const [dA, mA, yA] = a.date.split('/').map(Number);
+                const [dB, mB, yB] = b.date.split('/').map(Number);
+                return new Date(yA, mA - 1, dA) - new Date(yB, mB - 1, dB);
+            });
+
+            const computedFinalBalance = sorted.reduce((acc, trans) => acc + trans.amount, startBalance);
+            finalBalance = computedFinalBalance;
+
+            const headerHtml = `
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
+                    <div>
+                        <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary);">Extrato Bancário</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Conta: ${bankAccountCode}</div>
+                    </div>
+                    <div style="text-align: right; min-width: 220px;">
+                        <div style="font-weight: 600;">Saldo Inicial</div>
+                        <div style="font-size: 1.3rem; font-weight: 700; color: var(--dark);">${formatCurrency(startBalance)}</div>
+                        <div style="font-weight: 600; margin-top: 6px;">Saldo Final</div>
+                        <div style="font-size: 1.3rem; font-weight: 700; color: var(--secondary);">${formatCurrency(computedFinalBalance)}</div>
+                    </div>
+                </div>
+            `;
+
+            const formatDailySummaryRow = (date, balance) => {
+                return `
+                    <tr style="background-color: var(--light); font-weight: 700;">
+                        <td colspan="6" style="padding: 10px;">Saldo em ${date}</td>
+                        <td style="padding: 10px; text-align: right;">${formatCurrency(balance)}</td>
+                    </tr>
+                `;
+            };
+
+            let tableHtml = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: var(--primary); color: white;">
+                                <th style="padding: 10px; text-align: left;">Data</th>
+                                <th style="padding: 10px; text-align: left;">Histórico</th>
+                                <th style="padding: 10px; text-align: left;">Documento</th>
+                                <th style="padding: 10px; text-align: left;">Complemento</th>
+                                <th style="padding: 10px; text-align: right;">Débito</th>
+                                <th style="padding: 10px; text-align: right;">Crédito</th>
+                                <th style="padding: 10px; text-align: right;">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            let lastDate = null;
+
+            sorted.forEach(trans => {
+                const debit = trans.amount < 0 ? Math.abs(trans.amount) : 0;
+                const credit = trans.amount >= 0 ? trans.amount : 0;
+
+                if (lastDate && lastDate !== trans.date) {
+                    // Inserir linha de resumo do dia anterior
+                    tableHtml += formatDailySummaryRow(lastDate, runningBalance);
+                }
+
+                runningBalance += trans.amount;
+
+                tableHtml += `
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 10px;">${trans.date}</td>
+                        <td style="padding: 10px;">${trans.history || defaultHistory}</td>
+                        <td style="padding: 10px;">${trans.document || ''}</td>
+                        <td style="padding: 10px;">${trans.description || ''}</td>
+                        <td style="padding: 10px; text-align: right;">${debit ? formatCurrency(debit) : ''}</td>
+                        <td style="padding: 10px; text-align: right;">${credit ? formatCurrency(credit) : ''}</td>
+                        <td style="padding: 10px; text-align: right; font-weight: 700;">${formatCurrency(runningBalance)}</td>
+                    </tr>
+                `;
+
+                lastDate = trans.date;
+            });
+
+            if (lastDate) {
+                tableHtml += formatDailySummaryRow(lastDate, runningBalance);
+            }
+
+            tableHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            statementContent.innerHTML = headerHtml + tableHtml;
+            document.getElementById('statementModal').style.display = 'flex';
         }
-        
-        // Salvar configurações
+
+        function closeStatementModal() {
+            document.getElementById('statementModal').style.display = 'none';
+        }
+
+        function exportStatement() {
+            if (transactions.length === 0) {
+                showStatus("Não há transações para exportar.", "error");
+                return;
+            }
+
+            const header = [
+                'Data',
+                'Histórico',
+                'Documento',
+                'Complemento',
+                'Débito',
+                'Crédito',
+                'Saldo'
+            ];
+
+            let runningBalance = parseFloat(previousBalance) || 0;
+            const lines = [header.join(',')];
+
+            const sorted = [...transactions].sort((a, b) => {
+                const [dA, mA, yA] = a.date.split('/').map(Number);
+                const [dB, mB, yB] = b.date.split('/').map(Number);
+                return new Date(yA, mA - 1, dA) - new Date(yB, mB - 1, dB);
+            });
+
+            sorted.forEach(trans => {
+                const debit = trans.amount < 0 ? Math.abs(trans.amount) : 0;
+                const credit = trans.amount >= 0 ? trans.amount : 0;
+                runningBalance += trans.amount;
+
+                const line = [
+                    trans.date,
+                    `"${(trans.history || defaultHistory).replace(/"/g, '""')}"`,
+                    `"${(trans.document || '').replace(/"/g, '""')}"`,
+                    `"${(trans.description || '').replace(/"/g, '""')}"`,
+                    debit ? debit.toFixed(2) : '',
+                    credit ? credit.toFixed(2) : '',
+                    runningBalance.toFixed(2)
+                ];
+
+                lines.push(line.join(','));
+            });
+
+            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `SIS-C_Extrato_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showStatus("Extrato exportado com sucesso!", "success");
+        }
+
+        function exportStatementPDF() {
+            if (transactions.length === 0) {
+                showStatus("Não há transações para exportar.", "error");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf || {};
+            if (!jsPDF) {
+                showStatus("Biblioteca jsPDF não encontrada.", "error");
+                return;
+            }
+
+            const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+            const startBalance = parseFloat(previousBalance) || 0;
+
+            doc.setFontSize(16);
+            doc.text('Extrato Bancário', 40, 40);
+            doc.setFontSize(10);
+            doc.text(`Conta: ${bankAccountCode}`, 40, 60);
+            doc.text(`Saldo Inicial: ${formatCurrency(startBalance)}`, 40, 75);
+            doc.text(`Saldo Final: ${formatCurrency(finalBalance)}`, 40, 90);
+
+            const columns = [
+                { header: 'Data', dataKey: 'date' },
+                { header: 'Histórico', dataKey: 'history' },
+                { header: 'Documento', dataKey: 'document' },
+                { header: 'Complemento', dataKey: 'complement' },
+                { header: 'Débito', dataKey: 'debit' },
+                { header: 'Crédito', dataKey: 'credit' },
+                { header: 'Saldo', dataKey: 'balance' }
+            ];
+
+            let runningBalance = startBalance;
+            const sorted = [...transactions].sort((a, b) => {
+                const [dA, mA, yA] = a.date.split('/').map(Number);
+                const [dB, mB, yB] = b.date.split('/').map(Number);
+                return new Date(yA, mA - 1, dA) - new Date(yB, mB - 1, dB);
+            });
+
+            const rows = sorted.map(trans => {
+                const debit = trans.amount < 0 ? Math.abs(trans.amount) : 0;
+                const credit = trans.amount >= 0 ? trans.amount : 0;
+                runningBalance += trans.amount;
+
+                return {
+                    date: trans.date,
+                    history: trans.history || defaultHistory,
+                    document: trans.document || '',
+                    complement: trans.description || '',
+                    debit: debit ? formatCurrency(debit) : '',
+                    credit: credit ? formatCurrency(credit) : '',
+                    balance: formatCurrency(runningBalance)
+                };
+            });
+
+            doc.autoTable({
+                startY: 110,
+                head: [columns.map(c => c.header)],
+                body: rows.map(r => columns.map(c => r[c.dataKey])),
+                styles: { fontSize: 8 },
+                theme: 'grid',
+                headStyles: { fillColor: [0, 102, 204] }
+            });
+
+            const fileName = `SIS-C_Extrato_${new Date().toISOString().slice(0,10)}.pdf`;
+            doc.save(fileName);
+
+            showStatus("Extrato PDF exportado com sucesso!", "success");
+        }
         function saveSettings() {
             const settings = {
                 bankAccountCode: bankAccountCode,
@@ -4460,6 +4803,7 @@
             };
             
             localStorage.setItem('transactions', JSON.stringify(data));
+            localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
         }
         
         // Iniciar auto-save
@@ -4536,6 +4880,242 @@
             closeHelpModal();
             
             showStatus("Sua mensagem foi enviada para o suporte.", "success");
+        }
+
+        // ==============================
+        // PDF Bank Statement Parser
+        // ==============================
+        async function extractPDFText(file) {
+            if (!window.pdfjsLib) {
+                throw new Error("pdfjsLib não encontrado. Verifique se o PDF.js foi carregado.");
+            }
+
+            const arrayBuffer = await file.arrayBuffer();
+            const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+            const pdf = await loadingTask.promise;
+            const maxPages = pdf.numPages;
+            const pageTexts = [];
+
+            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const content = await page.getTextContent();
+                const strings = content.items.map(item => item.str || '');
+                pageTexts.push(strings.join(' '));
+            }
+
+            return pageTexts.join('\n');
+        }
+
+        function rebuildTransactionLines(text) {
+            if (!text) return [];
+
+            let normalized = text.replace(/\r/g, '\n').replace(/\t/g, ' ').replace(/\u00A0/g, ' ');
+            normalized = normalized.replace(/ +/g, ' ');
+
+            // Force line breaks before dates to make parsing more reliable
+            normalized = normalized.replace(/([^\n])(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?)/g, '$1\n$2');
+
+            const rawLines = normalized.split('\n').map(l => l.trim()).filter(Boolean);
+            const lines = [];
+            const dateStartRE = /^\d{1,2}\/\d{1,2}(?:\/\d{2,4})?/;
+
+            rawLines.forEach(line => {
+                if (dateStartRE.test(line)) {
+                    lines.push(line);
+                } else if (lines.length) {
+                    lines[lines.length - 1] += ' ' + line;
+                } else {
+                    lines.push(line);
+                }
+            });
+
+            return lines;
+        }
+
+        function normalizeDateString(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('/');
+            if (parts.length === 2) {
+                const year = new Date().getFullYear();
+                parts.push(year.toString());
+            }
+            const [dd, mm, yyyy] = parts.map(p => p.padStart(2, '0'));
+            return `${dd}/${mm}/${yyyy}`;
+        }
+
+        function parseBrazilianNumber(valueString) {
+            if (!valueString) return NaN;
+            const cleaned = valueString.replace(/\s/g, '');
+            const isNegative = cleaned.includes('-') || cleaned.includes('(');
+            const digits = cleaned.replace(/[^\d,\.\-\(\)]/g, '');
+            const normalized = digits.replace(/\./g, '').replace(',', '.').replace(/[\(\)]/g, '');
+            const number = parseFloat(normalized);
+            return isNegative ? -Math.abs(number) : number;
+        }
+
+        function extractTransactions(lines) {
+            const transactions = [];
+            const dateRE = /\d{1,2}\/\d{1,2}(?:\/\d{2,4})?/;
+            const valueRE = /-?\d{1,3}(?:\.\d{3})*(?:,\d{2})?/g;
+
+            for (const line of lines) {
+                const dateMatch = line.match(dateRE);
+                if (!dateMatch) continue;
+
+                const dateStr = dateMatch[0];
+                const rest = line.slice(line.indexOf(dateStr) + dateStr.length).trim();
+
+                const valueMatches = [...rest.matchAll(valueRE)].map(m => m[0]);
+                if (!valueMatches.length) continue;
+
+                const amountStr = valueMatches[valueMatches.length - 1];
+                const amount = parseBrazilianNumber(amountStr);
+                if (Number.isNaN(amount)) continue;
+
+                let description = rest;
+                const lastIdx = rest.lastIndexOf(amountStr);
+                if (lastIdx !== -1) {
+                    description = rest.slice(0, lastIdx).trim();
+                }
+
+                const ignorePatterns = /^(sal[cd]o|total|lan[çc]amentos|extrato)/i;
+                if (ignorePatterns.test(description)) continue;
+
+                transactions.push({
+                    DATA: normalizeDateString(dateStr),
+                    VALOR: amount,
+                    DEBITO: amount < 0 ? Math.abs(amount) : null,
+                    CREDITO: amount > 0 ? amount : null,
+                    HIST: "",
+                    DOCUM: "",
+                    COMPLEMENTO: description
+                });
+            }
+
+            return transactions;
+        }
+
+        function normalizeToSystemFormat(transactions) {
+            if (!Array.isArray(transactions)) return [];
+            return transactions.map(tx => ({
+                DATA: tx.DATA || "",
+                VALOR: typeof tx.VALOR === "number" ? tx.VALOR : parseBrazilianNumber(tx.VALOR),
+                DEBITO: tx.DEBITO != null ? (typeof tx.DEBITO === "number" ? tx.DEBITO : Math.abs(parseBrazilianNumber(tx.DEBITO))) : null,
+                CREDITO: tx.CREDITO != null ? (typeof tx.CREDITO === "number" ? tx.CREDITO : parseBrazilianNumber(tx.CREDITO)) : null,
+                HIST: "",
+                DOCUM: "",
+                COMPLEMENTO: tx.COMPLEMENTO || ""
+            }));
+        }
+
+        async function parseBankStatementPDF(file) {
+            if (!file) return [];
+            const text = await extractPDFText(file);
+            const lines = rebuildTransactionLines(text);
+            const transactions = extractTransactions(lines);
+            return normalizeToSystemFormat(transactions);
+        }
+
+        // ---------------------------------------
+        // Regras baseadas em palavras-chave (históricos)
+        // ---------------------------------------
+        let keywordHistoryRules = [];
+
+        function setKeywordHistoryRules(rules) {
+            keywordHistoryRules = Array.isArray(rules) ? rules : [];
+            localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
+        }
+
+        function loadKeywordHistoryRules() {
+            const stored = localStorage.getItem('keywordHistoryRules');
+            keywordHistoryRules = stored ? JSON.parse(stored) : [];
+            return keywordHistoryRules;
+        }
+
+        function getHistoryFromKeywords(description) {
+            if (!description || !keywordHistoryRules.length) return "";
+            const text = description.toLowerCase();
+            for (const rule of keywordHistoryRules) {
+                const keywords = Array.isArray(rule.keywords) ? rule.keywords : [rule.keywords];
+                const match = keywords.some(k => k && text.includes(k.toLowerCase()));
+                if (match) {
+                    return rule.history || "";
+                }
+            }
+            return "";
+        }
+
+        function renderKeywordHistoryRules() {
+            const container = document.getElementById('keywordHistoryRulesContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (!keywordHistoryRules.length) {
+                container.innerHTML = `
+                    <div style="padding: 15px; background-color: var(--light); border-radius: var(--border-radius); color: var(--gray);">
+                        Nenhuma regra de histórico definida. Clique em "Nova Regra de Histórico" para começar.
+                    </div>
+                `;
+                return;
+            }
+
+            keywordHistoryRules.forEach((rule, index) => {
+                const ruleItem = document.createElement('div');
+                ruleItem.className = 'rule-item complement-rule';
+                ruleItem.innerHTML = `
+                    <input class="rule-keyword" placeholder="Palavras-chave (separadas por vírgula)"
+                        value="${(Array.isArray(rule.keywords) ? rule.keywords.join(', ') : rule.keywords || '')}"
+                        onchange="updateKeywordHistoryRule(${index}, 'keywords', this.value)">
+                    <input class="rule-account" placeholder="Histórico"
+                        value="${rule.history || ''}"
+                        onchange="updateKeywordHistoryRule(${index}, 'history', this.value)">
+                    <button class="btn btn-danger btn-sm" onclick="removeKeywordHistoryRule(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(ruleItem);
+            });
+        }
+
+        function addKeywordHistoryRule() {
+            keywordHistoryRules.push({ keywords: "", history: "" });
+            saveKeywordHistoryRules();
+            renderKeywordHistoryRules();
+        }
+
+        function updateKeywordHistoryRule(index, field, value) {
+            if (!keywordHistoryRules[index]) return;
+            if (field === 'keywords') {
+                keywordHistoryRules[index].keywords = value;
+            } else if (field === 'history') {
+                keywordHistoryRules[index].history = value;
+            }
+            saveKeywordHistoryRules();
+            renderKeywordHistoryRules();
+        }
+
+        function removeKeywordHistoryRule(index) {
+            if (!keywordHistoryRules[index]) return;
+            if (!confirm("Tem certeza que deseja remover esta regra de histórico?")) return;
+            keywordHistoryRules.splice(index, 1);
+            saveKeywordHistoryRules();
+            renderKeywordHistoryRules();
+        }
+
+        function saveKeywordHistoryRules() {
+            localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
+        }
+
+        function generateRulesFromKeywordBase(keywordBase) {
+            if (!Array.isArray(keywordBase)) return [];
+            return keywordBase.map(entry => ({
+                keyword: entry.keyword || "",
+                type: entry.type || "credit",
+                account: entry.account || "",
+                complementAction: entry.complementAction || "add_beginning",
+                complementText: entry.complementText || ""
+            }));
         }
     </script>
 </body>
