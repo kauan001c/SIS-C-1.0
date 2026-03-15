@@ -232,6 +232,49 @@
         .editable { cursor:pointer; padding:2px 4px; border-radius:3px; transition:background-color 0.2s; }
         .editable:hover { background-color:var(--primary-light); }
 
+        /* PLANO DE CONTAS — LAYOUT CONTÁBIL */
+        .chart-plano-table { width:100%; border-collapse:collapse; font-size:0.86rem; }
+        .chart-plano-table thead tr { background:linear-gradient(135deg,#0f172a,#1e3a5f); }
+        .chart-plano-table thead th { color:white; padding:12px 14px; text-align:left; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:700; position:sticky; top:0; z-index:5; white-space:nowrap; border-right:1px solid rgba(255,255,255,0.08); }
+        .chart-plano-table tbody tr { border-bottom:1px solid #e5eaf0; }
+        /* Nível 1 — Classe */
+        .chart-row-l1 { background:linear-gradient(90deg,#1e3a5f,#1e40af); }
+        .chart-row-l1 td { color:white !important; padding:11px 14px; font-size:0.91rem; }
+        .chart-row-l1:hover { background:linear-gradient(90deg,#1d4ed8,#2563eb) !important; }
+        /* Nível 2 — Grupo */
+        .chart-row-l2 { background:#dbeafe; }
+        .chart-row-l2 td { padding:9px 14px; color:#1e3a8a; }
+        .chart-row-l2:hover { background:#bfdbfe !important; }
+        /* Nível 3 — Subgrupo */
+        .chart-row-l3 { background:#eff6ff; }
+        .chart-row-l3 td { padding:8px 14px; color:#1e40af; }
+        .chart-row-l3:hover { background:#dbeafe !important; }
+        /* Nível 4 — Analítica */
+        .chart-row-l4 { background:white; }
+        .chart-row-l4 td { padding:8px 14px; color:#334155; }
+        .chart-row-l4:nth-child(even) { background:#fafbff; }
+        .chart-row-l4:hover { background:var(--primary-light) !important; }
+        /* Rodapé de estatísticas */
+        .chart-stats-row td { background:#f1f5f9; border-top:2px solid #cbd5e1; color:var(--gray); font-size:0.8rem; padding:10px 16px; text-align:right; }
+        /* Chips de código */
+        .chart-code-l1 { font-family:'Courier New',monospace; font-weight:800; font-size:0.88rem; padding:3px 9px; background:rgba(255,255,255,0.18); border-radius:5px; color:#e0f2fe; letter-spacing:1px; display:inline-block; }
+        .chart-code-l2 { font-family:'Courier New',monospace; font-weight:700; font-size:0.84rem; padding:2px 8px; background:#bfdbfe; border-radius:5px; color:#1d4ed8; display:inline-block; }
+        .chart-code-l3 { font-family:'Courier New',monospace; font-weight:600; font-size:0.83rem; padding:2px 7px; background:#dbeafe; border-radius:5px; color:#2563eb; display:inline-block; }
+        .chart-code-l4 { font-family:'Courier New',monospace; font-weight:600; font-size:0.82rem; padding:2px 7px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:5px; color:#475569; display:inline-block; }
+        /* Badges de classificação */
+        .chart-classif { display:inline-block; padding:2px 9px; border-radius:20px; font-size:0.67rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+        .chart-row-l1 .chart-classif { background:rgba(255,255,255,0.2); color:#e0f2fe; border:1px solid rgba(255,255,255,0.3); }
+        .chart-row-l2 .chart-classif, .chart-row-l3 .chart-classif { background:#fef3c7; color:#92400e; }
+        .chart-classif-analitica { background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; }
+        /* Badges de grupo */
+        .chart-group-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.71rem; font-weight:700; letter-spacing:0.2px; }
+        .chart-group-ativo    { background:#dbeafe; color:#1d4ed8; }
+        .chart-group-passivo  { background:#fee2e2; color:#991b1b; }
+        .chart-group-receita  { background:#dcfce7; color:#166534; }
+        .chart-group-despesa  { background:#ffedd5; color:#9a3412; }
+        .chart-group-patrimonio { background:#f3e8ff; color:#6b21a8; }
+        .chart-group-neutro   { background:#f1f5f9; color:#475569; }
+
         /* SEARCH ACCOUNT MODAL */
         .search-result-item { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border:1px solid var(--border); border-radius:8px; margin-bottom:6px; cursor:pointer; transition:var(--transition); }
         .search-result-item:hover { background-color:var(--primary-light); border-color:var(--primary); }
@@ -1136,8 +1179,16 @@
                         <input type="text" id="chartSearchInput" class="input-field" placeholder="Filtrar contas por código ou descrição..." oninput="filterChartOfAccounts()">
                     </div>
                     <div class="table-container">
-                        <table class="transactions-table">
-                            <thead><tr><th style="width:40px;"><input type="checkbox" id="selectAllChartCb" onchange="toggleSelectAllAccounts(this)"></th><th>Código</th><th>Descrição</th><th>Grupo</th><th>Tipo</th><th>Ações</th></tr></thead>
+                        <table class="chart-plano-table">
+                            <thead><tr>
+                                <th style="width:40px;"><input type="checkbox" id="selectAllChartCb" onchange="toggleSelectAllAccounts(this)" style="accent-color:#60a5fa;"></th>
+                                <th>Código</th>
+                                <th>Classificação</th>
+                                <th>Nome da Conta</th>
+                                <th>Grupo</th>
+                                <th>Tipo</th>
+                                <th style="width:90px;">Ações</th>
+                            </tr></thead>
                             <tbody id="chartTableBody"></tbody>
                         </table>
                     </div>
@@ -3412,28 +3463,90 @@ function inlineEditCell(element, index, field) {
     if (element.querySelector('.inline-cell-edit')) return;
     const currentValue = transactions[index][field] || '';
     const span = element;
+    const wrapper = document.createElement('div');
+    const dropdown = document.createElement('div');
     const input = document.createElement('input');
     input.type = 'text';
     input.value = currentValue;
     input.className = 'inline-cell-edit';
     input.style.width = '100%';
+    wrapper.className = 'account-search-inline';
+    dropdown.className = 'search-dropdown';
     span.textContent = '';
-    span.appendChild(input);
+    wrapper.appendChild(input);
+    wrapper.appendChild(dropdown);
+    span.appendChild(wrapper);
     input.focus();
     input.select();
+
+    let isSaving = false;
+
+    function rerender() {
+        if (isMultiMonth) renderMultiMonthTransactions();
+        else displayTransactions();
+    }
+
     function save() {
+        if (isSaving) return;
+        isSaving = true;
         const newVal = input.value.trim();
         transactions[index][field] = newVal;
-        span.textContent = newVal || '—';
         mlLearnFromTransaction(transactions[index]);
         saveToLocalStorage();
         mlAutoClassifyAll();
+        rerender();
     }
-    input.addEventListener('blur', save);
+
+    function searchInlineAccounts() {
+        const q = input.value.trim().toLowerCase();
+        if (q.length < 1) {
+            dropdown.classList.remove('show');
+            dropdown.innerHTML = '';
+            return;
+        }
+        const results = chartOfAccounts.filter(acc =>
+            acc.code.toLowerCase().includes(q) ||
+            acc.description.toLowerCase().includes(q) ||
+            (acc.group && acc.group.toLowerCase().includes(q))
+        ).slice(0, 8);
+        if (results.length === 0) {
+            dropdown.innerHTML = '<div style="padding:10px;color:var(--gray);font-size:0.85rem;text-align:center;">Nenhuma conta encontrada</div>';
+            dropdown.classList.add('show');
+            return;
+        }
+        dropdown.innerHTML = results.map(acc => `
+            <div class="search-dropdown-item" onmousedown="selectInlineCellAccount(event, ${index}, '${field}', '${acc.code.replace(/'/g, "\\'")}')">
+                <span class="code">${acc.code}</span>
+                <span>${acc.description}</span>
+            </div>
+        `).join('');
+        dropdown.classList.add('show');
+    }
+
+    input.addEventListener('input', searchInlineAccounts);
+    input.addEventListener('focus', searchInlineAccounts);
+    input.addEventListener('blur', function() {
+        setTimeout(() => {
+            if (!document.body.contains(input)) return;
+            save();
+        }, 120);
+    });
     input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
-        if (e.key === 'Escape') { span.textContent = currentValue || '—'; }
+        if (e.key === 'Escape') { rerender(); }
     });
+
+    searchInlineAccounts();
+}
+
+function selectInlineCellAccount(event, index, field, code) {
+    event.preventDefault();
+    transactions[index][field] = code;
+    mlLearnFromTransaction(transactions[index]);
+    saveToLocalStorage();
+    mlAutoClassifyAll();
+    if (isMultiMonth) renderMultiMonthTransactions();
+    else displayTransactions();
 }
 
 // ============================================================
@@ -3784,16 +3897,79 @@ function loadDefaultChartOfAccounts() {
 }
 
 function renderChartOfAccounts() {
-    const tbody = document.getElementById('chartTableBody'); tbody.innerHTML = '';
-    if (chartOfAccounts.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray);">Nenhuma conta. Adicione sua primeira conta.</td></tr>'; return; }
-    chartOfAccounts.forEach((acc, i) => {
+    const tbody = document.getElementById('chartTableBody');
+    tbody.innerHTML = '';
+    if (chartOfAccounts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:60px;color:var(--gray);">
+            <i class="fas fa-sitemap" style="font-size:3rem;display:block;margin-bottom:16px;opacity:0.3;"></i>
+            Nenhuma conta cadastrada. Clique em <strong>Nova Conta</strong> para começar.
+        </td></tr>`;
+        updateDeleteSelectedAccountsBtn(); return;
+    }
+    const sorted = [...chartOfAccounts].sort((a, b) => {
+        const norm = c => (c || '').split('.').map(p => p.padStart(6,'0')).join('.');
+        return norm(a.code).localeCompare(norm(b.code));
+    });
+    let analiticas = 0, sinteticas = 0;
+    sorted.forEach(acc => {
+        const realIdx = chartOfAccounts.indexOf(acc);
+        const level = getAccountLevel(acc.code);
+        const classif = getAccountClassification(level);
+        const isSintetica = level <= 3;
+        const groupCls = getGroupColorClass(acc.group);
+        const isChecked = selectedChartAccounts.has(realIdx) ? 'checked' : '';
+        const indentPx = level > 1 ? (level - 1) * 20 : 0;
+        isSintetica ? sinteticas++ : analiticas++;
+        const namePart = level === 1
+            ? `<strong style="font-size:0.94rem;letter-spacing:0.2px;">${acc.description}</strong>`
+            : level === 2
+                ? `<span style="font-weight:700;">${acc.description}</span>`
+                : level === 3
+                    ? `<span style="font-weight:600;">${acc.description}</span>`
+                    : acc.description;
         const row = document.createElement('tr');
-        const isChecked = selectedChartAccounts.has(i) ? 'checked' : '';
-        row.innerHTML = `<td><input type="checkbox" ${isChecked} onchange="toggleChartAccountSelection(${i},this.checked)"></td><td><span class="account-code">${acc.code}</span></td><td>${acc.description}</td><td>${acc.group}</td><td>${acc.type}</td>
-        <td><button class="btn btn-outline btn-sm" onclick="editAccount(${i})"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="removeAccount(${i})"><i class="fas fa-trash"></i></button></td>`;
+        row.className = `chart-row chart-row-l${Math.min(level, 4)}`;
+        row.innerHTML = `
+            <td style="width:40px;"><input type="checkbox" ${isChecked} onchange="toggleChartAccountSelection(${realIdx},this.checked)" style="accent-color:#60a5fa;"></td>
+            <td style="white-space:nowrap;"><span class="chart-code-l${Math.min(level, 4)}">${acc.code}</span></td>
+            <td style="white-space:nowrap;"><span class="chart-classif${isSintetica ? '' : ' chart-classif-analitica'}">${classif}</span></td>
+            <td style="padding-left:${indentPx}px;">${namePart}</td>
+            <td><span class="chart-group-badge chart-group-${groupCls}">${acc.group || '—'}</span></td>
+            <td><span style="font-size:0.78rem;color:${level<=1?'rgba(255,255,255,0.65)':'var(--gray)'}">${acc.type || acc.group || '—'}</span></td>
+            <td style="white-space:nowrap;">
+                <button class="btn btn-outline btn-sm" onclick="editAccount(${realIdx})" title="Editar"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm" onclick="removeAccount(${realIdx})" title="Remover"><i class="fas fa-trash"></i></button>
+            </td>`;
         tbody.appendChild(row);
     });
+    const statsRow = document.createElement('tr');
+    statsRow.className = 'chart-stats-row';
+    statsRow.innerHTML = `<td colspan="7">
+        Total: <strong style="color:var(--primary);">${chartOfAccounts.length}</strong> contas &nbsp;·&nbsp;
+        Sintéticas: <strong style="color:#92400e;">${sinteticas}</strong> &nbsp;·&nbsp;
+        Analíticas: <strong style="color:#065f46;">${analiticas}</strong>
+    </td>`;
+    tbody.appendChild(statsRow);
     updateDeleteSelectedAccountsBtn();
+}
+function getAccountLevel(code) {
+    if (!code) return 4;
+    const dots = (code.match(/\./g) || []).length;
+    if (dots === 0) return /^\d$/.test(code.trim()) ? 1 : 4;
+    return Math.min(dots + 1, 4);
+}
+function getAccountClassification(level) {
+    return ['Classe','Grupo','Subgrupo','Analítica'][level - 1] || 'Analítica';
+}
+function getGroupColorClass(group) {
+    if (!group) return 'neutro';
+    const g = group.toLowerCase();
+    if (g.includes('ativo')) return 'ativo';
+    if (g.includes('passivo')) return 'passivo';
+    if (g.includes('receita') || g.includes('resultado')) return 'receita';
+    if (g.includes('despesa') || g.includes('custo')) return 'despesa';
+    if (g.includes('patrim')) return 'patrimonio';
+    return 'neutro';
 }
 function toggleChartAccountSelection(i, checked) {
     if (checked) selectedChartAccounts.add(i); else selectedChartAccounts.delete(i);
@@ -3838,11 +4014,10 @@ function exportChartOfAccounts() {
     showStatus('Plano de contas exportado!', 'success');
 }
 function filterChartOfAccounts() {
-    const q = document.getElementById('chartSearchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#chartTableBody tr');
-    rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(q) ? '' : 'none';
+    const q = document.getElementById('chartSearchInput').value.toLowerCase().trim();
+    document.querySelectorAll('#chartTableBody tr').forEach(row => {
+        if (row.classList.contains('chart-stats-row')) return;
+        row.style.display = (!q || row.textContent.toLowerCase().includes(q)) ? '' : 'none';
     });
 }
 
