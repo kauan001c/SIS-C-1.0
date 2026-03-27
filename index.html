@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIS-C - Sistema de Contabilidade Automatizada</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+    <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script>
         if (window.pdfjsLib) {
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.worker.min.js';
@@ -469,55 +470,55 @@
         /* ============================================================
            FLOATING ROBOT BUTTON
         ============================================================ */
-        .float-robot-btn { position:fixed; bottom:28px; right:28px; width:62px; height:62px; border-radius:50%; background:linear-gradient(135deg,#2563eb,#7c3aed); color:white; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.7rem; box-shadow:0 8px 25px rgba(37,99,235,0.4),0 4px 10px rgba(0,0,0,0.2); z-index:1500; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); }
-        .float-robot-btn:hover { transform:scale(1.12) translateY(-3px); box-shadow:0 14px 35px rgba(37,99,235,0.5),0 6px 14px rgba(0,0,0,0.25); }
-        .float-robot-btn .robot-pulse { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:50%; background:rgba(37,99,235,0.4); animation:robotPulse 2.5s ease-out infinite; }
+        .float-robot-btn { position:fixed; bottom:28px; right:28px; width:62px; height:62px; border-radius:50%; background:radial-gradient(circle at top, #22c55e 0%, #0b1f14 42%, #030704 100%); color:#f8fafc; border:1px solid rgba(34,197,94,0.5); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.7rem; box-shadow:0 14px 32px rgba(0,0,0,0.45),0 0 0 1px rgba(34,197,94,0.18),0 0 28px rgba(34,197,94,0.25); z-index:1500; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); font-family:'Sora', 'Inter', sans-serif; }
+        .float-robot-btn:hover { transform:scale(1.12) translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(74,222,128,0.32),0 0 36px rgba(34,197,94,0.34); }
+        .float-robot-btn .robot-pulse { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:50%; background:rgba(34,197,94,0.28); animation:robotPulse 2.5s ease-out infinite; }
         .float-robot-btn .robot-badge { position:absolute; top:-3px; right:-3px; width:20px; height:20px; border-radius:50%; background:var(--danger); color:white; font-size:0.65rem; font-weight:800; display:flex; align-items:center; justify-content:center; border:2px solid white; opacity:0; transition:opacity 0.3s; }
         .float-robot-btn.has-errors .robot-badge { opacity:1; }
-        .float-robot-btn .robot-label { position:absolute; right:72px; top:50%; transform:translateY(-50%); background:#0f172a; color:white; padding:6px 12px; border-radius:8px; font-size:0.78rem; font-weight:600; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; }
+        .float-robot-btn .robot-label { position:absolute; right:72px; top:50%; transform:translateY(-50%); background:linear-gradient(135deg,#07110b,#0d1f13); color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:0.78rem; font-weight:700; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; border:1px solid rgba(34,197,94,0.35); box-shadow:0 10px 24px rgba(0,0,0,0.35); font-family:'Sora', 'Inter', sans-serif; letter-spacing:0.02em; }
         .float-robot-btn:hover .robot-label { opacity:1; }
         @keyframes robotPulse { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(1.8);opacity:0} }
 
         /* Robot Validator Modal */
         .robot-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.7); backdrop-filter:blur(6px); z-index:3000; align-items:center; justify-content:center; padding:20px; }
         .robot-modal.show { display:flex; }
-        .robot-modal-content { background:white; border-radius:16px; width:95%; max-width:860px; max-height:90vh; overflow-y:auto; box-shadow:0 30px 60px rgba(0,0,0,0.3); animation:slideUp 0.4s cubic-bezier(.34,1.56,.64,1); }
-        .robot-modal-header { background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#2563eb 100%); padding:20px 24px; border-radius:16px 16px 0 0; display:flex; align-items:center; gap:14px; }
-        .robot-modal-avatar { width:52px; height:52px; background:rgba(255,255,255,0.15); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; border:2px solid rgba(255,255,255,0.2); }
+        .robot-modal-content { background:linear-gradient(180deg,#041008 0%,#08140d 22%,#07110a 100%); color:#f8fafc; border-radius:18px; width:95%; max-width:860px; max-height:90vh; overflow-y:auto; box-shadow:0 30px 70px rgba(0,0,0,0.55),0 0 0 1px rgba(34,197,94,0.18); animation:slideUp 0.4s cubic-bezier(.34,1.56,.64,1); border:1px solid rgba(34,197,94,0.22); font-family:'Sora', 'Inter', sans-serif; }
+        .robot-modal-header { background:linear-gradient(135deg,#020403 0%,#0a1c11 42%,#14532d 100%); padding:20px 24px; border-radius:18px 18px 0 0; display:flex; align-items:center; gap:14px; border-bottom:1px solid rgba(74,222,128,0.16); }
+        .robot-modal-avatar { width:52px; height:52px; background:linear-gradient(135deg,rgba(34,197,94,0.3),rgba(5,150,105,0.18)); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; border:1px solid rgba(167,243,208,0.24); box-shadow:inset 0 1px 0 rgba(255,255,255,0.06); }
         .robot-modal-title { flex:1; }
-        .robot-modal-title h3 { color:white; font-size:1.25rem; font-weight:700; margin-bottom:2px; }
-        .robot-modal-title p { color:rgba(255,255,255,0.6); font-size:0.82rem; }
+        .robot-modal-title h3 { color:#f8fafc; font-size:1.25rem; font-weight:800; margin-bottom:2px; letter-spacing:0.01em; }
+        .robot-modal-title p { color:rgba(240,253,244,0.78); font-size:0.82rem; }
         .robot-modal-body { padding:24px; }
         .robot-result-section { margin-bottom:20px; }
-        .robot-result-section-title { font-weight:700; color:var(--dark); font-size:1rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; padding-bottom:8px; border-bottom:2px solid var(--border); }
-        .robot-check-card { padding:14px 16px; border-radius:10px; border:1px solid; margin-bottom:8px; display:flex; align-items:flex-start; gap:12px; }
-        .robot-check-card.ok { background:#f0fdf4; border-color:#86efac; }
-        .robot-check-card.error { background:#fff5f5; border-color:#fca5a5; }
-        .robot-check-card.warn { background:#fffbeb; border-color:#fde68a; }
+        .robot-result-section-title { font-weight:700; color:#f8fafc; font-size:1rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; padding-bottom:8px; border-bottom:1px solid rgba(34,197,94,0.18); }
+        .robot-check-card { padding:14px 16px; border-radius:14px; border:1px solid; margin-bottom:10px; display:flex; align-items:flex-start; gap:12px; color:#f8fafc; box-shadow:0 12px 24px rgba(0,0,0,0.22); }
+        .robot-check-card.ok { background:linear-gradient(135deg,rgba(5,46,22,0.96),rgba(20,83,45,0.88)); border-color:rgba(74,222,128,0.45); }
+        .robot-check-card.error { background:linear-gradient(135deg,rgba(30,8,8,0.96),rgba(69,10,10,0.88)); border-color:rgba(248,113,113,0.42); }
+        .robot-check-card.warn { background:linear-gradient(135deg,rgba(28,20,3,0.96),rgba(63,44,6,0.9)); border-color:rgba(250,204,21,0.38); }
         .robot-check-icon { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; margin-top:1px; }
-        .robot-check-card.ok .robot-check-icon { background:#dcfce7; color:#166534; }
+        .robot-check-card.ok .robot-check-icon { background:#dcfce7; color:#14532d; }
         .robot-check-card.error .robot-check-icon { background:#fee2e2; color:#991b1b; }
         .robot-check-card.warn .robot-check-icon { background:#fef3c7; color:#92400e; }
         .robot-check-body { flex:1; }
-        .robot-check-title { font-weight:700; font-size:0.92rem; margin-bottom:3px; }
-        .robot-check-card.ok .robot-check-title { color:#166534; }
-        .robot-check-card.error .robot-check-title { color:#991b1b; }
-        .robot-check-card.warn .robot-check-title { color:#92400e; }
-        .robot-check-desc { font-size:0.83rem; color:var(--gray); line-height:1.5; }
+        .robot-check-title { font-weight:800; font-size:0.92rem; margin-bottom:3px; letter-spacing:0.01em; }
+        .robot-check-card.ok .robot-check-title { color:#bbf7d0; }
+        .robot-check-card.error .robot-check-title { color:#fecaca; }
+        .robot-check-card.warn .robot-check-title { color:#fde68a; }
+        .robot-check-desc { font-size:0.83rem; color:rgba(248,250,252,0.84); line-height:1.5; }
         .robot-check-list { margin-top:8px; }
-        .robot-check-list-item { padding:4px 8px; background:rgba(255,255,255,0.7); border-radius:4px; font-size:0.78rem; font-family:'Courier New',monospace; margin-bottom:4px; border-left:3px solid var(--danger); }
+        .robot-check-list-item { padding:6px 10px; background:rgba(255,255,255,0.08); border-radius:8px; font-size:0.78rem; font-family:'Sora', 'Inter', sans-serif; margin-bottom:6px; border-left:3px solid #22c55e; color:#f8fafc; }
         .robot-summary-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px; }
-        .robot-summary-item { background:var(--gray-light); padding:14px; border-radius:10px; text-align:center; }
-        .robot-summary-num { font-size:1.5rem; font-weight:800; margin-bottom:2px; }
-        .robot-summary-label { font-size:0.75rem; color:var(--gray); font-weight:500; }
-        .robot-balance-visual { background:linear-gradient(135deg,#f8fafc,#eff6ff); border-radius:12px; padding:20px; border:1px solid #bfdbfe; display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; font-size:0.88rem; margin-bottom:16px; }
-        .robot-balance-item { text-align:center; padding:10px 16px; background:white; border-radius:8px; border:1px solid var(--border); }
-        .robot-balance-item .rbi-val { font-size:1.1rem; font-weight:800; }
-        .robot-balance-item .rbi-label { font-size:0.72rem; color:var(--gray); }
-        .robot-balance-op { font-size:1.4rem; font-weight:700; color:var(--gray); }
-        .robot-balance-result { background:linear-gradient(135deg,var(--primary),#7c3aed); color:white; border-radius:10px; padding:12px 20px; text-align:center; min-width:120px; }
+        .robot-summary-item { background:linear-gradient(180deg,rgba(9,18,12,0.96),rgba(11,28,17,0.92)); padding:14px; border-radius:14px; text-align:center; border:1px solid rgba(34,197,94,0.18); box-shadow:inset 0 1px 0 rgba(255,255,255,0.03); }
+        .robot-summary-num { font-size:1.5rem; font-weight:800; margin-bottom:2px; color:#f8fafc; }
+        .robot-summary-label { font-size:0.75rem; color:rgba(220,252,231,0.7); font-weight:600; }
+        .robot-balance-visual { background:linear-gradient(135deg,rgba(5,12,8,0.98),rgba(12,32,19,0.94)); border-radius:16px; padding:20px; border:1px solid rgba(34,197,94,0.2); display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; font-size:0.88rem; margin-bottom:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.03); }
+        .robot-balance-item { text-align:center; padding:10px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(74,222,128,0.14); color:#f8fafc; }
+        .robot-balance-item .rbi-val { font-size:1.1rem; font-weight:800; color:#f8fafc; }
+        .robot-balance-item .rbi-label { font-size:0.72rem; color:rgba(220,252,231,0.72); }
+        .robot-balance-op { font-size:1.4rem; font-weight:700; color:#86efac; }
+        .robot-balance-result { background:linear-gradient(135deg,#166534,#22c55e); color:white; border-radius:12px; padding:12px 20px; text-align:center; min-width:120px; box-shadow:0 14px 28px rgba(34,197,94,0.24); }
         .robot-balance-result .rbi-val { font-size:1.2rem; font-weight:800; color:white; }
-        .robot-balance-result .rbi-label { font-size:0.72rem; color:rgba(255,255,255,0.7); }
+        .robot-balance-result .rbi-label { font-size:0.72rem; color:rgba(255,255,255,0.82); }
 
         /* ============================================================
            IMPROVED ML ENGINE STYLES
@@ -561,18 +562,45 @@
         .fech-tab:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
 
         /* ML Robot Modal */
-        .ml-robot-tab { flex:1; padding:10px 6px; border:none; background:transparent; cursor:pointer; font-size:0.82rem; font-weight:600; color:var(--gray); border-bottom:3px solid transparent; transition:all 0.2s; }
-        .ml-robot-tab.active { color:var(--primary); border-bottom-color:var(--primary); background:rgba(99,102,241,0.06); }
-        .ml-robot-tab:hover:not(.active) { color:var(--primary); background:var(--hover); }
-        .ml-stat-card { background:var(--hover); border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; }
+        .sis-ai-launch-btn { background:linear-gradient(135deg,#08110b,#14532d) !important; color:#f8fafc !important; border:1px solid rgba(34,197,94,0.32) !important; box-shadow:0 12px 24px rgba(0,0,0,0.28),0 0 0 1px rgba(34,197,94,0.12); font-family:'Sora','Inter',sans-serif; font-weight:700; }
+        .sis-ai-launch-btn:hover { filter:brightness(1.05); transform:translateY(-1px); }
+        .sis-ai-shell { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(180deg,#041008 0%,#08140d 22%,#07110a 100%); border-radius:18px; box-shadow:0 24px 60px rgba(0,0,0,0.48),0 0 0 1px rgba(34,197,94,0.16); width:min(820px,95vw); max-height:88vh; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(34,197,94,0.18); font-family:'Sora','Inter',sans-serif; color:#f8fafc; }
+        .sis-ai-header { padding:18px 22px; background:linear-gradient(135deg,#020403,#0a1c11 42%,#14532d); color:#fff; display:flex; align-items:center; gap:14px; flex-shrink:0; border-bottom:1px solid rgba(74,222,128,0.16); }
+        .sis-ai-avatar { width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at top,#22c55e 0%,#14532d 48%,#06110a 100%); display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 0 0 1px rgba(167,243,208,0.2),0 10px 18px rgba(0,0,0,0.22); }
+        .sis-ai-close { background:rgba(255,255,255,0.08); border:1px solid rgba(34,197,94,0.28); color:#fff; border-radius:10px; padding:6px 12px; cursor:pointer; font-size:0.85rem; }
+        .sis-ai-tabs { display:flex; border-bottom:1px solid rgba(34,197,94,0.16); flex-shrink:0; background:rgba(3,8,5,0.75); }
+        .ml-robot-tab { flex:1; padding:11px 8px; border:none; background:transparent; cursor:pointer; font-size:0.82rem; font-weight:700; color:rgba(220,252,231,0.66); border-bottom:3px solid transparent; transition:all 0.2s; font-family:'Sora','Inter',sans-serif; }
+        .ml-robot-tab.active { color:#f8fafc; border-bottom-color:#22c55e; background:linear-gradient(180deg,rgba(34,197,94,0.16),rgba(34,197,94,0.05)); }
+        .ml-robot-tab:hover:not(.active) { color:#bbf7d0; background:rgba(34,197,94,0.06); }
+        .sis-ai-body { overflow-y:auto; padding:18px 22px; flex:1; background:transparent; }
+        .sis-ai-panel { padding:14px; border:1px solid rgba(34,197,94,0.14); border-radius:14px; background:linear-gradient(180deg,rgba(9,18,12,0.96),rgba(11,28,17,0.92)); box-shadow:inset 0 1px 0 rgba(255,255,255,0.03); }
+        .sis-ai-note { font-size:0.82rem; color:rgba(240,253,244,0.74); line-height:1.5; margin-bottom:12px; }
+        .sis-ai-status { font-size:0.8rem; color:rgba(240,253,244,0.78); padding:10px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(34,197,94,0.12); }
+        .sis-ai-chat-box { min-height:220px; max-height:300px; overflow-y:auto; border:1px solid rgba(34,197,94,0.14); border-radius:14px; padding:14px; margin-bottom:12px; background:linear-gradient(180deg,rgba(4,12,7,0.94),rgba(8,19,12,0.9)); }
+        .sis-ai-action-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+        .sis-ai-logic-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:16px; }
+        .ml-stat-card { background:linear-gradient(180deg,rgba(9,18,12,0.96),rgba(11,28,17,0.92)); border-radius:14px; padding:14px 18px; display:flex; align-items:center; gap:14px; border:1px solid rgba(34,197,94,0.14); color:#f8fafc; }
         .ml-stat-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
-        .ml-token-row { display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:6px; border:1px solid var(--border); margin-bottom:5px; font-size:0.8rem; }
-        .ml-token-row:hover { background:var(--hover); }
-        .ml-conf-bar { height:6px; border-radius:3px; background:var(--border); overflow:hidden; min-width:60px; }
-        .ml-conf-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#6366f1,#8b5cf6); transition:width 0.3s; }
+        .ml-token-row { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; border:1px solid rgba(34,197,94,0.12); margin-bottom:6px; font-size:0.8rem; background:rgba(255,255,255,0.03); color:#f8fafc; }
+        .ml-token-row:hover { background:rgba(34,197,94,0.07); }
+        .ml-conf-bar { height:6px; border-radius:3px; background:rgba(255,255,255,0.08); overflow:hidden; min-width:60px; }
+        .ml-conf-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#166534,#4ade80); transition:width 0.3s; }
         .ml-chat-msg { padding:10px 14px; border-radius:10px; margin-bottom:8px; font-size:0.85rem; max-width:82%; }
-        .ml-chat-msg.user { background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; margin-left:auto; border-bottom-right-radius:2px; }
-        .ml-chat-msg.bot { background:var(--hover); color:var(--text); border-bottom-left-radius:2px; }
+        .ml-chat-msg.user { background:linear-gradient(135deg,#166534,#22c55e); color:#fff; margin-left:auto; border-bottom-right-radius:2px; }
+        .ml-chat-msg.bot { background:rgba(255,255,255,0.05); color:#f8fafc; border:1px solid rgba(34,197,94,0.12); border-bottom-left-radius:2px; }
+        #mlRobotModal .input-field { background:rgba(255,255,255,0.05); color:#f8fafc; border-color:rgba(34,197,94,0.14); }
+        #mlRobotModal .input-field::placeholder { color:rgba(220,252,231,0.45); }
+        #mlRobotModal .input-field:focus { border-color:#22c55e; box-shadow:0 0 0 3px rgba(34,197,94,0.14); }
+        #mlRobotModal .input-label { color:rgba(240,253,244,0.8); }
+        #mlRobotModal .btn-outline { border-color:rgba(34,197,94,0.28); color:#bbf7d0; background:rgba(255,255,255,0.03); }
+        #mlRobotModal .btn-outline:hover { background:rgba(34,197,94,0.08); color:#f8fafc; }
+        #mlRobotModal .btn-primary { background:linear-gradient(135deg,#166534,#22c55e); border-color:#22c55e; }
+        #mlRobotModal .btn-success { background:linear-gradient(135deg,#15803d,#22c55e); border-color:#22c55e; }
+        #mlRobotModal .btn-danger { background:linear-gradient(135deg,#7f1d1d,#dc2626); border-color:#ef4444; }
+        #mlRobotModal .btn-warning { background:linear-gradient(135deg,#713f12,#ca8a04); border-color:#eab308; color:#fff; }
+        #mlRobotModal .data-table th { background:#0a1c11; color:#f8fafc; border-bottom:1px solid rgba(34,197,94,0.16); }
+        #mlRobotModal .data-table td { background:rgba(255,255,255,0.02); color:#f8fafc; border-bottom:1px solid rgba(34,197,94,0.1); }
+        #mlRobotModal .data-table tr:hover td { background:rgba(34,197,94,0.06); }
 
         .balancete-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
         .balancete-table th { background:var(--primary); color:#fff; padding:10px 14px; text-align:left; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.03em; }
@@ -898,8 +926,8 @@
                 <button class="btn btn-warning" onclick="applyRulesToTransactions()" id="applyRulesBtn" disabled>
                     <i class="fas fa-magic"></i> Aplicar Regras
                 </button>
-                <button class="btn" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;" onclick="openMlRobotModal()" title="Central de Inteligência do Robô ML">
-                    🤖 Robô ML
+                <button class="btn sis-ai-launch-btn" onclick="openMlRobotModal()" title="Lógica SIS-C AI">
+                    <i class="fas fa-brain"></i> Lógica SIS-C AI
                 </button>
             </div>
         </div>
@@ -1265,6 +1293,7 @@
                     <button class="btn btn-primary" onclick="showDebitCreditComplementModal()"><i class="fas fa-search"></i> Complemento por D/C</button>
                     <button class="btn btn-danger" onclick="showBulkWordModal()"><i class="fas fa-eraser"></i> Remover Palavras</button>
                     <button class="btn btn-success" onclick="showMlReconcModal()"><i class="fas fa-robot"></i> Robô Contábil</button>
+                    <button class="btn btn-outline" onclick="showClearPeriodModal()"><i class="fas fa-calendar-minus"></i> Limpar por Período</button>
                     <button class="btn btn-secondary" onclick="showAdvancedFilterModal()"><i class="fas fa-filter"></i> Filtro Avançado</button>
                     <button class="btn btn-outline" onclick="validateAllTransactions()" title="Valida regras contábeis"><i class="fas fa-shield-alt"></i> Validar</button>
                     <button class="btn btn-outline" style="background:linear-gradient(135deg,#eff6ff,#e0e7ff);border-color:#818cf8;color:#4338ca;" onclick="openRobotValidator()"><i class="fas fa-robot"></i> Robô Bancário</button>
@@ -2655,25 +2684,26 @@
 
 <!-- ======================== ML ROBOT MODAL ======================== -->
 <div id="mlRobotModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card-bg);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.35);width:min(820px,95vw);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;">
+    <div class="sis-ai-shell">
         <!-- Header -->
-        <div style="padding:18px 22px;background:linear-gradient(135deg,#1e293b,#334155);color:#fff;display:flex;align-items:center;gap:14px;flex-shrink:0;">
-            <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">🤖</div>
+        <div class="sis-ai-header">
+            <div class="sis-ai-avatar">🤖</div>
             <div style="flex:1;">
-                <div style="font-weight:800;font-size:1.05rem;">Robô de Classificação ML — Central de Inteligência</div>
-                <div style="font-size:0.78rem;opacity:0.75;margin-top:2px;">Aprenda, consulte e gerencie o banco de conhecimento do robô</div>
+                <div style="font-weight:800;font-size:1.05rem;">Lógica SIS-C AI</div>
+                <div style="font-size:0.78rem;opacity:0.82;margin-top:2px;color:rgba(240,253,244,0.76);">Banco de conhecimentos, regras, aprendizado e leitura documental do robô</div>
             </div>
-            <button onclick="closeMlRobotModal()" style="background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:0.85rem;"><i class="fas fa-times"></i></button>
+            <button onclick="closeMlRobotModal()" class="sis-ai-close"><i class="fas fa-times"></i></button>
         </div>
         <!-- Tabs -->
-        <div style="display:flex;border-bottom:2px solid var(--border);flex-shrink:0;background:var(--card-bg);">
+        <div class="sis-ai-tabs">
             <button class="ml-robot-tab active" id="mlTabBtn1" onclick="switchMlTab('stats')"><i class="fas fa-chart-bar"></i> Estatísticas</button>
             <button class="ml-robot-tab" id="mlTabBtn2" onclick="switchMlTab('search')"><i class="fas fa-search"></i> Consultar Padrões</button>
             <button class="ml-robot-tab" id="mlTabBtn3" onclick="switchMlTab('chat')"><i class="fas fa-comment-dots"></i> Chat com Robô</button>
             <button class="ml-robot-tab" id="mlTabBtn4" onclick="switchMlTab('manage')"><i class="fas fa-database"></i> Gerenciar</button>
+            <button class="ml-robot-tab" id="mlTabBtn5" onclick="switchMlTab('logic')"><i class="fas fa-sliders-h"></i> Lógica SIS-C AI</button>
         </div>
         <!-- Body -->
-        <div style="overflow-y:auto;padding:18px 22px;flex:1;">
+        <div class="sis-ai-body">
             <!-- STATS TAB -->
             <div id="mlTabStats">
                 <div id="mlRobotStatsContent">Carregando...</div>
@@ -2688,29 +2718,115 @@
             </div>
             <!-- CHAT TAB -->
             <div id="mlTabChat" style="display:none;">
-                <div id="mlChatMessages" style="min-height:220px;max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;background:var(--bg);"></div>
+                <div id="mlChatMessages" class="sis-ai-chat-box"></div>
                 <div style="display:flex;gap:8px;">
                     <input type="text" id="mlChatInput" class="input-field" placeholder="Ex: 'Como você classifica PIX recebido?' ou 'Descreva salário'" style="flex:1;" onkeydown="if(event.key==='Enter')sendMlChatMessage()">
                     <button class="btn btn-primary" onclick="sendMlChatMessage()"><i class="fas fa-paper-plane"></i> Enviar</button>
                 </div>
                 <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;" id="mlChatSuggestions">
-                    <span style="font-size:0.75rem;color:var(--gray);align-self:center;">Tente:</span>
+                    <span style="font-size:0.75rem;color:rgba(220,252,231,0.66);align-self:center;">Tente:</span>
                 </div>
             </div>
             <!-- MANAGE TAB -->
             <div id="mlTabManage" style="display:none;">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+                <div class="sis-ai-action-grid">
                     <button class="btn btn-outline" onclick="mlExportDatabase()"><i class="fas fa-download"></i> Exportar Base de Dados</button>
                     <button class="btn btn-outline" onclick="mlImportDatabase()"><i class="fas fa-upload"></i> Importar Base de Dados</button>
                     <button class="btn btn-warning" onclick="mlForgetSelected()"><i class="fas fa-eraser"></i> Esquecer Padrão Selecionado</button>
                     <button class="btn" style="background:#ef4444;color:#fff;" onclick="mlResetDatabase()"><i class="fas fa-trash"></i> Apagar Toda a Base</button>
                 </div>
                 <input type="file" id="mlImportFileInput" accept=".json" style="display:none;" onchange="mlDoImport(this)">
-                <div style="font-size:0.82rem;color:var(--gray);padding:10px;background:var(--hover);border-radius:8px;border-left:3px solid var(--primary);">
+                <div class="sis-ai-panel" style="font-size:0.82rem;color:rgba(240,253,244,0.74);border-left:3px solid #22c55e;">
                     <strong>Sobre o banco de conhecimento:</strong> o robô aprende com cada transação que você confirma manualmente. Quanto mais você usar o sistema, mais preciso ele fica. A exportação salva um arquivo JSON que pode ser reimportado em outro computador.
                 </div>
                 <div id="mlManageTokenList" style="margin-top:14px;max-height:320px;overflow-y:auto;"></div>
             </div>
+            <div id="mlTabLogic" style="display:none;">
+                <div class="sis-ai-logic-grid">
+                    <div class="sis-ai-panel">
+                        <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Regras do Robô</div>
+                        <div class="input-group" style="margin-bottom:10px;">
+                            <label class="input-label">Confiança mínima (%)</label>
+                            <input id="sisAiMinConfidence" class="input-field" type="number" min="75" max="99" step="1">
+                        </div>
+                        <div class="input-group" style="margin-bottom:10px;">
+                            <label class="input-label">Palavras iguais para lote</label>
+                            <input id="sisAiBatchSharedWords" class="input-field" type="number" min="3" max="10" step="1">
+                        </div>
+                        <div class="input-group" style="margin-bottom:12px;">
+                            <label class="input-label">Mínimo de tokens coincidentes</label>
+                            <input id="sisAiMinTokenMatches" class="input-field" type="number" min="1" max="10" step="1">
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;font-size:0.84rem;color:#f8fafc;margin-bottom:12px;">
+                            <input id="sisAiUppercaseImport" type="checkbox">
+                            Forçar MAIÚSCULAS em todo extrato importado
+                        </label>
+                        <button class="btn btn-primary" onclick="saveSisAiSettingsFromUI()"><i class="fas fa-save"></i> Salvar Lógica</button>
+                    </div>
+                    <div class="sis-ai-panel">
+                        <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Leitura Documental</div>
+                        <div class="sis-ai-note">Leia PDF, Excel e Word para tentar localizar colunas ou títulos DATA, VALOR e DESCRIÇÃO. Os resultados podem ser importados como lançamentos.</div>
+                        <input id="sisAiKnowledgeInput" type="file" accept=".pdf,.xlsx,.xls,.docx,.doc" multiple style="display:none;" onchange="sisAiHandleKnowledgeFiles(this)">
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                            <button class="btn btn-outline" onclick="document.getElementById('sisAiKnowledgeInput').click()"><i class="fas fa-file-import"></i> Ler Documentos</button>
+                            <button class="btn btn-success" onclick="sisAiImportKnowledgeRows()"><i class="fas fa-arrow-down"></i> Importar Resultados</button>
+                            <button class="btn btn-danger" onclick="sisAiClearKnowledgeRows()"><i class="fas fa-trash"></i> Limpar Prévia</button>
+                        </div>
+                        <div id="sisAiKnowledgeStatus" class="sis-ai-status">Nenhum documento processado.</div>
+                    </div>
+                </div>
+                <div class="sis-ai-panel" style="margin-bottom:16px;">
+                    <div style="font-weight:700;margin-bottom:8px;color:#f8fafc;">Compartilhar Regras e Conhecimento</div>
+                    <div style="font-size:0.8rem;color:rgba(240,253,244,0.72);margin-bottom:12px;">Gere um JSON com regras de lançamentos, regras auxiliares e conhecimentos do robô para compartilhar. Quando receber um arquivo de outro usuário, o sistema une tudo ao ambiente atual sem apagar o que já existe.</div>
+                    <input id="sisAiShareImportInput" type="file" accept=".json" style="display:none;" onchange="sisAiDoImportSharedRules(this)">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-outline" onclick="exportSisAiSharePack()"><i class="fas fa-share-nodes"></i> Gerar JSON para Compartilhar</button>
+                        <button class="btn btn-primary" onclick="importSisAiSharePack()"><i class="fas fa-file-import"></i> Aplicar Regras Recebidas</button>
+                    </div>
+                </div>
+                <div class="sis-ai-panel" style="margin-bottom:16px;">
+                    <div style="font-weight:700;margin-bottom:8px;color:#f8fafc;">Prévia documental</div>
+                    <div id="sisAiKnowledgePreview" style="max-height:220px;overflow:auto;color:rgba(240,253,244,0.74);font-size:0.82rem;">Nenhuma linha disponível.</div>
+                </div>
+                <div class="sis-ai-panel">
+                    <div style="font-weight:700;margin-bottom:8px;color:#f8fafc;">Banco de conhecimento editável</div>
+                    <div style="font-size:0.8rem;color:rgba(240,253,244,0.72);margin-bottom:10px;">Edite manualmente contas, amostras e pesos aprendidos. O robô só classifica acima do limiar salvo.</div>
+                    <div id="sisAiLogicTable" style="max-height:320px;overflow:auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="clearPeriodModal">
+    <div class="modal-content" style="max-width:520px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-calendar-minus"></i> Limpar Lançamentos por Período</h3>
+            <button class="close-btn" onclick="closeClearPeriodModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group" style="margin-bottom:12px;">
+                <label class="input-label">Mês completo (opcional)</label>
+                <input type="month" id="clearPeriodMonth" class="input-field">
+            </div>
+            <div style="text-align:center;color:var(--gray);font-size:0.82rem;margin-bottom:12px;">ou escolha um intervalo específico</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="input-group">
+                    <label class="input-label">Data inicial</label>
+                    <input type="date" id="clearPeriodStart" class="input-field">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Data final</label>
+                    <input type="date" id="clearPeriodEnd" class="input-field">
+                </div>
+            </div>
+            <div style="margin-top:12px;padding:10px 12px;background:var(--hover);border-radius:8px;font-size:0.8rem;color:var(--gray);">
+                Os lançamentos removidos também saem do modo multi-mês e do conjunto usado pelo robô neste período.
+            </div>
+        </div>
+        <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:10px;">
+            <button class="btn btn-outline" onclick="closeClearPeriodModal()">Cancelar</button>
+            <button class="btn btn-danger" onclick="clearTransactionsByPeriod()"><i class="fas fa-trash"></i> Limpar Período</button>
         </div>
     </div>
 </div>
@@ -3072,12 +3188,12 @@
             <span class="close-modal" onclick="closeRobotValidator()" style="color:rgba(255,255,255,0.8);font-size:1.8rem;cursor:pointer;margin-left:auto;">&times;</span>
         </div>
         <div class="robot-modal-body" id="robotValidatorBody">
-            <div style="text-align:center;padding:40px;color:var(--gray);">
-                <i class="fas fa-cog fa-spin" style="font-size:2.5rem;margin-bottom:15px;color:var(--primary);"></i>
+            <div style="text-align:center;padding:40px;color:rgba(240,253,244,0.78);font-family:'Sora','Inter',sans-serif;">
+                <i class="fas fa-cog fa-spin" style="font-size:2.5rem;margin-bottom:15px;color:#4ade80;"></i>
                 <div>Analisando lançamentos...</div>
             </div>
         </div>
-        <div style="padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:#f8fafc;border-radius:0 0 18px 18px;">
+        <div style="padding:16px 24px;border-top:1px solid rgba(34,197,94,0.16);display:flex;gap:10px;justify-content:flex-end;background:linear-gradient(180deg,#061109,#08150d);border-radius:0 0 18px 18px;">
             <button class="btn btn-outline" onclick="closeRobotValidator()"><i class="fas fa-times"></i> Fechar</button>
             <button class="btn btn-primary" onclick="runRobotValidation()"><i class="fas fa-sync"></i> Re-analisar</button>
         </div>
@@ -3122,6 +3238,14 @@ let currentNfMatchTransactionIndex = null;
 
 // ML Reconciliation state
 let mlReconcData = JSON.parse(localStorage.getItem('mlReconcData') || '{}'); // { keyword: { account, count, type } }
+const SIS_AI_DEFAULTS = {
+    minConfidence: 75,
+    batchSharedWords: 3,
+    minTokenMatches: 2,
+    enforceUppercaseImport: true
+};
+let sisAiSettings = { ...SIS_AI_DEFAULTS, ...(JSON.parse(localStorage.getItem('sisAiSettings') || 'null') || {}) };
+let sisAiKnowledgeRows = [];
 
 // Multi-OFX state
 let multiOfxFiles = [];
@@ -3194,17 +3318,647 @@ const pageSubtitles = {
     tarefas:"Calendário fiscal, agenda de obrigações e carteira de empresas"
 };
 
+const SIS_C_DEPLOY_RESET_TOKEN = 'deploy-2026-03-26-sisc-clean-01';
+const SIS_C_DEPLOY_MARKER_KEY = 'siscDeployResetSeen';
+const SIS_C_OPERATIONAL_RESET_KEYS = [
+    'transactions',
+    'rules',
+    'keywordHistoryRules',
+    'complementRules',
+    'mlReconcData',
+    'sisAiSettings',
+    'bankNfDocuments',
+    'companies',
+    'fileStructures',
+    'settings',
+    'chartOfAccounts',
+    'sisc_tf_empresas',
+    'sisc_tf_tasks'
+];
+let sisCDeployResetApplied = false;
+
+function sisCResetRuntimeState() {
+    transactions = [];
+    rawTransactions = [];
+    rules = [];
+    complementRules = [];
+    keywordHistoryRules = [];
+    totalCredits = 0;
+    totalDebits = 0;
+    finalBalance = 0;
+    fileStructures = {};
+    companies = [];
+    currentCompanyId = null;
+    caixinhaTransactions = [];
+    selectedTransactions.clear();
+    selectedCaixinhaTransactions.clear();
+    mlReconcData = {};
+    sisAiSettings = { ...SIS_AI_DEFAULTS };
+    sisAiKnowledgeRows = [];
+    multiOfxFiles = [];
+    multiMonthTransactions = {};
+    isMultiMonth = false;
+    bankNfDocuments = [];
+    cruzamentoTransactions = [];
+    cruzamentoImportedData = [];
+}
+
+function sisCPrepareCleanStorageSkeleton() {
+    localStorage.setItem('transactions', JSON.stringify({
+        transactions: [], rawTransactions: [], totalCredits: 0, totalDebits: 0, isMultiMonth: false, multiMonthTransactions: {}
+    }));
+    localStorage.setItem('rules', '[]');
+    localStorage.setItem('keywordHistoryRules', '[]');
+    localStorage.setItem('complementRules', '[]');
+    localStorage.setItem('mlReconcData', '{}');
+    localStorage.setItem('sisAiSettings', JSON.stringify(SIS_AI_DEFAULTS));
+    localStorage.setItem('bankNfDocuments', '[]');
+    localStorage.setItem('companies', '[]');
+    localStorage.setItem('sisc_tf_empresas', '[]');
+    localStorage.setItem('sisc_tf_tasks', '[]');
+}
+
+function sisCApplyDeployResetIfNeeded() {
+    if (localStorage.getItem(SIS_C_DEPLOY_MARKER_KEY) === SIS_C_DEPLOY_RESET_TOKEN) return false;
+
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+        if (SIS_C_OPERATIONAL_RESET_KEYS.includes(key) || key.startsWith('company_')) {
+            keysToRemove.push(key);
+        }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    sisCPrepareCleanStorageSkeleton();
+    localStorage.setItem(SIS_C_DEPLOY_MARKER_KEY, SIS_C_DEPLOY_RESET_TOKEN);
+    sisCDeployResetApplied = true;
+    sisCResetRuntimeState();
+    return true;
+}
+
+function sisAiStableStringify(value) {
+    if (Array.isArray(value)) {
+        return `[${value.map(item => sisAiStableStringify(item)).join(',')}]`;
+    }
+    if (value && typeof value === 'object') {
+        return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${sisAiStableStringify(value[key])}`).join(',')}}`;
+    }
+    return JSON.stringify(value);
+}
+
+function sisAiRuleSignature(rule) {
+    return [
+        sisAiComparableText(rule.keyword || ''),
+        String(rule.type || '').trim().toLowerCase(),
+        String(rule.account || '').trim(),
+        String(rule.complementAction || '').trim(),
+        sisAiComparableText(rule.complementText || '')
+    ].join('|');
+}
+
+function sisAiNormalizeRule(rule) {
+    return {
+        keyword: String(rule.keyword || '').trim().toUpperCase(),
+        type: String(rule.type || 'credit').trim().toLowerCase() === 'debit' ? 'debit' : 'credit',
+        account: String(rule.account || '').trim(),
+        complementAction: String(rule.complementAction || 'add_beginning').trim() || 'add_beginning',
+        complementText: String(rule.complementText || '').trim()
+    };
+}
+
+function sisAiNormalizeKeywordHistoryRule(rule) {
+    const keywords = Array.isArray(rule.keywords)
+        ? rule.keywords
+        : String(rule.keywords || '').split(',');
+    return {
+        keywords: keywords.map(keyword => String(keyword || '').trim().toUpperCase()).filter(Boolean),
+        history: String(rule.history || '').trim()
+    };
+}
+
+function sisAiKeywordHistorySignature(rule) {
+    const normalized = sisAiNormalizeKeywordHistoryRule(rule);
+    return `${normalized.keywords.join('|')}=>${normalized.history.toUpperCase()}`;
+}
+
+function sisAiMergeRuleCollections(currentRules, incomingRules) {
+    const merged = new Map();
+    (currentRules || []).forEach(rule => {
+        const normalized = sisAiNormalizeRule(rule);
+        merged.set(sisAiRuleSignature(normalized), normalized);
+    });
+    (incomingRules || []).forEach(rule => {
+        const normalized = sisAiNormalizeRule(rule);
+        if (!normalized.keyword || !normalized.account) return;
+        merged.set(sisAiRuleSignature(normalized), normalized);
+    });
+    return Array.from(merged.values());
+}
+
+function sisAiMergeKeywordHistoryCollections(currentRules, incomingRules) {
+    const merged = new Map();
+    (currentRules || []).forEach(rule => {
+        const normalized = sisAiNormalizeKeywordHistoryRule(rule);
+        if (!normalized.keywords.length || !normalized.history) return;
+        merged.set(sisAiKeywordHistorySignature(normalized), normalized);
+    });
+    (incomingRules || []).forEach(rule => {
+        const normalized = sisAiNormalizeKeywordHistoryRule(rule);
+        if (!normalized.keywords.length || !normalized.history) return;
+        merged.set(sisAiKeywordHistorySignature(normalized), normalized);
+    });
+    return Array.from(merged.values()).map(rule => ({
+        keywords: rule.keywords.join(', '),
+        history: rule.history
+    }));
+}
+
+function sisAiMergeGenericObjectArray(currentItems, incomingItems) {
+    const merged = new Map();
+    (currentItems || []).forEach(item => merged.set(sisAiStableStringify(item), item));
+    (incomingItems || []).forEach(item => merged.set(sisAiStableStringify(item), item));
+    return Array.from(merged.values());
+}
+
+function sisAiMergeMlKnowledge(currentData, incomingData) {
+    const merged = { ...(currentData || {}) };
+    Object.entries(incomingData || {}).forEach(([token, incomingEntry]) => {
+        if (!incomingEntry || typeof incomingEntry !== 'object') return;
+        const existing = merged[token] || {};
+        const normalizedIncoming = {
+            debitAccount: String(incomingEntry.debitAccount || existing.debitAccount || '').trim(),
+            creditAccount: String(incomingEntry.creditAccount || existing.creditAccount || '').trim(),
+            debitCount: Number(incomingEntry.debitCount || 0),
+            creditCount: Number(incomingEntry.creditCount || 0),
+            totalSeen: Number(incomingEntry.totalSeen || 0),
+            lastUsed: incomingEntry.lastUsed || existing.lastUsed || null,
+            sampleDesc: sisAiNormalizeImportedDescription(incomingEntry.sampleDesc || existing.sampleDesc || '')
+        };
+        if (!merged[token]) {
+            merged[token] = normalizedIncoming;
+            return;
+        }
+        const currentLastUsed = existing.lastUsed ? new Date(existing.lastUsed).getTime() : 0;
+        const incomingLastUsed = normalizedIncoming.lastUsed ? new Date(normalizedIncoming.lastUsed).getTime() : 0;
+        merged[token] = {
+            debitAccount: normalizedIncoming.debitAccount || existing.debitAccount || '',
+            creditAccount: normalizedIncoming.creditAccount || existing.creditAccount || '',
+            debitCount: Number(existing.debitCount || 0) + normalizedIncoming.debitCount,
+            creditCount: Number(existing.creditCount || 0) + normalizedIncoming.creditCount,
+            totalSeen: Number(existing.totalSeen || 0) + normalizedIncoming.totalSeen,
+            lastUsed: incomingLastUsed > currentLastUsed ? normalizedIncoming.lastUsed : (existing.lastUsed || normalizedIncoming.lastUsed || null),
+            sampleDesc: normalizedIncoming.sampleDesc || existing.sampleDesc || ''
+        };
+    });
+    return merged;
+}
+
+function exportSisAiSharePack() {
+    const payload = {
+        format: 'sis-c-rules-pack',
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        deployToken: SIS_C_DEPLOY_RESET_TOKEN,
+        data: {
+            rules,
+            complementRules,
+            keywordHistoryRules,
+            mlReconcData,
+            sisAiSettings
+        }
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sis-c-regras-robo_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showStatus('Pacote de regras e conhecimento gerado para compartilhamento.', 'success');
+}
+
+function importSisAiSharePack() {
+    document.getElementById('sisAiShareImportInput')?.click();
+}
+
+function sisAiApplyImportedSharePack(payload) {
+    const packData = payload?.data || payload || {};
+    rules = sisAiMergeRuleCollections(rules, packData.rules || []);
+    complementRules = sisAiMergeGenericObjectArray(complementRules, packData.complementRules || []);
+    keywordHistoryRules = sisAiMergeKeywordHistoryCollections(keywordHistoryRules, packData.keywordHistoryRules || []);
+    mlReconcData = sisAiMergeMlKnowledge(mlReconcData, packData.mlReconcData || {});
+    sisAiSettings = { ...sisAiSettings, ...(packData.sisAiSettings || {}) };
+
+    localStorage.setItem('rules', JSON.stringify(rules));
+    localStorage.setItem('complementRules', JSON.stringify(complementRules));
+    localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
+    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    sisAiSaveSettings();
+    if (currentCompanyId) saveCompanyData();
+
+    renderRules();
+    renderKeywordHistoryRules();
+    renderMlStats();
+    renderMlManageList();
+    renderSisAiLogic();
+}
+
+function sisAiDoImportSharedRules(input) {
+    const file = input.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+        try {
+            const payload = JSON.parse(event.target.result);
+            const packData = payload?.data || payload;
+            if (!packData || typeof packData !== 'object') throw new Error('Estrutura inválida.');
+
+            const incomingRuleCount = Array.isArray(packData.rules) ? packData.rules.length : 0;
+            const incomingKnowledgeCount = Object.keys(packData.mlReconcData || {}).length;
+            if (!confirm(`Mesclar ${incomingRuleCount} regra(s) de lançamento e ${incomingKnowledgeCount} conhecimento(s) do robô com os dados atuais?`)) {
+                input.value = '';
+                return;
+            }
+
+            sisAiApplyImportedSharePack(payload);
+            showStatus(`Pacote recebido com sucesso. Regras e conhecimento foram mesclados ao sistema atual.`, 'success');
+        } catch (error) {
+            showStatus(`Falha ao aplicar pacote recebido: ${error.message}`, 'error');
+        }
+        input.value = '';
+    };
+    reader.readAsText(file);
+}
+
+function sisAiSaveSettings() {
+    localStorage.setItem('sisAiSettings', JSON.stringify(sisAiSettings));
+}
+
+function sisAiSyncSettingsUI() {
+    const minConfidenceEl = document.getElementById('sisAiMinConfidence');
+    const batchWordsEl = document.getElementById('sisAiBatchSharedWords');
+    const minTokensEl = document.getElementById('sisAiMinTokenMatches');
+    const uppercaseEl = document.getElementById('sisAiUppercaseImport');
+    if (minConfidenceEl) minConfidenceEl.value = sisAiSettings.minConfidence;
+    if (batchWordsEl) batchWordsEl.value = sisAiSettings.batchSharedWords;
+    if (minTokensEl) minTokensEl.value = sisAiSettings.minTokenMatches;
+    if (uppercaseEl) uppercaseEl.checked = !!sisAiSettings.enforceUppercaseImport;
+}
+
+function sisAiComparableText(text) {
+    return String(text || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^A-Za-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toUpperCase();
+}
+
+function sisAiEscapeHtml(text) {
+    return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function sisAiNormalizeImportedDescription(text) {
+    const cleaned = String(text || '').replace(/\s+/g, ' ').trim();
+    return sisAiSettings.enforceUppercaseImport ? cleaned.toUpperCase() : cleaned;
+}
+
+function sisAiSharedWordCount(a, b) {
+    const left = new Set(sisAiComparableText(a).split(' ').filter(word => word.length >= 3));
+    const right = new Set(sisAiComparableText(b).split(' ').filter(word => word.length >= 3));
+    let count = 0;
+    left.forEach(word => { if (right.has(word)) count++; });
+    return count;
+}
+
+function sisAiCanBatchDescriptions(a, b) {
+    const exact = sisAiComparableText(a) === sisAiComparableText(b);
+    return exact || sisAiSharedWordCount(a, b) >= Math.max(3, sisAiSettings.batchSharedWords);
+}
+
+function sisAiDateToIso(dateStr) {
+    if (!dateStr) return '';
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    const parts = String(dateStr).split(/[\/\-.]/);
+    if (parts.length !== 3) return '';
+    if (parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
+    return `${parts[2].padStart(4, '20')}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+}
+
+function sisAiDedupKey(tx) {
+    return [
+        sisAiDateToIso(tx.date),
+        Number(tx.amount || 0).toFixed(2),
+        sisAiComparableText(tx.description)
+    ].join('|');
+}
+
+function sisAiMarkForReview(tx, reason) {
+    tx.aiNeedsReview = true;
+    tx.aiReviewReason = reason;
+}
+
+function sisAiClearReview(tx) {
+    if (!tx) return;
+    if (tx.debitCode && tx.creditCode && tx.debitCode !== tx.creditCode) {
+        delete tx.aiNeedsReview;
+        delete tx.aiReviewReason;
+    }
+}
+
+function sisAiSanitizeTransaction(tx, preferredField = '', source = 'sistema') {
+    if (!tx) return null;
+    const bank = (bankAccountCode || '').trim();
+    const debit = (tx.debitCode || '').trim();
+    const credit = (tx.creditCode || '').trim();
+    if (!debit && !credit) return null;
+
+    if (bank && debit === bank && credit === bank) {
+        if (tx.amount >= 0) tx.creditCode = '';
+        else tx.debitCode = '';
+        sisAiMarkForReview(tx, 'Conta bancária duplicada removida automaticamente. Reclassifique a contrapartida.');
+        return { type: 'bank-duplicate', source };
+    }
+
+    if (debit && credit && debit === credit) {
+        if (preferredField === 'debitCode') tx.debitCode = '';
+        else if (preferredField === 'creditCode') tx.creditCode = '';
+        else if (tx.amount >= 0) tx.creditCode = '';
+        else tx.debitCode = '';
+        sisAiMarkForReview(tx, 'Débito e crédito ficaram iguais. O sistema removeu a classificação automática e exige revisão.');
+        return { type: 'same-account', source };
+    }
+
+    sisAiClearReview(tx);
+    return null;
+}
+
+function sisAiSanitizeTransactionList(list, source = 'sistema', options = {}) {
+    const notify = options.notify !== false;
+    const issues = [];
+    (list || []).forEach(tx => {
+        const issue = sisAiSanitizeTransaction(tx, '', source);
+        if (issue) issues.push(issue);
+    });
+    if (notify && issues.length > 0) {
+        showStatus(`⚠️ ${issues.length} lançamento(s) tiveram classificação automática removida para revisão.`, 'warning');
+    }
+    return issues;
+}
+
+function saveSisAiSettingsFromUI() {
+    sisAiSettings.minConfidence = Math.max(75, Math.min(99, parseInt(document.getElementById('sisAiMinConfidence')?.value || sisAiSettings.minConfidence, 10) || 75));
+    sisAiSettings.batchSharedWords = Math.max(3, Math.min(10, parseInt(document.getElementById('sisAiBatchSharedWords')?.value || sisAiSettings.batchSharedWords, 10) || 3));
+    sisAiSettings.minTokenMatches = Math.max(1, Math.min(10, parseInt(document.getElementById('sisAiMinTokenMatches')?.value || sisAiSettings.minTokenMatches, 10) || 2));
+    sisAiSettings.enforceUppercaseImport = !!document.getElementById('sisAiUppercaseImport')?.checked;
+    sisAiSaveSettings();
+    sisAiSyncSettingsUI();
+    renderSisAiLogic();
+    showStatus('Lógica SIS-C AI atualizada.', 'success');
+}
+
+function showClearPeriodModal() {
+    document.getElementById('clearPeriodModal').style.display = 'flex';
+}
+
+function closeClearPeriodModal() {
+    document.getElementById('clearPeriodModal').style.display = 'none';
+}
+
+function clearTransactionsByPeriod() {
+    const month = document.getElementById('clearPeriodMonth')?.value || '';
+    let start = document.getElementById('clearPeriodStart')?.value || '';
+    let end = document.getElementById('clearPeriodEnd')?.value || '';
+    if (month) {
+        start = `${month}-01`;
+        const d = new Date(`${month}-01T00:00:00`);
+        end = new Date(d.getFullYear(), d.getMonth() + 1, 0).toISOString().slice(0, 10);
+    }
+    if (!start || !end) {
+        showStatus('Informe um mês completo ou um intervalo inicial/final.', 'warning');
+        return;
+    }
+    if (!confirm(`Remover lançamentos entre ${start} e ${end}?`)) return;
+
+    const removedIds = new Set();
+    transactions = transactions.filter(tx => {
+        const keep = !(sisAiDateToIso(tx.date) >= start && sisAiDateToIso(tx.date) <= end);
+        if (!keep) removedIds.add(tx.id);
+        return keep;
+    });
+    rawTransactions = rawTransactions.filter(tx => !(sisAiDateToIso(tx.date) >= start && sisAiDateToIso(tx.date) <= end));
+    Object.keys(multiMonthTransactions).forEach(key => {
+        multiMonthTransactions[key] = (multiMonthTransactions[key] || []).filter(tx => !removedIds.has(tx.id));
+        if (multiMonthTransactions[key].length === 0) delete multiMonthTransactions[key];
+    });
+    selectedTransactions.forEach(id => { if (removedIds.has(id)) selectedTransactions.delete(id); });
+    if (isMultiMonth) renderMultiMonthTransactions(); else displayTransactions();
+    updateFinancialSummary();
+    saveToLocalStorage();
+    closeClearPeriodModal();
+    showStatus(`${removedIds.size} lançamento(s) removido(s) do período selecionado.`, 'success');
+}
+
+function sisAiFindHeaderIndexes(rows) {
+    const maxRows = Math.min(rows.length, 20);
+    for (let i = 0; i < maxRows; i++) {
+        const row = (rows[i] || []).map(value => sisAiComparableText(value));
+        const dateIndex = row.findIndex(value => value.includes('DATA'));
+        const valueIndex = row.findIndex(value => value.includes('VALOR'));
+        const descIndex = row.findIndex(value => value.includes('DESCRICAO') || value.includes('HISTORICO'));
+        if (dateIndex >= 0 && valueIndex >= 0 && descIndex >= 0) {
+            return { headerRow: i, dateIndex, valueIndex, descIndex };
+        }
+    }
+    return null;
+}
+
+function sisAiRowsFromMatrix(rows, sourceName = '') {
+    const header = sisAiFindHeaderIndexes(rows);
+    const extracted = [];
+    if (header) {
+        for (let i = header.headerRow + 1; i < rows.length; i++) {
+            const row = rows[i] || [];
+            const date = parseExcelDate(row[header.dateIndex]) || parseDate(row[header.dateIndex]);
+            const amount = parseValue(row[header.valueIndex], csvStructure.valueFormat);
+            const description = sisAiNormalizeImportedDescription(row[header.descIndex]);
+            if (date && description && amount) extracted.push({ date, amount, description, type: amount < 0 ? 'debit' : 'credit', sourceFile: sourceName });
+        }
+        return extracted;
+    }
+
+    rows.forEach(row => {
+        if (!row || !row.length) return;
+        const textCells = row.map(value => String(value || '').trim()).filter(Boolean);
+        if (!textCells.length) return;
+        const dateCell = textCells.find(value => parseDate(value) || parseExcelDate(value));
+        const valueCell = textCells.find(value => /-?[\d.]+,\d{2}|-?[\d,]+\.\d{2}/.test(String(value || '')));
+        const descriptionCell = textCells.find(value => value !== dateCell && value !== valueCell && String(value).trim().length >= 3);
+        const date = parseDate(dateCell) || parseExcelDate(dateCell);
+        const amount = parseValue(valueCell, csvStructure.valueFormat);
+        const description = sisAiNormalizeImportedDescription(descriptionCell);
+        if (date && description && amount) extracted.push({ date, amount, description, type: amount < 0 ? 'debit' : 'credit', sourceFile: sourceName });
+    });
+    return extracted;
+}
+
+function sisAiRowsFromText(text, sourceName = '') {
+    const lines = String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    const extracted = [];
+    lines.forEach(line => {
+        const match = line.match(/(\d{2}[\/\-]\d{2}[\/\-]\d{2,4}).*?(-?[\d.]+,\d{2}|-?[\d,]+\.\d{2})/);
+        if (!match) return;
+        const date = parseDate(match[1]);
+        const amount = parseValue(match[2], 'decimal_comma');
+        const description = sisAiNormalizeImportedDescription(line.replace(match[1], '').replace(match[2], '').trim());
+        if (date && description && amount) extracted.push({ date, amount, description, type: amount < 0 ? 'debit' : 'credit', sourceFile: sourceName });
+    });
+    return extracted;
+}
+
+async function sisAiExtractRowsFromFile(file) {
+    const name = (file?.name || '').toLowerCase();
+    if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+        const buffer = await file.arrayBuffer();
+        const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        return sisAiRowsFromMatrix(rows, file.name);
+    }
+    if (name.endsWith('.pdf')) {
+        const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+        let text = '';
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const page = await pdf.getPage(pageNumber);
+            const content = await page.getTextContent();
+            text += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        return sisAiRowsFromText(text, file.name);
+    }
+    if (name.endsWith('.docx')) {
+        if (!window.mammoth) throw new Error('Leitor Word indisponível.');
+        const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+        return sisAiRowsFromText(result.value, file.name);
+    }
+    if (name.endsWith('.doc')) {
+        throw new Error('Arquivos .doc antigos não são suportados diretamente. Use .docx.');
+    }
+    throw new Error('Formato não suportado para leitura documental.');
+}
+
+function renderSisAiKnowledgePreview() {
+    const status = document.getElementById('sisAiKnowledgeStatus');
+    const preview = document.getElementById('sisAiKnowledgePreview');
+    if (status) status.textContent = sisAiKnowledgeRows.length > 0 ? `${sisAiKnowledgeRows.length} linha(s) documental(is) encontradas.` : 'Nenhum documento processado.';
+    if (!preview) return;
+    if (!sisAiKnowledgeRows.length) {
+        preview.innerHTML = 'Nenhuma linha disponível.';
+        return;
+    }
+    preview.innerHTML = `<table class="data-table"><thead><tr><th>Data</th><th>Valor</th><th>Descrição</th><th>Arquivo</th></tr></thead><tbody>${sisAiKnowledgeRows.slice(0, 100).map(row => `<tr><td>${sisAiEscapeHtml(row.date)}</td><td>${formatCurrency(row.amount)}</td><td>${sisAiEscapeHtml(row.description)}</td><td>${sisAiEscapeHtml(row.sourceFile || '—')}</td></tr>`).join('')}</tbody></table>`;
+}
+
+async function sisAiHandleKnowledgeFiles(input) {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+    let loaded = 0;
+    const nextRows = [];
+    for (const file of files) {
+        try {
+            const rows = await sisAiExtractRowsFromFile(file);
+            nextRows.push(...rows);
+            loaded += rows.length;
+        } catch (error) {
+            showStatus(`${file.name}: ${error.message}`, 'warning');
+        }
+    }
+    const dedup = new Map();
+    [...sisAiKnowledgeRows, ...nextRows].forEach(row => dedup.set(sisAiDedupKey(row), row));
+    sisAiKnowledgeRows = Array.from(dedup.values());
+    renderSisAiKnowledgePreview();
+    showStatus(`${loaded} linha(s) lida(s) dos documentos enviados.`, loaded > 0 ? 'success' : 'warning');
+    input.value = '';
+}
+
+function sisAiClearKnowledgeRows() {
+    sisAiKnowledgeRows = [];
+    renderSisAiKnowledgePreview();
+}
+
+function sisAiAppendKnowledgeRowsToTransactions(rows) {
+    const existing = new Set(transactions.map(tx => sisAiDedupKey(tx)));
+    let added = 0;
+    rows.forEach(row => {
+        const normalized = {
+            date: row.date,
+            amount: Number(row.amount || 0),
+            description: sisAiNormalizeImportedDescription(row.description),
+            type: Number(row.amount || 0) < 0 ? 'debit' : 'credit'
+        };
+        const key = sisAiDedupKey(normalized);
+        if (existing.has(key)) return;
+        existing.add(key);
+        rawTransactions.push({ ...normalized });
+        const tx = {
+            date: normalized.date,
+            amount: normalized.amount,
+            description: normalized.description,
+            debitCode: '',
+            creditCode: '',
+            type: normalized.type,
+            originalDescription: normalized.description,
+            history: defaultHistory,
+            id: generateId()
+        };
+        applyRulesToTransaction(tx);
+        tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+        sisAiSanitizeTransaction(tx, '', 'documento');
+        transactions.push(tx);
+        added++;
+    });
+    return added;
+}
+
+function sisAiImportKnowledgeRows() {
+    if (!sisAiKnowledgeRows.length) {
+        showStatus('Nenhuma linha documental para importar.', 'warning');
+        return;
+    }
+    const added = sisAiAppendKnowledgeRowsToTransactions(sisAiKnowledgeRows);
+    if (added === 0) {
+        showStatus('Nenhuma nova linha foi importada. Tudo já existia.', 'info');
+        return;
+    }
+    if (isMultiMonth) renderMultiMonthTransactions();
+    else displayTransactions();
+    updateFinancialSummary();
+    enableExportButtons();
+    navigateToSection('transactions');
+    saveToLocalStorage();
+    showStatus(`${added} lançamento(s) importado(s) a partir de documentos.`, 'success');
+}
+
 // ============================================================
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('caixinhaDate').value = today;
+    sisCApplyDeployResetIfNeeded();
     loadFromLocalStorage();
     setupEventListeners();
     setupNavigation();
     initApuracoes();
     initBankNf();
     updateFinancialSummary();
+    if (sisCDeployResetApplied) {
+        setTimeout(() => showStatus('Primeiro acesso deste deploy neste computador: o sistema iniciou limpo para novo aprendizado.', 'info'), 300);
+    }
     setTimeout(() => showStatus("Bem-vindo ao SIS-C v2.0! Importe um extrato para começar.", "info"), 800);
     startAutoSave();
 });
@@ -3250,6 +4004,8 @@ function loadFromLocalStorage() {
         if (s.exportFormat) document.getElementById('exportFormat').value = s.exportFormat;
         if (s.autoSave) document.getElementById('autoSave').value = s.autoSave;
     }
+    sisAiSettings = { ...SIS_AI_DEFAULTS, ...(JSON.parse(localStorage.getItem('sisAiSettings') || 'null') || {}), ...sisAiSettings };
+    sisAiSyncSettingsUI();
 
     const st = localStorage.getItem('transactions');
     if (st && st.length > 2) {
@@ -3261,7 +4017,12 @@ function loadFromLocalStorage() {
             totalDebits = d.totalDebits || 0;
             isMultiMonth = d.isMultiMonth || false;
             multiMonthTransactions = d.multiMonthTransactions || {};
-            transactions.forEach(tx => { if (!tx.history) tx.history = getHistoryFromKeywords(tx.description) || defaultHistory; });
+            transactions.forEach(tx => {
+                tx.description = sisAiNormalizeImportedDescription(tx.description);
+                if (tx.originalDescription) tx.originalDescription = sisAiNormalizeImportedDescription(tx.originalDescription);
+                if (!tx.history) tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+            });
+            sisAiSanitizeTransactionList(transactions, 'carregamento', { notify: false });
             if (transactions.length > 0) {
                 if (isMultiMonth) renderMultiMonthTransactions();
                 else displayTransactions();
@@ -3281,6 +4042,7 @@ function saveToLocalStorage() {
     }));
     localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
     localStorage.setItem('bankNfDocuments', JSON.stringify(bankNfDocuments));
+    sisAiSaveSettings();
     if (currentCompanyId) saveCompanyData();
 }
 
@@ -3504,12 +4266,13 @@ async function processMultiOFX() {
                 if (!multiMonthTransactions[key]) multiMonthTransactions[key] = [];
 
                 const transaction = {
-                    date: tx.date, amount: tx.amount, description: tx.description,
+                    date: tx.date, amount: tx.amount, description: sisAiNormalizeImportedDescription(tx.description),
                     debitCode: '', creditCode: '', type: tx.type,
-                    originalDescription: tx.description, history: defaultHistory, id: generateId()
+                    originalDescription: sisAiNormalizeImportedDescription(tx.description), history: defaultHistory, id: generateId()
                 };
                 applyRulesToTransaction(transaction);
                 transaction.history = getHistoryFromKeywords(transaction.description) || defaultHistory;
+                sisAiSanitizeTransaction(transaction, '', 'importação multi-OFX');
                 multiMonthTransactions[key].push(transaction);
                 transactions.push(transaction);
             });
@@ -3757,6 +4520,7 @@ function buildTransactionRow(trans, index, multiMode = false) {
     const debitCell = `<span class="cell-editable account-code account-debit" onclick="inlineEditCell(this,${index},'debitCode')" title="Clique para editar">${trans.debitCode || '—'}</span>`;
     const creditCell = `<span class="cell-editable account-code account-credit" onclick="inlineEditCell(this,${index},'creditCode')" title="Clique para editar">${trans.creditCode || '—'}</span>`;
     const mlSuggestion = getMlSuggestionBadge(trans);
+    const reviewBadge = trans.aiNeedsReview ? `<div style="margin-top:6px;padding:6px 8px;border-radius:6px;background:#fff7ed;color:#9a3412;font-size:0.75rem;border:1px solid #fdba74;"><i class="fas fa-user-shield"></i> ${trans.aiReviewReason || 'Revisão manual obrigatória'}</div>` : '';
     const isSelected = selectedTransactions.has(trans.id);
     const matchedDoc = trans.matchedDocumentId ? getBankNfDocumentById(trans.matchedDocumentId) : null;
     const matchedBadge = matchedDoc ? `<div style="margin-top:6px;padding:6px 8px;border-radius:6px;background:#ecfdf5;color:#065f46;font-size:0.75rem;border:1px solid #a7f3d0;"><i class="fas fa-link"></i> NF vinculada: ${matchedDoc.docNumber || matchedDoc.name}</div>` : '';
@@ -3774,7 +4538,7 @@ function buildTransactionRow(trans, index, multiMode = false) {
     } else if (isSameDC) {
         rowClass = 'tx-row-error';
         errorBadge = `<span class="tx-error-badge"><i class="fas fa-exclamation-triangle"></i> D = C mesma conta!</span>`;
-    } else if (isMissing) {
+    } else if (isMissing || trans.aiNeedsReview) {
         rowClass = 'tx-row-warn';
     }
 
@@ -3786,7 +4550,7 @@ function buildTransactionRow(trans, index, multiMode = false) {
         <td>${amountCell}</td>
         <td>${trans.history || defaultHistory}</td>
         <td>${matchedDoc ? `<span class="account-code">${matchedDoc.docNumber || matchedDoc.name.substring(0, 18)}</span>` : ''}</td>
-        <td><div style="position:relative;"><span class="editable" onclick="inlineEditComplement(this,${index})" title="Clique para editar o complemento">${trans.description}</span>${trans.description!==trans.originalDescription?`<div style="font-size:0.7rem;color:var(--gray);font-style:italic;margin-top:2px;">Original: ${trans.originalDescription}</div>`:''}${mlSuggestion}${matchedBadge}${errorBadge}</div></td>
+        <td><div style="position:relative;"><span class="editable" onclick="inlineEditComplement(this,${index})" title="Clique para editar o complemento">${trans.description}</span>${trans.description!==trans.originalDescription?`<div style="font-size:0.7rem;color:var(--gray);font-style:italic;margin-top:2px;">Original: ${trans.originalDescription}</div>`:''}${mlSuggestion}${reviewBadge}${matchedBadge}${errorBadge}</div></td>
         <td><div class="d-flex gap-5 flex-wrap"><button class="btn btn-sm btn-info" onclick="showTransactionNfMatchModal(${index})"><i class="fas fa-search-dollar"></i> NF</button><button class="btn btn-sm btn-outline" onclick="editTransaction(${index})"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger" onclick="deleteTransaction(${index})"><i class="fas fa-trash"></i></button></div></td>
     </tr>`;
 }
@@ -3837,13 +4601,17 @@ function processOFXContent(content) {
         const hasOfx = /OFXHEADER|<OFX|<STMTTRN/i.test(content);
         if (!hasOfx) throw new Error('Arquivo não reconhecido como OFX. Verifique o formato.');
 
-        rawTransactions = parseOFXContent(content);
+        rawTransactions = parseOFXContent(content).map(tx => ({
+            ...tx,
+            description: sisAiNormalizeImportedDescription(tx.description)
+        }));
 
         if (rawTransactions.length === 0) {
             throw new Error('Nenhuma transação encontrada. O arquivo pode estar vazio ou em formato incompatível.');
         }
 
         processTransactionsWithRules();
+        sisAiSanitizeTransactionList(transactions, 'importação OFX', { notify: false });
         displayTransactions();
         updateFinancialSummary();
         enableExportButtons();
@@ -3881,10 +4649,10 @@ function processCSVContent(content) {
             const vi = getColumnIndex(csvStructure.valueColumn);
             if (vi >= 0 && vi < row.length) amount = parseValue(row[vi], csvStructure.valueFormat);
             if (!date || !description || amount === undefined) { date = parseDate(row[0]); description = row[1] || ''; amount = parseValue(row[2]); }
-            if (date && description && amount !== undefined) rawTransactions.push({ date, amount, description: description.trim(), type: amount < 0 ? 'debit' : 'credit' });
+            if (date && description && amount !== undefined) rawTransactions.push({ date, amount, description: sisAiNormalizeImportedDescription(description), type: amount < 0 ? 'debit' : 'credit' });
         }
         if (rawTransactions.length === 0) throw new Error("Nenhuma transação válida encontrada no CSV.");
-        processTransactionsWithRules(); displayTransactions(); updateFinancialSummary(); enableExportButtons();
+        processTransactionsWithRules(); sisAiSanitizeTransactionList(transactions, 'importação CSV', { notify: false }); displayTransactions(); updateFinancialSummary(); enableExportButtons();
         navigateToSection('transactions');
         checkExpectedBalance();
         showStatus(`${rawTransactions.length} transações extraídas do CSV.`, "success");
@@ -3910,10 +4678,10 @@ function processExcelContent(content) {
             const vi = getColumnIndex(csvStructure.valueColumn);
             if (vi >= 0 && vi < row.length) amount = parseValue(row[vi], csvStructure.valueFormat);
             if (!date || !description || amount === undefined) { date = parseExcelDate(row[0]); description = row[1] || ''; amount = parseValue(row[2]); }
-            if (date && description && amount !== undefined) rawTransactions.push({ date, amount, description: description.toString().trim(), type: amount < 0 ? 'debit' : 'credit' });
+            if (date && description && amount !== undefined) rawTransactions.push({ date, amount, description: sisAiNormalizeImportedDescription(description), type: amount < 0 ? 'debit' : 'credit' });
         }
         if (rawTransactions.length === 0) throw new Error("Nenhuma transação válida encontrada no Excel.");
-        processTransactionsWithRules(); displayTransactions(); updateFinancialSummary(); enableExportButtons();
+        processTransactionsWithRules(); sisAiSanitizeTransactionList(transactions, 'importação Excel', { notify: false }); displayTransactions(); updateFinancialSummary(); enableExportButtons();
         navigateToSection('transactions');
         checkExpectedBalance();
         showStatus(`${rawTransactions.length} transações extraídas do Excel.`, "success");
@@ -3928,14 +4696,18 @@ function processExcelContent(content) {
 function processTransactionsWithRules() {
     transactions = []; totalCredits = 0; totalDebits = 0;
     rawTransactions.forEach(rt => {
-        const tx = { date:rt.date, amount:rt.amount, description:rt.description, debitCode:'', creditCode:'', type:rt.type, originalDescription:rt.description, history:defaultHistory, id:generateId() };
+        const normalizedDescription = sisAiNormalizeImportedDescription(rt.description);
+        const tx = { date:rt.date, amount:rt.amount, description:normalizedDescription, debitCode:'', creditCode:'', type:rt.type, originalDescription:normalizedDescription, history:defaultHistory, id:generateId() };
         applyRulesToTransaction(tx);
         tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+        sisAiSanitizeTransaction(tx, '', 'regras');
         transactions.push(tx);
     });
 }
 
 function applyRulesToTransaction(tx) {
+    tx.description = sisAiNormalizeImportedDescription(tx.description);
+    tx.originalDescription = sisAiNormalizeImportedDescription(tx.originalDescription || tx.description);
     const du = tx.description.toUpperCase();
     let applied = false;
     for (const rule of rules) {
@@ -4064,8 +4836,9 @@ function saveEditTransaction() {
     }
     tx.debitCode = newDebit;
     tx.creditCode = newCredit;
-    tx.description = document.getElementById('editTxComplement').value.trim();
+    tx.description = sisAiNormalizeImportedDescription(document.getElementById('editTxComplement').value.trim());
     tx.history = document.getElementById('editTxHistory').value.trim() || defaultHistory;
+    sisAiSanitizeTransaction(tx, '', 'edição manual');
     // ML: learn from this classification
     mlLearnFromTransaction(tx);
     closeEditTransactionModal();
@@ -4801,6 +5574,10 @@ function inlineEditCell(element, index, field) {
             return;
         }
         transactions[index][field] = newVal;
+        const issue = sisAiSanitizeTransaction(transactions[index], field, 'edição inline');
+        if (issue?.type === 'bank-duplicate') {
+            showStatus('⚠️ Conta bancária removida automaticamente de um dos lados. Reclassifique a contrapartida.', 'warning');
+        }
         mlLearnFromTransaction(transactions[index]);
         saveToLocalStorage();
         mlAutoClassifyAll();
@@ -4858,6 +5635,10 @@ function selectInlineCellAccount(event, index, field, code) {
         return;
     }
     transactions[index][field] = code;
+    const issue = sisAiSanitizeTransaction(transactions[index], field, 'edição inline');
+    if (issue?.type === 'bank-duplicate') {
+        showStatus('⚠️ Conta bancária removida automaticamente de um dos lados. Reclassifique a contrapartida.', 'warning');
+    }
     mlLearnFromTransaction(transactions[index]);
     saveToLocalStorage();
     mlAutoClassifyAll();
@@ -4872,20 +5653,72 @@ function selectInlineCellAccount(event, index, field, code) {
 // { keyword: { debitAccount, creditAccount, debitCount, creditCount, totalSeen,
 //              lastUsed (ISO date), sampleDesc (exemplo de descrição) } }
 
+function sisAiGetEligibleMlSuggestions() {
+    const suggestions = [];
+    transactions.forEach((tx, index) => {
+        if (tx.aiNeedsReview) return;
+        if (tx.debitCode && tx.creditCode) return;
+        const result = mlFindBestMatch(tx);
+        if (!result) return;
+        if (result.confidence < sisAiSettings.minConfidence) return;
+        if (!result.exactPhrase && result.matchedTokenCount < sisAiSettings.minTokenMatches) return;
+        suggestions.push({ index, tx, ...result });
+    });
+    return suggestions;
+}
+
+function sisAiBuildSuggestionGroups(suggestions) {
+    const groups = [];
+    const used = new Set();
+    suggestions.forEach((suggestion, index) => {
+        if (used.has(index)) return;
+        const group = [suggestion];
+        used.add(index);
+        for (let i = index + 1; i < suggestions.length; i++) {
+            if (used.has(i)) continue;
+            const other = suggestions[i];
+            const sameDebit = (suggestion.entry.debitAccount || '') === (other.entry.debitAccount || '');
+            const sameCredit = (suggestion.entry.creditAccount || '') === (other.entry.creditAccount || '');
+            if (!sameDebit || !sameCredit) continue;
+            if (!sisAiCanBatchDescriptions(suggestion.tx.description, other.tx.description)) continue;
+            group.push(other);
+            used.add(i);
+        }
+        groups.push(group);
+    });
+    return groups;
+}
+
+function sisAiApplySuggestionToTransaction(tx, result, source = 'robô') {
+    if (!tx || !result || result.confidence < sisAiSettings.minConfidence) return { applied: false, review: false };
+    const beforeDebit = tx.debitCode || '';
+    const beforeCredit = tx.creditCode || '';
+    if (!tx.debitCode && result.entry.debitAccount) tx.debitCode = result.entry.debitAccount;
+    if (!tx.creditCode && result.entry.creditAccount) tx.creditCode = result.entry.creditAccount;
+    const issue = sisAiSanitizeTransaction(tx, '', source);
+    return {
+        applied: beforeDebit !== (tx.debitCode || '') || beforeCredit !== (tx.creditCode || ''),
+        review: !!issue
+    };
+}
+
 function getMlSuggestionBadge(trans) {
     if (!mlReconcData || Object.keys(mlReconcData).length === 0) return '';
+    if (trans.aiNeedsReview) return '';
     if (trans.debitCode && trans.creditCode) return '';
     const result = mlFindBestMatch(trans);
     if (!result) return '';
-    const confidence = result.score >= 10 ? 'high' : result.score >= 3 ? 'medium' : 'low';
-    const label = confidence === 'high' ? 'Alta' : confidence === 'medium' ? 'Média' : 'Baixa';
+    if (result.confidence < sisAiSettings.minConfidence) return '';
+    const confidence = result.confidence >= 90 ? 'high' : result.confidence >= sisAiSettings.minConfidence ? 'medium' : 'low';
+    const label = confidence === 'high' ? 'Alta' : confidence === 'medium' ? 'Validada' : 'Baixa';
     const sugD = result.entry.debitAccount || '';
     const sugC = result.entry.creditAccount || '';
     let sugText = '';
     if (sugD && sugC) sugText = `D:${sugD} C:${sugC}`;
     else if (sugD) sugText = `D:${sugD}`;
     else if (sugC) sugText = `C:${sugC}`;
-    return `<span class="ml-badge ${confidence}" title="Sugestão ML: ${sugText} (${label} confiança, ${result.score}x)">🤖 ${sugText}</span>`;
+    const reason = result.exactPhrase ? 'descrição idêntica' : `${result.sharedWords} palavra(s) em comum`;
+    return `<span class="ml-badge ${confidence}" title="Sugestão SIS-C AI: ${sugText} (${label}, ${result.confidence}% de confiança, ${reason})">🤖 ${sugText}</span>`;
 }
 
 
@@ -4899,25 +5732,32 @@ function mlAutoClassifyAll() {
 }
 function _mlAutoClassifyNow() {
     if (!mlReconcData || Object.keys(mlReconcData).length === 0) return;
+    const suggestions = sisAiGetEligibleMlSuggestions();
+    if (!suggestions.length) return;
+    const groups = sisAiBuildSuggestionGroups(suggestions);
     let applied = 0;
-    transactions.forEach(tx => {
-        if (tx.debitCode && tx.creditCode) return;
-        const result = mlFindBestMatch(tx);
-        if (!result || result.score < 2) return;
-        const e = result.entry;
-        if (!tx.debitCode && e.debitAccount && (e.debitCount || 0) >= 2) {
-            tx.debitCode = e.debitAccount;
-            applied++;
-        }
-        if (!tx.creditCode && e.creditAccount && (e.creditCount || 0) >= 2) {
-            tx.creditCode = e.creditAccount;
-            applied++;
-        }
+    let reviews = 0;
+    let batches = 0;
+    groups.forEach(group => {
+        let groupApplied = false;
+        group.forEach(item => {
+            const outcome = sisAiApplySuggestionToTransaction(item.tx, item, 'auto');
+            if (outcome.applied) {
+                applied++;
+                groupApplied = true;
+            }
+            if (outcome.review) reviews++;
+        });
+        if (groupApplied && group.length > 1) batches++;
     });
-    if (applied > 0) {
+    if (applied > 0 || reviews > 0) {
         saveToLocalStorage();
         if (isMultiMonth) renderMultiMonthTransactions(); else displayTransactions();
-        showStatus(`🤖 Robô classificou ${applied} campo(s) automaticamente em tempo real!`, 'success');
+        if (reviews > 0) {
+            showStatus(`⚠️ SIS-C AI classificou ${applied} lançamento(s), mas ${reviews} exigem reclassificação manual.`, 'warning');
+        } else {
+            showStatus(`🤖 SIS-C AI classificou ${applied} lançamento(s) automaticamente${batches > 0 ? ` em ${batches} lote(s)` : ''}.`, 'success');
+        }
     }
 }
 
@@ -4928,27 +5768,23 @@ function showMlReconcModal() {
 
 function renderMlSuggestionsPreview() {
     const preview = document.getElementById('mlReconcPreview');
-    let suggestions = [];
-    transactions.forEach((tx, i) => {
-        if (tx.debitCode && tx.creditCode) return;
-        const result = mlFindBestMatch(tx);
-        if (result && ((result.score) >= 2)) {
-            suggestions.push({ index: i, tx, ...result });
-        }
-    });
+    const suggestions = sisAiGetEligibleMlSuggestions();
     if (suggestions.length === 0) {
         preview.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-brain" style="font-size:2rem;display:block;margin-bottom:10px;"></i>Nenhuma sugestão disponível.<br>Classifique manualmente mais transações (débito/crédito) para o robô aprender.</div>';
         return;
     }
-    let html = `<div style="margin-bottom:10px;font-weight:600;color:var(--primary);">${suggestions.length} transações podem ser classificadas automaticamente:</div>`;
-    html += '<div style="max-height:350px;overflow-y:auto;"><table class="data-table"><thead><tr><th>Complemento</th><th>Palavra-chave</th><th>Débito Sugerido</th><th>Crédito Sugerido</th><th>Confiança</th></tr></thead><tbody>';
-    suggestions.forEach(s => {
-        const conf = s.score >= 10 ? 'Alta' : s.score >= 3 ? 'Média' : 'Baixa';
-        const color = s.score >= 10 ? 'var(--success)' : s.score >= 3 ? 'var(--warning)' : 'var(--gray)';
+    const groups = sisAiBuildSuggestionGroups(suggestions);
+    let html = `<div style="margin-bottom:10px;font-weight:600;color:var(--primary);">${suggestions.length} transações estão aptas para preenchimento automático acima de ${sisAiSettings.minConfidence}%:</div>`;
+    html += '<div style="max-height:350px;overflow-y:auto;"><table class="data-table"><thead><tr><th>Complemento</th><th>Gatilho</th><th>Débito Sugerido</th><th>Crédito Sugerido</th><th>Confiança</th><th>Lote</th></tr></thead><tbody>';
+    groups.forEach(group => group.forEach(s => {
+        const conf = s.confidence >= 90 ? 'Alta' : 'Validada';
+        const color = s.confidence >= 90 ? 'var(--success)' : 'var(--warning)';
         const dAcc = s.entry.debitAccount || '—';
         const cAcc = s.entry.creditAccount || '—';
-        html += `<tr><td title="${s.tx.description}" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${(s.tx.description||'').substring(0,45)}</td><td><strong>${s.word}</strong></td><td>${dAcc !== '—' ? '<span class="account-code account-debit">'+dAcc+'</span>' : '—'}</td><td>${cAcc !== '—' ? '<span class="account-code account-credit">'+cAcc+'</span>' : '—'}</td><td style="color:${color};font-weight:600;">${conf} (${s.score}x)</td></tr>`;
-    });
+        const batchInfo = group.length > 1 ? `${group.length} ops` : 'Única';
+        const trigger = s.exactPhrase ? 'Descrição idêntica' : `${s.sharedWords} palavras iguais`;
+        html += `<tr><td title="${s.tx.description}" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${(s.tx.description||'').substring(0,45)}</td><td><strong>${trigger}</strong></td><td>${dAcc !== '—' ? '<span class="account-code account-debit">'+dAcc+'</span>' : '—'}</td><td>${cAcc !== '—' ? '<span class="account-code account-credit">'+cAcc+'</span>' : '—'}</td><td style="color:${color};font-weight:600;">${conf} (${s.confidence}%)</td><td>${batchInfo}</td></tr>`;
+    }));
     html += '</tbody></table></div>';
     preview.innerHTML = html;
 }
@@ -4956,29 +5792,26 @@ function renderMlSuggestionsPreview() {
 function closeMlReconcModal() { document.getElementById('mlReconcModal').style.display = 'none'; }
 
 function applyMlSuggestions() {
+    const groups = sisAiBuildSuggestionGroups(sisAiGetEligibleMlSuggestions());
     let applied = 0;
-    transactions.forEach(tx => {
-        if (tx.debitCode && tx.creditCode) return;
-        const result = mlFindBestMatch(tx);
-        if (!result || result.score < 2) return;
-        const e = result.entry;
-        let changed = false;
-        // Apply debit if missing and we have a learned debit account
-        if (!tx.debitCode && e.debitAccount && (e.debitCount || 0) >= 2) {
-            tx.debitCode = e.debitAccount;
-            changed = true;
-        }
-        // Apply credit if missing and we have a learned credit account
-        if (!tx.creditCode && e.creditAccount && (e.creditCount || 0) >= 2) {
-            tx.creditCode = e.creditAccount;
-            changed = true;
-        }
-        if (changed) applied++;
+    let reviews = 0;
+    groups.forEach(group => {
+        group.forEach(item => {
+            const outcome = sisAiApplySuggestionToTransaction(item.tx, item, 'manual');
+            if (outcome.applied) applied++;
+            if (outcome.review) reviews++;
+        });
     });
     closeMlReconcModal();
     if (isMultiMonth) renderMultiMonthTransactions(); else displayTransactions();
     saveToLocalStorage();
-    showStatus(applied > 0 ? `🤖 ${applied} transações classificadas automaticamente pelo robô!` : 'Nenhuma transação para classificar. Aumente a base de aprendizado.', applied > 0 ? 'success' : 'warning');
+    if (applied > 0 && reviews === 0) {
+        showStatus(`🤖 SIS-C AI classificou ${applied} transação(ões) com confiança mínima de ${sisAiSettings.minConfidence}%.`, 'success');
+    } else if (applied > 0) {
+        showStatus(`⚠️ ${applied} transação(ões) classificadas, mas ${reviews} precisam de reclassificação manual.`, 'warning');
+    } else {
+        showStatus('Nenhuma transação atingiu a confiança mínima para classificação automática.', 'warning');
+    }
 }
 
 function viewMlDatabase() {
@@ -5390,50 +6223,56 @@ function exportStatementPDF() {
 // ============================================================
 function showReportModal() {
     if (!transactions.length) { showStatus("Sem transações.","error"); return; }
-    const c = document.getElementById('reportContent');
+    const content = document.getElementById('reportContent');
     const total = transactions.length;
-    const ci = transactions.filter(t=>t.amount>=0).length;
-    const di = transactions.filter(t=>t.amount<0).length;
-    // Build account map
+    const reviewCount = transactions.filter(tx => tx.aiNeedsReview).length;
     const accountMap = {};
     transactions.forEach(tx => {
-        if (tx.debitCode) { if (!accountMap[tx.debitCode]) accountMap[tx.debitCode] = {code:tx.debitCode,desc:getAccountDescription(tx.debitCode),debits:0,credits:0,count:0}; accountMap[tx.debitCode].debits += Math.abs(tx.amount); accountMap[tx.debitCode].count++; }
-        if (tx.creditCode) { if (!accountMap[tx.creditCode]) accountMap[tx.creditCode] = {code:tx.creditCode,desc:getAccountDescription(tx.creditCode),debits:0,credits:0,count:0}; accountMap[tx.creditCode].credits += Math.abs(tx.amount); accountMap[tx.creditCode].count++; }
+        if (tx.debitCode) {
+            if (!accountMap[tx.debitCode]) accountMap[tx.debitCode] = { code: tx.debitCode, desc: getAccountDescription(tx.debitCode), debits: 0, credits: 0, count: 0 };
+            accountMap[tx.debitCode].debits += Math.abs(tx.amount);
+            accountMap[tx.debitCode].count++;
+        }
+        if (tx.creditCode) {
+            if (!accountMap[tx.creditCode]) accountMap[tx.creditCode] = { code: tx.creditCode, desc: getAccountDescription(tx.creditCode), debits: 0, credits: 0, count: 0 };
+            accountMap[tx.creditCode].credits += Math.abs(tx.amount);
+            accountMap[tx.creditCode].count++;
+        }
     });
-    const grupos = { '1':[],'2':[],'3':[],'4':[],'5':[],'6':[],'outros':[] };
-    Object.values(accountMap).forEach(a => { const g=a.code.split('.')[0]; if(grupos[g])grupos[g].push(a); else grupos['outros'].push(a); });
-    const totalReceita = grupos['3'].reduce((s,a)=>s+a.credits,0);
-    const totalDespesa = grupos['4'].reduce((s,a)=>s+a.debits,0);
-    const totalCusto = grupos['5'].reduce((s,a)=>s+a.debits,0);
+    const grupos = { '1': [], '2': [], '3': [], '4': [], '5': [], '6': [], 'outros': [] };
+    Object.values(accountMap).forEach(acc => {
+        const group = acc.code.split('.')[0];
+        if (grupos[group]) grupos[group].push(acc);
+        else grupos.outros.push(acc);
+    });
+    const totalReceita = grupos['3'].reduce((sum, acc) => sum + acc.credits, 0);
+    const totalDespesa = grupos['4'].reduce((sum, acc) => sum + acc.debits, 0);
+    const totalCusto = grupos['5'].reduce((sum, acc) => sum + acc.debits, 0);
     const resultado = totalReceita - totalDespesa - totalCusto;
-    const margem = totalReceita > 0 ? ((resultado/totalReceita)*100).toFixed(2) : 0;
+    const margem = totalReceita > 0 ? ((resultado / totalReceita) * 100).toFixed(2) : '0.00';
     let html = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;">
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid var(--primary);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Lançamentos</div><div style="font-size:1.6rem;font-weight:800;">${total}</div></div>
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid var(--success);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Entradas</div><div style="font-size:1.2rem;font-weight:700;color:var(--success);">${formatCurrency(totalCredits)}</div></div>
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid var(--danger);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Saídas</div><div style="font-size:1.2rem;font-weight:700;color:var(--danger);">${formatCurrency(totalDebits)}</div></div>
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid var(--secondary);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Saldo Final</div><div style="font-size:1.2rem;font-weight:700;">${formatCurrency(finalBalance)}</div></div>
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid var(--warning);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Receita (3.x)</div><div style="font-size:1.1rem;font-weight:700;color:var(--success);">${formatCurrency(totalReceita)}</div></div>
-        <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;border-left:4px solid ${resultado>=0?'var(--success)':'var(--danger)'};"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Resultado</div><div style="font-size:1.1rem;font-weight:700;color:${resultado>=0?'var(--success)':'var(--danger)'};">=${formatCurrency(resultado)}</div><div style="font-size:0.72rem;color:var(--gray);">Margem ${margem}%</div></div>
-    </div>
-    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:20px;">
-        <thead><tr style="background:var(--primary);color:#fff;"><th style="padding:8px;text-align:left;">Grupo</th><th style="padding:8px;text-align:right;">Débitos</th><th style="padding:8px;text-align:right;">Créditos</th><th style="padding:8px;text-align:right;"># Lançamentos</th></tr></thead>
-        <tbody>
-        ${[['3','RECEITA (3.x)','var(--success)'],['4','DESPESA (4.x)','var(--danger)'],['5','CUSTOS (5.x)','var(--warning)'],['1','ATIVO (1.x)','var(--primary)'],['2','PASSIVO (2.x)','var(--secondary)']].map(([g,label,color])=>{
-            const grp=grupos[g]||[]; if(!grp.length)return '';
-            const totD=grp.reduce((s,a)=>s+a.debits,0); const totC=grp.reduce((s,a)=>s+a.credits,0); const totTx=grp.reduce((s,a)=>s+a.count,0);
-            return `<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><span style="background:${color};color:#fff;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:700;">${label}</span></td><td style="padding:8px;text-align:right;">${formatCurrency(totD)}</td><td style="padding:8px;text-align:right;">${formatCurrency(totC)}</td><td style="padding:8px;text-align:right;">${totTx}</td></tr>`;
-        }).join('')}
-        </tbody>
-    </table>
-    <h4 style="color:var(--primary);margin-bottom:10px;font-size:0.95rem;"><i class="fas fa-star"></i> Contas Mais Movimentadas</h4>
-    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
-        <thead><tr style="background:var(--light);"><th style="padding:7px;">Conta</th><th style="padding:7px;">Descrição</th><th style="padding:7px;text-align:right;">Débitos</th><th style="padding:7px;text-align:right;">Créditos</th><th style="padding:7px;text-align:center;"># Lanç.</th></tr></thead>
-        <tbody>${Object.values(accountMap).sort((a,b)=>(b.debits+b.credits)-(a.debits+a.credits)).slice(0,12).map(acc=>
-            `<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="closeReportModal();showAccountTransactions('${acc.code}')"><td style="padding:7px;"><span class="account-code">${acc.code}</span></td><td style="padding:7px;">${acc.desc||acc.code}</td><td style="padding:7px;text-align:right;color:var(--danger);">${formatCurrency(acc.debits)}</td><td style="padding:7px;text-align:right;color:var(--success);">${formatCurrency(acc.credits)}</td><td style="padding:7px;text-align:center;">${acc.count}</td></tr>`).join('')}
-        </tbody>
-    </table>`;
-    c.innerHTML = html;
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
+            <div style="background:var(--light);padding:14px;border-radius:10px;border-left:4px solid var(--primary);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Lançamentos</div><div style="font-size:1.5rem;font-weight:800;">${total}</div></div>
+            <div style="background:var(--light);padding:14px;border-radius:10px;border-left:4px solid var(--success);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Entradas</div><div style="font-size:1.1rem;font-weight:700;color:var(--success);">${formatCurrency(totalCredits)}</div></div>
+            <div style="background:var(--light);padding:14px;border-radius:10px;border-left:4px solid var(--danger);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Saídas</div><div style="font-size:1.1rem;font-weight:700;color:var(--danger);">${formatCurrency(totalDebits)}</div></div>
+            <div style="background:var(--light);padding:14px;border-radius:10px;border-left:4px solid var(--warning);"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Resultado</div><div style="font-size:1.1rem;font-weight:700;color:${resultado >= 0 ? 'var(--success)' : 'var(--danger)'};">${formatCurrency(resultado)}</div></div>
+            <div style="background:var(--light);padding:14px;border-radius:10px;border-left:4px solid #f59e0b;"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Em revisão</div><div style="font-size:1.1rem;font-weight:700;color:#b45309;">${reviewCount}</div></div>
+        </div>
+        <div style="background:var(--light);padding:16px;border-radius:12px;margin-bottom:18px;">
+            <div style="font-weight:700;color:var(--primary);margin-bottom:10px;"><i class="fas fa-chart-pie"></i> Visão Geral</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;font-size:0.85rem;">
+                <div><strong>Receita (3.x):</strong> ${formatCurrency(totalReceita)}</div>
+                <div><strong>Despesa (4.x):</strong> ${formatCurrency(totalDespesa)}</div>
+                <div><strong>Custo (5.x):</strong> ${formatCurrency(totalCusto)}</div>
+                <div><strong>Margem:</strong> ${margem}%</div>
+            </div>
+        </div>
+        <h4 style="color:var(--primary);margin-bottom:10px;font-size:0.95rem;"><i class="fas fa-star"></i> Contas Mais Movimentadas</h4>
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+            <thead><tr style="background:var(--light);"><th style="padding:7px;">Conta</th><th style="padding:7px;">Descrição</th><th style="padding:7px;text-align:right;">Débitos</th><th style="padding:7px;text-align:right;">Créditos</th><th style="padding:7px;text-align:center;"># Lanç.</th></tr></thead>
+            <tbody>${Object.values(accountMap).sort((a, b) => (b.debits + b.credits) - (a.debits + a.credits)).slice(0, 12).map(acc => `<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="closeReportModal();showAccountTransactions('${acc.code}')"><td style="padding:7px;"><span class="account-code">${acc.code}</span></td><td style="padding:7px;">${acc.desc || acc.code}</td><td style="padding:7px;text-align:right;color:var(--danger);">${formatCurrency(acc.debits)}</td><td style="padding:7px;text-align:right;color:var(--success);">${formatCurrency(acc.credits)}</td><td style="padding:7px;text-align:center;">${acc.count}</td></tr>`).join('')}</tbody>
+        </table>`;
+    content.innerHTML = html;
     document.getElementById('reportModal').style.display = 'flex';
 }
 function closeReportModal() { document.getElementById('reportModal').style.display = 'none'; }
@@ -7804,6 +8643,7 @@ function clearExpectedBalance() {
 // ============================================================
 function validateAllTransactions() {
     if (!transactions.length) { showStatus('Sem lançamentos para validar.', 'warning'); return; }
+    const autoFixed = sisAiSanitizeTransactionList(transactions, 'validação', { notify: false });
     let errors = [];
     transactions.forEach((tx, i) => {
         const d = tx.debitCode ? tx.debitCode.trim() : '';
@@ -7817,6 +8657,9 @@ function validateAllTransactions() {
         }
         if (!d && !c) {
             errors.push({ index: i, tx, msg: 'Lançamento sem conta de Débito e sem conta de Crédito' });
+        }
+        if (tx.aiNeedsReview) {
+            errors.push({ index: i, tx, msg: tx.aiReviewReason || 'Lançamento exige reclassificação manual' });
         }
     });
     const alertDiv = document.getElementById('lancamentosBalanceAlert');
@@ -7833,6 +8676,11 @@ function validateAllTransactions() {
         html += '</ul></div>';
         alertDiv.innerHTML = html;
         alertDiv.style.display = 'block';
+    }
+    if (autoFixed.length > 0) {
+        saveToLocalStorage();
+        if (isMultiMonth) renderMultiMonthTransactions(); else displayTransactions();
+        showStatus(`⚠️ ${autoFixed.length} lançamento(s) tiveram classificação automática removida para revisão.`, 'warning');
     }
 }
 
@@ -7889,7 +8737,7 @@ function renderRobotLearningStep() {
                 <span><b>Tipo:</b> ${tx.amount>=0?'Entrada':'Saída'}</span>
             </div>
         </div>
-        ${mlSugg && mlSugg.score >= 2 ? `<div style="background:#e8f4f8;border:1px solid #b8d9e8;border-radius:8px;padding:10px;margin-bottom:14px;font-size:0.83rem;"><i class="fas fa-brain" style="color:var(--primary);"></i> <b>Sugestão do Robô</b> (confiança: ${mlSugg.score >= 10 ? 'Alta' : 'Média'}) — Débito: <b>${suggDebit||'—'}</b> / Crédito: <b>${suggCredit||'—'}</b></div>` : ''}
+        ${mlSugg && mlSugg.confidence >= sisAiSettings.minConfidence ? `<div style="background:#e8f4f8;border:1px solid #b8d9e8;border-radius:8px;padding:10px;margin-bottom:14px;font-size:0.83rem;"><i class="fas fa-brain" style="color:var(--primary);"></i> <b>Sugestão do Robô</b> (${mlSugg.confidence}% de confiança) — Débito: <b>${suggDebit||'—'}</b> / Crédito: <b>${suggCredit||'—'}</b></div>` : ''}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px;">
             <div class="input-group account-search-inline">
                 <label class="input-label" style="color:var(--danger);"><i class="fas fa-arrow-right"></i> Conta de Débito</label>
@@ -7920,6 +8768,7 @@ function robotLearningNext() {
     // Apply to transaction
     if (d) tx.debitCode = d.trim();
     if (c) tx.creditCode = c.trim();
+    sisAiSanitizeTransaction(tx, '', 'aprendizado');
     // Make robot learn
     if (d || c) mlLearnFromTransaction(tx);
     if (_robotLearningIndex < _robotLearningQueue.length - 1) {
@@ -8292,18 +9141,12 @@ function updateTxAnalytics() {
     // Basic counts
     const total = txs.length;
     const classified = txs.filter(t => t.debitCode && t.creditCode).length;
-    const hasDebit = txs.filter(t => t.debitCode).length;
-    const hasCredit = txs.filter(t => t.creditCode).length;
     const unclassified = txs.filter(t => !t.debitCode || !t.creditCode).length;
 
     // Bank account errors — same account as both debit and credit
     const bankAcc = bankAccountCode;
     const bankDupErrors = txs.filter(t => t.debitCode === bankAcc && t.creditCode === bankAcc).length;
-    const noDebitErrors = txs.filter(t => !t.debitCode).length;
-    const noCreditErrors = txs.filter(t => !t.creditCode).length;
-    const totalErrors = bankDupErrors + (unclassified > 0 ? 1 : 0);
-    const errorCount = bankDupErrors;
-    const warnCount = unclassified;
+    const reviewCount = txs.filter(t => t.aiNeedsReview).length;
 
     // Balance calculation
     const credits = txs.filter(t => t.amount >= 0).reduce((s, t) => s + t.amount, 0);
@@ -8316,7 +9159,7 @@ function updateTxAnalytics() {
     const classRate = total > 0 ? Math.round((classified / total) * 100) : 0;
     const balanceScore = finalBalOk ? 25 : 0;
     const classScore = Math.round(classRate * 0.6);
-    const errorPenalty = Math.min(30, bankDupErrors * 10);
+    const errorPenalty = Math.min(35, bankDupErrors * 10 + reviewCount * 6);
     const robotScore = Math.max(0, Math.min(100, classScore + balanceScore + 15 - errorPenalty));
 
     // Period info
@@ -8326,9 +9169,9 @@ function updateTxAnalytics() {
     _setAnalyticsEl('txTotalCount', total.toString());
     _setAnalyticsEl('txPeriodInfo', periodInfo);
     _setAnalyticsEl('txClassifiedCount', `${classified}/${total}`);
-    _setAnalyticsEl('txClassifiedSub', `${classRate}% | ${unclassified} pendente${unclassified !== 1 ? 's' : ''}`);
-    _setAnalyticsEl('txErrorCount', bankDupErrors.toString());
-    _setAnalyticsEl('txErrorSub', bankDupErrors === 0 ? `${unclassified} sem conta` : `⚠ Conta bancária duplicada!`);
+    _setAnalyticsEl('txClassifiedSub', `${classRate}% | ${unclassified} pendente${unclassified !== 1 ? 's' : ''}${reviewCount ? ' | ' + reviewCount + ' em revisão' : ''}`);
+    _setAnalyticsEl('txErrorCount', String(bankDupErrors + reviewCount));
+    _setAnalyticsEl('txErrorSub', bankDupErrors > 0 ? 'Conta bancária duplicada!' : reviewCount > 0 ? 'Revisão manual exigida' : `${unclassified} sem conta`);
     _setAnalyticsEl('txBalanceStatus', formatCurrency(calcFinal));
     _setAnalyticsEl('txBalanceSub', finalBalOk ? '✓ Saldo confere' : '✗ Divergência detectada');
     _setAnalyticsEl('txRobotScore', robotScore + '%');
@@ -8351,8 +9194,8 @@ function updateTxAnalytics() {
     const badge = document.getElementById('robotBadgeCount');
     const floatBtn = document.getElementById('floatRobotBtn');
     if (badge && floatBtn) {
-        if (bankDupErrors > 0) {
-            badge.textContent = bankDupErrors;
+        if (bankDupErrors > 0 || reviewCount > 0) {
+            badge.textContent = String(bankDupErrors + reviewCount);
             badge.style.display = 'flex';
             badge.style.opacity = '1';
             floatBtn.classList.add('has-errors');
@@ -8433,6 +9276,7 @@ function _runRobotChecks() {
     // === CHECK 4: Missing classifications ===
     const noDebit  = txs.map((t, i) => ({tx: t, i})).filter(({tx}) => !tx.debitCode);
     const noCredit = txs.map((t, i) => ({tx: t, i})).filter(({tx}) => !tx.creditCode);
+    const reviewRows = txs.map((t, i) => ({tx: t, i})).filter(({tx}) => !!tx.aiNeedsReview);
 
     // === CHECK 5: Sign analysis — credits should have bank as D, debits as C ===
     const signErrors = txs.map((t, i) => ({tx: t, i})).filter(({tx}) => {
@@ -8460,11 +9304,11 @@ function _runRobotChecks() {
     // === Score ===
     const classRate = txs.length > 0 ? Math.round(((txs.filter(t => t.debitCode && t.creditCode).length) / txs.length) * 100) : 0;
     const errors = dupBankRows.length + sameDCRows.length + signErrors.length;
-    const warns  = noDebit.length + noCredit.length + inconsistentAccounts;
+    const warns  = noDebit.length + noCredit.length + inconsistentAccounts + reviewRows.length;
 
     return { txs, bankAcc, credits, debits, calcFinal, balanceDiff, balanceOk,
              dupBankRows, sameDCRows, noDebit, noCredit, signErrors,
-             inconsistentAccounts, classRate, errors, warns };
+             reviewRows, inconsistentAccounts, classRate, errors, warns };
 }
 
 function _buildRobotReportHTML(r) {
@@ -8587,6 +9431,15 @@ function _buildRobotReportHTML(r) {
         </div>
     </div>`;
 
+    html += `<div class="robot-check-card ${r.reviewRows.length > 0 ? 'warn' : 'ok'}">
+        <div class="robot-check-icon"><i class="fas fa-${r.reviewRows.length > 0 ? 'user-shield' : 'check-circle'}"></i></div>
+        <div class="robot-check-body">
+            <div style="font-weight:700;margin-bottom:4px;">Lançamentos em Revisão Manual</div>
+            <div style="font-size:0.85rem;color:var(--gray);margin-bottom:6px;">Ocorrências em que o sistema removeu a classificação automática por segurança.</div>
+            ${r.reviewRows.length === 0 ? statusBadge(true, 'Nenhuma revisão pendente') : `<div class="robot-check-list">${r.reviewRows.slice(0, 8).map(({tx, i}) => `<div class="robot-check-list-item warn-item"><i class="fas fa-user-shield" style="color:#f59e0b;"></i><span><strong>#${i+1}</strong> ${esc(tx.date)} — ${esc((tx.description || '').substring(0, 45))} — ${esc(tx.aiReviewReason || 'Reclassificar manualmente')}</span></div>`).join('')}${r.reviewRows.length > 8 ? `<div style="font-size:0.8rem;color:var(--gray);padding:6px 10px;">...e mais ${r.reviewRows.length - 8} ocorrência(s)</div>` : ''}</div>`}
+        </div>
+    </div>`;
+
     return html;
 }
 
@@ -8659,66 +9512,75 @@ const _ML_PATTERNS = [
 function mlFindBestMatch(tx) {
     const tokens = _mlTokenize(tx.description || '');
     const amtBucket = 'amt_' + _mlAmountBucket(tx.amount);
-    const allTokens = [...tokens, amtBucket];
-
-    const candidateScores = {};  // key -> { entry, score }
+    const allTokens = [...new Set([...tokens, amtBucket])];
+    const normalizedDescription = sisAiComparableText(tx.description || '');
+    const candidates = {};
 
     for (const token of allTokens) {
-        const weight = _mlTokenWeight(token);
-        if (!mlReconcData[token]) continue;
-        const e = mlReconcData[token];
-        const rawScore = ((e.debitCount || 0) + (e.creditCount || 0)) * weight;
-        // Recency bonus: boost entries used in the last 30 days
-        const daysSince = e.lastUsed ? (Date.now() - new Date(e.lastUsed).getTime()) / 86400000 : 999;
-        const recencyBonus = daysSince < 7 ? 1.3 : daysSince < 30 ? 1.1 : 1.0;
-        const finalScore = rawScore * recencyBonus;
+        const entry = mlReconcData[token];
+        if (!entry) continue;
+        const pairKey = `${entry.debitAccount || ''}|${entry.creditAccount || ''}`;
+        if (!pairKey.replace('|', '')) continue;
+        const totalVotes = (entry.debitCount || 0) + (entry.creditCount || 0);
+        if (totalVotes <= 0) continue;
+        const consistency = Math.max(entry.debitCount || 0, entry.creditCount || 0) / totalVotes;
+        const daysSince = entry.lastUsed ? (Date.now() - new Date(entry.lastUsed).getTime()) / 86400000 : 999;
+        const recencyBonus = daysSince <= 7 ? 1.25 : daysSince <= 30 ? 1.08 : 1;
+        const exactPhrase = entry.sampleDesc && sisAiComparableText(entry.sampleDesc) === normalizedDescription;
+        const sharedWords = sisAiSharedWordCount(entry.sampleDesc || '', tx.description || '');
+        const tokenScore = totalVotes * consistency * _mlTokenWeight(token) * recencyBonus * (exactPhrase ? 1.8 : 1 + Math.min(0.7, sharedWords / 10));
 
-        if (!candidateScores[token] || candidateScores[token].score < finalScore) {
-            candidateScores[token] = { entry: e, score: finalScore, word: token };
+        if (!candidates[pairKey]) {
+            candidates[pairKey] = {
+                entry: { ...entry },
+                score: 0,
+                support: 0,
+                consistencySum: 0,
+                matchedTokens: new Set(),
+                sharedWords: 0,
+                exactPhrase: false,
+                word: token
+            };
+        }
+
+        candidates[pairKey].score += tokenScore;
+        candidates[pairKey].support += totalVotes;
+        candidates[pairKey].consistencySum += consistency;
+        candidates[pairKey].matchedTokens.add(token);
+        candidates[pairKey].sharedWords = Math.max(candidates[pairKey].sharedWords, sharedWords);
+        candidates[pairKey].exactPhrase = candidates[pairKey].exactPhrase || exactPhrase;
+        if (tokenScore > (candidates[pairKey].bestTokenScore || 0)) {
+            candidates[pairKey].bestTokenScore = tokenScore;
+            candidates[pairKey].word = token;
         }
     }
 
-    // Also try known patterns as hints if no strong ML match
-    let patternHint = null;
-    for (const pat of _ML_PATTERNS) {
-        if (pat.re.test(tx.description || '')) { patternHint = pat; break; }
-    }
+    const ranked = Object.values(candidates).map(candidate => {
+        const matchedTokenCount = candidate.matchedTokens.size;
+        const avgConsistency = matchedTokenCount > 0 ? candidate.consistencySum / matchedTokenCount : 0;
+        const supportScore = Math.min(1, candidate.support / 18);
+        const coverageScore = Math.min(1, matchedTokenCount / Math.max(2, Math.min(5, tokens.length || 1)));
+        const phraseScore = candidate.exactPhrase ? 1 : Math.min(1, candidate.sharedWords / Math.max(3, sisAiSettings.batchSharedWords));
+        const confidence = Math.round(((avgConsistency * 0.40) + (supportScore * 0.25) + (coverageScore * 0.20) + (phraseScore * 0.15)) * 100);
+        return {
+            ...candidate,
+            matchedTokenCount,
+            confidence,
+            debitConf: Math.round(avgConsistency * 100),
+            creditConf: Math.round(avgConsistency * 100),
+            canBatch: candidate.exactPhrase || candidate.sharedWords >= Math.max(3, sisAiSettings.batchSharedWords)
+        };
+    }).sort((a, b) => b.confidence - a.confidence || b.score - a.score);
 
-    if (Object.keys(candidateScores).length === 0 && !patternHint) return null;
-
-    // Pick best candidate
-    let best = null;
-    for (const token of Object.keys(candidateScores)) {
-        if (!best || candidateScores[token].score > best.score) best = candidateScores[token];
-    }
-
-    // Merge pattern hint with ML result
-    if (!best && patternHint) {
-        // Only use pattern as fallback — doesn't override ML
-        return null;
-    }
-
-    if (!best || best.score < 1) return null;
-
-    // Build combined entry — prefer entry with higher consistency
-    const e = best.entry;
-    const totalVotes = (e.debitCount || 0) + (e.creditCount || 0);
-    const debitConf  = totalVotes > 0 ? Math.round(((e.debitCount  || 0) / totalVotes) * 100) : 0;
-    const creditConf = totalVotes > 0 ? Math.round(((e.creditCount || 0) / totalVotes) * 100) : 0;
-
-    return {
-        entry:      e,
-        score:      best.score,
-        word:       best.word,
-        debitConf,
-        creditConf,
-        confidence: Math.min(100, Math.round(best.score * 3))
-    };
+    return ranked[0] || null;
 }
 
 // ---- Improved mlLearnFromTransaction ----
 function mlLearnFromTransaction(tx) {
-    if (!tx || (!tx.debitCode && !tx.creditCode)) return;
+    if (!tx || !tx.debitCode || !tx.creditCode) return;
+    if (tx.debitCode === tx.creditCode) return;
+    if (bankAccountCode && tx.debitCode === bankAccountCode && tx.creditCode === bankAccountCode) return;
+    if (tx.aiNeedsReview) return;
     const tokens = _mlTokenize(tx.description || '');
     const amtBucket = 'amt_' + _mlAmountBucket(tx.amount);
     const allTokens = [...tokens, amtBucket];
@@ -8776,13 +9638,14 @@ function closeMlRobotModal() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMlRobotModal(); });
 
 function switchMlTab(tab) {
-    ['stats','search','chat','manage'].forEach((t, i) => {
+    ['stats','search','chat','manage','logic'].forEach((t, i) => {
         document.getElementById('mlTab' + t.charAt(0).toUpperCase() + t.slice(1)).style.display = t === tab ? '' : 'none';
         const btn = document.getElementById('mlTabBtn' + (i+1));
         if (btn) btn.classList.toggle('active', t === tab);
     });
     if (tab === 'stats')   renderMlStats();
     if (tab === 'manage') renderMlManageList();
+    if (tab === 'logic')  renderSisAiLogic();
     if (tab === 'chat')   initMlChat();
 }
 
@@ -8807,38 +9670,38 @@ function renderMlStats() {
     el.innerHTML = `
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
             <div class="ml-stat-card">
-                <div class="ml-stat-icon" style="background:#e0e7ff;">🧠</div>
-                <div><div style="font-size:1.4rem;font-weight:800;color:var(--primary);">${nonAmt.length}</div><div style="font-size:0.78rem;color:var(--gray);">Padrões aprendidos</div></div>
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#166534,#22c55e);">🧠</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#f8fafc;">${nonAmt.length}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Padrões aprendidos</div></div>
             </div>
             <div class="ml-stat-card">
-                <div class="ml-stat-icon" style="background:#d1fae5;">📊</div>
-                <div><div style="font-size:1.4rem;font-weight:800;color:#10b981;">${Math.round(total)}</div><div style="font-size:0.78rem;color:var(--gray);">Total de observações</div></div>
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#14532d,#16a34a);">📊</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#bbf7d0;">${Math.round(total)}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Total de observações</div></div>
             </div>
             <div class="ml-stat-card">
-                <div class="ml-stat-icon" style="background:#fef3c7;">⚡</div>
-                <div><div style="font-size:1.4rem;font-weight:800;color:#f59e0b;">${recent}</div><div style="font-size:0.78rem;color:var(--gray);">Ativos nos últimos 7 dias</div></div>
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#365314,#65a30d);">⚡</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#d9f99d;">${recent}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Ativos nos últimos 7 dias</div></div>
             </div>
             <div class="ml-stat-card">
-                <div class="ml-stat-icon" style="background:#fce7f3;">🎯</div>
-                <div><div style="font-size:1.4rem;font-weight:800;color:#ec4899;">${accuracy}%</div><div style="font-size:0.78rem;color:var(--gray);">Consistência (≥80%)</div></div>
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#064e3b,#10b981);">🎯</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#a7f3d0;">${accuracy}%</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Consistência (≥80%)</div></div>
             </div>
         </div>
-        <div style="font-weight:700;font-size:0.85rem;margin-bottom:10px;color:var(--text);">🏆 Top 5 Padrões mais Vistos</div>
-        ${topTokens.length === 0 ? '<p style="color:var(--gray);font-size:0.85rem;">Nenhum padrão aprendido ainda. Confirme transações para treinar o robô.</p>' :
+        <div style="font-weight:700;font-size:0.85rem;margin-bottom:10px;color:#f8fafc;">🏆 Top 5 Padrões mais Vistos</div>
+        ${topTokens.length === 0 ? '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum padrão aprendido ainda. Confirme transações para treinar o robô.</p>' :
           topTokens.map(t => {
             const e = mlReconcData[t];
             const tot = (e.debitCount||0)+(e.creditCount||0);
             const conf = tot > 0 ? Math.round(Math.max(e.debitCount||0, e.creditCount||0)/tot*100) : 0;
             return `<div class="ml-token-row">
                 <span style="font-weight:700;flex:1;text-transform:capitalize;">${t.replace(/_/g,' ')}</span>
-                <span style="font-size:0.75rem;color:var(--gray);min-width:80px;">D:${e.debitAccount||'—'} C:${e.creditAccount||'—'}</span>
+                <span style="font-size:0.75rem;color:rgba(220,252,231,0.68);min-width:80px;">D:${e.debitAccount||'—'} C:${e.creditAccount||'—'}</span>
                 <div class="ml-conf-bar" style="min-width:70px;"><div class="ml-conf-bar-fill" style="width:${conf}%;"></div></div>
-                <span style="font-size:0.75rem;color:var(--primary);font-weight:700;min-width:34px;">${conf}%</span>
-                <span style="font-size:0.72rem;color:var(--gray);">${(tot||0).toFixed(0)} obs</span>
+                <span style="font-size:0.75rem;color:#4ade80;font-weight:700;min-width:34px;">${conf}%</span>
+                <span style="font-size:0.72rem;color:rgba(220,252,231,0.62);">${(tot||0).toFixed(0)} obs</span>
             </div>`;
           }).join('')}
-        <div style="margin-top:16px;padding:12px;background:var(--hover);border-radius:8px;font-size:0.8rem;color:var(--gray);">
-            <strong style="color:var(--text);">💡 Dica:</strong> Quanto mais transações você confirmar manualmente, mais inteligente o robô fica. Acesse a aba <em>Chat</em> para simular como ele classificaria uma transação.
+        <div class="sis-ai-panel" style="margin-top:16px;font-size:0.8rem;color:rgba(220,252,231,0.74);">
+            <strong style="color:#f8fafc;">💡 Dica:</strong> Quanto mais transações você confirmar manualmente, mais inteligente o robô fica. Acesse a aba <em>Chat</em> para simular como ele classificaria uma transação.
         </div>`;
 }
 
@@ -8846,21 +9709,21 @@ function mlRobotSearch() {
     const q = (document.getElementById('mlSearchInput')?.value || '').toLowerCase().trim();
     const resultsEl = document.getElementById('mlSearchResults');
     if (!resultsEl) return;
-    if (!q) { resultsEl.innerHTML = '<p style="color:var(--gray);font-size:0.85rem;">Digite algo para buscar...</p>'; return; }
+    if (!q) { resultsEl.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Digite algo para buscar...</p>'; return; }
     const tokens = Object.keys(mlReconcData || {}).filter(t => t.includes(q.replace(/\s+/g,'_')) || t.includes(q) || (mlReconcData[t].sampleDesc||'').toLowerCase().includes(q));
-    if (!tokens.length) { resultsEl.innerHTML = '<p style="color:var(--gray);font-size:0.85rem;">Nenhum padrão encontrado para "' + q + '".</p>'; return; }
+    if (!tokens.length) { resultsEl.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum padrão encontrado para "' + q + '".</p>'; return; }
     resultsEl.innerHTML = tokens.slice(0,50).map(t => {
         const e = mlReconcData[t];
         const tot = (e.debitCount||0)+(e.creditCount||0);
         const conf = tot > 0 ? Math.round(Math.max(e.debitCount||0, e.creditCount||0)/tot*100) : 0;
         return `<div class="ml-token-row">
             <span style="font-weight:700;flex:1;">${t.replace(/_/g,' ')}</span>
-            <span style="font-size:0.74rem;color:var(--gray);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.sampleDesc||''}">${e.sampleDesc||'—'}</span>
-            <span style="font-size:0.74rem;color:var(--primary);min-width:100px;">D:${e.debitAccount||'—'} / C:${e.creditAccount||'—'}</span>
-            <span style="font-size:0.74rem;font-weight:700;color:#6366f1;">${conf}%</span>
+            <span style="font-size:0.74rem;color:rgba(220,252,231,0.68);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.sampleDesc||''}">${e.sampleDesc||'—'}</span>
+            <span style="font-size:0.74rem;color:#86efac;min-width:100px;">D:${e.debitAccount||'—'} / C:${e.creditAccount||'—'}</span>
+            <span style="font-size:0.74rem;font-weight:700;color:#4ade80;">${conf}%</span>
             <button onclick="mlForgetToken('${t}');mlRobotSearch();" title="Esquecer este padrão" style="background:none;border:none;color:#ef4444;cursor:pointer;padding:2px 6px;"><i class="fas fa-trash-alt"></i></button>
         </div>`;
-    }).join('') + (tokens.length > 50 ? `<p style="font-size:0.78rem;color:var(--gray);">... e mais ${tokens.length-50} resultados. Refine a busca.</p>` : '');
+    }).join('') + (tokens.length > 50 ? `<p style="font-size:0.78rem;color:rgba(220,252,231,0.62);">... e mais ${tokens.length-50} resultados. Refine a busca.</p>` : '');
 }
 
 let _mlChatInit = false;
@@ -8871,7 +9734,7 @@ function initMlChat() {
     const sugg = document.getElementById('mlChatSuggestions');
     if (msgs) msgs.innerHTML = '<div class="ml-chat-msg bot">👋 Olá! Sou o Robô de Classificação. Pergunte como eu classificaria uma transação, ou peça para eu explicar meus padrões.</div>';
     const examples = ['Como você classifica PIX?', 'Explique o padrão salário', 'O que você sabe sobre fornecedores?', 'Qual sua confiança geral?'];
-    if (sugg) sugg.innerHTML = '<span style="font-size:0.75rem;color:var(--gray);align-self:center;">Tente:</span>' +
+    if (sugg) sugg.innerHTML = '<span style="font-size:0.75rem;color:rgba(220,252,231,0.66);align-self:center;">Tente:</span>' +
         examples.map(e => `<button class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:3px 8px;" onclick="document.getElementById('mlChatInput').value='${e}';sendMlChatMessage();">${e}</button>`).join('');
 }
 
@@ -8936,23 +9799,58 @@ function renderMlManageList() {
     if (!el) return;
     const tokens = Object.keys(mlReconcData || {}).filter(t => !t.startsWith('amt_'))
         .sort((a,b) => (mlReconcData[b].totalSeen||0) - (mlReconcData[a].totalSeen||0));
-    if (!tokens.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.85rem;">Banco de conhecimento vazio.</p>'; return; }
-    el.innerHTML = `<div style="font-weight:700;font-size:0.82rem;margin-bottom:8px;">Todos os padrões (${tokens.length}):</div>` +
+    if (!tokens.length) { el.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Banco de conhecimento vazio.</p>'; return; }
+    el.innerHTML = `<div style="font-weight:700;font-size:0.82rem;margin-bottom:8px;color:#f8fafc;">Todos os padrões (${tokens.length}):</div>` +
         tokens.slice(0,200).map(t => {
             const e = mlReconcData[t];
             return `<div class="ml-token-row">
                 <input type="checkbox" class="ml-chk" value="${t}" style="margin-right:4px;">
                 <span style="flex:1;font-size:0.8rem;">${t.replace(/_/g,' ')}</span>
-                <span style="font-size:0.75rem;color:var(--gray);">D:${e.debitAccount||'—'} C:${e.creditAccount||'—'}</span>
-                <span style="font-size:0.72rem;color:var(--primary);">${(e.totalSeen||0).toFixed(0)} obs</span>
+                <span style="font-size:0.75rem;color:rgba(220,252,231,0.68);">D:${e.debitAccount||'—'} C:${e.creditAccount||'—'}</span>
+                <span style="font-size:0.72rem;color:#4ade80;">${(e.totalSeen||0).toFixed(0)} obs</span>
             </div>`;
         }).join('');
+}
+
+function updateMlKnowledgeEntry(token, field, value) {
+    if (!mlReconcData[token]) return;
+    mlReconcData[token][field] = field === 'sampleDesc' ? sisAiNormalizeImportedDescription(value) : value.trim();
+    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+}
+
+function renderSisAiLogic() {
+    sisAiSyncSettingsUI();
+    renderSisAiKnowledgePreview();
+    const table = document.getElementById('sisAiLogicTable');
+    if (!table) return;
+    const tokens = Object.keys(mlReconcData || {}).filter(token => !token.startsWith('amt_'))
+        .sort((a, b) => (mlReconcData[b].totalSeen || 0) - (mlReconcData[a].totalSeen || 0))
+        .slice(0, 120);
+    if (!tokens.length) {
+        table.innerHTML = '<div style="color:rgba(220,252,231,0.68);font-size:0.84rem;">Nenhum padrão disponível para edição.</div>';
+        return;
+    }
+    table.innerHTML = `<table class="data-table"><thead><tr><th>Token</th><th>Débito</th><th>Crédito</th><th>Amostra</th><th>Obs.</th></tr></thead><tbody>${tokens.map(token => {
+        const entry = mlReconcData[token];
+        const safeToken = token.replace(/'/g, "\\'");
+        const debitValue = sisAiEscapeHtml(entry.debitAccount || '');
+        const creditValue = sisAiEscapeHtml(entry.creditAccount || '');
+        const sampleValue = sisAiEscapeHtml(entry.sampleDesc || '');
+        return `<tr>
+            <td style="font-weight:700;">${sisAiEscapeHtml(token.replace(/_/g, ' '))}</td>
+            <td><input class="input-field" style="min-width:110px;" value="${debitValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'debitAccount', this.value)"></td>
+            <td><input class="input-field" style="min-width:110px;" value="${creditValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'creditAccount', this.value)"></td>
+            <td><input class="input-field" value="${sampleValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'sampleDesc', this.value)"></td>
+            <td style="white-space:nowrap;">${(entry.totalSeen || 0).toFixed(0)}</td>
+        </tr>`;
+    }).join('')}</tbody></table>`;
 }
 
 function mlForgetToken(token) {
     if (!mlReconcData[token]) return;
     delete mlReconcData[token];
     localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    renderSisAiLogic();
     showStatus('Padrão "' + token.replace(/_/g,' ') + '" removido do banco de conhecimento.', 'success');
 }
 
@@ -8963,6 +9861,7 @@ function mlForgetSelected() {
     checked.forEach(t => delete mlReconcData[t]);
     localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
     renderMlManageList();
+    renderSisAiLogic();
     showStatus(`${checked.length} padrão(s) removido(s) com sucesso.`, 'success');
 }
 
@@ -8972,6 +9871,7 @@ function mlResetDatabase() {
     localStorage.removeItem('mlReconcData');
     renderMlStats();
     renderMlManageList();
+    renderSisAiLogic();
     showStatus('Base de conhecimento do robô apagada.', 'warning');
 }
 
@@ -9003,6 +9903,7 @@ function mlDoImport(input) {
             localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
             renderMlStats();
             renderMlManageList();
+            renderSisAiLogic();
             showStatus(`${count} padrões importados e mesclados com sucesso.`, 'success');
         } catch(err) {
             showStatus('Erro ao importar: arquivo inválido.', 'error');
