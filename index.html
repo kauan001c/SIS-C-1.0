@@ -141,6 +141,24 @@
         .multi-ofx-file-list { margin-top:12px; }
         .multi-ofx-file-item { display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; margin-bottom:6px; border:1px solid var(--border); font-size:0.85rem; }
         .multi-ofx-file-item .remove-file { cursor:pointer; color:var(--danger); font-size:1rem; }
+        .multi-company-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px; }
+        .multi-company-card { border:1px solid #dbeafe; border-radius:16px; background:linear-gradient(180deg,#ffffff,#f8fbff); box-shadow:0 14px 30px rgba(15,23,42,0.06); overflow:hidden; }
+        .multi-company-card.processed { border-color:#86efac; box-shadow:0 16px 34px rgba(22,163,74,0.12); }
+        .multi-company-card.active-slot { border-color:#2563eb; box-shadow:0 18px 40px rgba(37,99,235,0.16); }
+        .multi-company-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:18px 20px 14px; background:linear-gradient(135deg,#eff6ff,#f8fafc); border-bottom:1px solid #dbeafe; }
+        .multi-company-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:0.74rem; font-weight:800; color:#1d4ed8; background:#dbeafe; text-transform:uppercase; letter-spacing:0.4px; }
+        .multi-company-card-body { padding:18px 20px 20px; }
+        .multi-company-files-meta { margin-top:10px; font-size:0.78rem; color:var(--gray); }
+        .multi-company-toolbar { display:none; margin-bottom:16px; padding:18px; border-radius:18px; border:1px solid #bfdbfe; background:linear-gradient(135deg,#eff6ff,#ffffff); box-shadow:0 12px 30px rgba(37,99,235,0.08); }
+        .multi-company-toolbar.show { display:block; }
+        .multi-company-toolbar-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; align-items:start; }
+        .multi-company-slot-buttons { display:flex; gap:10px; flex-wrap:wrap; }
+        .multi-company-slot-btn { border:1px solid #bfdbfe; background:white; color:#1e3a8a; border-radius:12px; padding:10px 14px; min-width:180px; text-align:left; cursor:pointer; transition:var(--transition); }
+        .multi-company-slot-btn.active { background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; border-color:#1d4ed8; box-shadow:0 12px 24px rgba(37,99,235,0.22); }
+        .multi-company-slot-btn small { display:block; margin-top:4px; opacity:0.84; font-size:0.74rem; }
+        .multi-company-scope-note { display:none; margin-bottom:16px; padding:12px 14px; border-left:4px solid #2563eb; border-radius:10px; background:#eff6ff; color:#1d4ed8; font-size:0.88rem; }
+        .multi-company-scope-note.show { display:block; }
+        .partner-match-badge { display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:5px 8px; border-radius:999px; background:#fef3c7; color:#92400e; font-size:0.74rem; border:1px solid #fcd34d; }
 
         /* MONTH SEPARATOR */
         .month-separator { margin:16px 0 6px; }
@@ -302,6 +320,7 @@
         @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        @keyframes partnerPulse { 0%,100%{ box-shadow:inset 4px 0 0 #f59e0b; } 50%{ box-shadow:inset 4px 0 0 #facc15; } }
 
         /* MOBILE */
         .mobile-menu-btn { display:none; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background-color:var(--primary); color:white; border:none; cursor:pointer; font-size:1.1rem; }
@@ -331,6 +350,7 @@
             .tab { padding:6px 12px; font-size:0.82rem; }
             .d-grid { grid-template-columns:1fr !important; }
             .header-actions .btn span.btn-label { display:none; }
+            .multi-company-toolbar-grid { grid-template-columns:1fr; }
         }
         @media (max-width:480px) {
             .financial-summary { grid-template-columns:1fr; }
@@ -456,6 +476,8 @@
         .tx-row-error { background:#fff5f5 !important; }
         .tx-row-error:hover { background:#fee2e2 !important; }
         .tx-row-warn { background:#fffbeb !important; }
+        .tx-row-partner-match { background:linear-gradient(90deg,rgba(254,240,138,0.34),rgba(255,255,255,1)) !important; animation:partnerPulse 2.8s ease-in-out infinite; }
+        .tx-row-partner-match:hover { background:linear-gradient(90deg,rgba(253,224,71,0.38),rgba(255,255,255,1)) !important; }
 
         .tx-error-badge { display:inline-flex; align-items:center; gap:3px; padding:2px 6px; border-radius:4px; font-size:0.68rem; font-weight:700; font-family:'Courier New',monospace; }
         .tx-error-badge.dedup { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
@@ -659,6 +681,37 @@
         .fech-summary-card .fsc-value { font-size:1.2rem; font-weight:800; color:var(--text); }
         .fech-summary-card.ok .fsc-value { color:#10b981; }
         .fech-summary-card.err .fsc-value { color:#ef4444; }
+        .fech-conferencia-grid { display:grid; grid-template-columns:minmax(320px,420px) minmax(0,1fr); gap:18px; align-items:start; }
+        .fech-conferencia-stack { display:flex; flex-direction:column; gap:16px; }
+        .fech-conferencia-card { background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); overflow:hidden; }
+        .fech-conferencia-card-header { padding:14px 18px; color:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+        .fech-conferencia-card-header.folha { background:linear-gradient(135deg,#166534,#22c55e); }
+        .fech-conferencia-card-header.fiscal { background:linear-gradient(135deg,#92400e,#f59e0b); }
+        .fech-conferencia-card-body { padding:16px 18px; }
+        .fech-conferencia-mini-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:16px; }
+        .fech-conferencia-mini-card { border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:linear-gradient(180deg,#ffffff,#f8fafc); }
+        .fech-conferencia-mini-card strong { display:block; font-size:1rem; color:var(--text); margin-top:4px; }
+        .fech-conferencia-mini-card span { font-size:0.75rem; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:0.05em; }
+        .fech-conferencia-note { font-size:0.83rem; color:var(--gray); line-height:1.5; margin-bottom:14px; }
+        .fech-conferencia-status { display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:999px; font-size:0.74rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+        .fech-conferencia-status.ok { background:#dcfce7; color:#166534; }
+        .fech-conferencia-status.warn { background:#fef3c7; color:#92400e; }
+        .fech-conferencia-status.err { background:#fee2e2; color:#991b1b; }
+        .fech-conf-table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+        .fech-conf-table th { background:#f8fafc; color:var(--text); padding:10px 12px; text-align:left; font-weight:700; border-bottom:1px solid var(--border); }
+        .fech-conf-table td { padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:middle; }
+        .fech-conf-table tr:last-child td { border-bottom:none; }
+        .fech-conf-table .input-field { min-width:120px; }
+        .fech-conf-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:0.73rem; font-weight:700; }
+        .fech-conf-diff.ok { color:#166534; font-weight:700; }
+        .fech-conf-diff.warn { color:#92400e; font-weight:700; }
+        .fech-conf-diff.err { color:#b91c1c; font-weight:700; }
+        .fech-conf-empty { text-align:center; padding:34px 18px; color:var(--gray); }
+        .fech-conf-empty i { font-size:2rem; opacity:0.35; display:block; margin-bottom:10px; }
+
+        @media (max-width: 1100px) {
+            .fech-conferencia-grid { grid-template-columns:1fr; }
+        }
 
         /* ============================================================
            LUCRO REAL
@@ -937,6 +990,7 @@
             <div class="tabs" id="importTabs">
                 <button class="tab active" onclick="switchImportTab('ofx')">OFX/QFX</button>
                 <button class="tab" onclick="switchImportTab('multiofx')">Multi-OFX (até 15 meses)</button>
+                <button class="tab" onclick="switchImportTab('multicompany')">Módulo Multi Empresas</button>
                 <button class="tab" onclick="switchImportTab('csv')">CSV</button>
                 <button class="tab" onclick="switchImportTab('excel')">Excel</button>
             </div>
@@ -992,6 +1046,22 @@
                             <i class="fas fa-cogs"></i> Processar Todos os Extratos
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="multicompanyTab">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title"><i class="fas fa-buildings"></i> Módulo Multi Empresas</div>
+                            <div class="card-subtitle">Importe até 3 empresas ao mesmo tempo, com extratos, regras e plano contábil separados.</div>
+                        </div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:16px 18px;border-radius:14px;border:1px solid #bfdbfe;margin-bottom:18px;">
+                        <div style="font-weight:700;color:#1d4ed8;margin-bottom:6px;"><i class="fas fa-layer-group"></i> Fluxo multiempresas</div>
+                        <div style="font-size:0.9rem;color:#334155;line-height:1.55;">Cada empresa recebe seu próprio extrato, conta bancária, sócio, regras e plano. A inteligência SIS-C continua compartilhada, mas os lançamentos e particularidades ficam isolados por empresa.</div>
+                    </div>
+                    <div id="multiCompanyImportContainer" class="multi-company-grid"></div>
                 </div>
             </div>
 
@@ -1106,6 +1176,7 @@
                     </div>
                     <button class="btn btn-success" onclick="addRule()"><i class="fas fa-plus"></i> Nova Regra</button>
                 </div>
+                <div id="rulesCompanyScopeAlert" class="multi-company-scope-note"></div>
                 <div class="rules-container" id="rulesContainer"></div>
                 <div class="mt-20">
                     <div style="background-color:var(--primary-light);padding:15px;border-radius:var(--border-radius);border-left:4px solid var(--primary);">
@@ -1229,6 +1300,22 @@
 
         <!-- ======================== TRANSACTIONS SECTION (LANÇAMENTOS) ======================== -->
         <section class="content-section d-none" id="transactionsSection">
+            <div id="multiCompanyToolbar" class="multi-company-toolbar">
+                <div class="multi-company-toolbar-grid">
+                    <div>
+                        <div style="font-size:1rem;font-weight:700;color:#1e3a8a;margin-bottom:10px;"><i class="fas fa-buildings"></i> Empresas Importadas</div>
+                        <div id="multiCompanySlotButtons" class="multi-company-slot-buttons"></div>
+                    </div>
+                    <div>
+                        <div class="input-group" style="margin-bottom:10px;">
+                            <label class="input-label"><i class="fas fa-sitemap"></i> Plano de contas desta empresa</label>
+                            <select id="multiCompanyPlanSelect" class="input-field" onchange="updateMultiCompanyPlan(this.value)"></select>
+                        </div>
+                        <div id="multiCompanyToolbarInfo" style="font-size:0.86rem;color:#475569;line-height:1.5;"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ANALYTICS BAR -->
             <div class="tx-analytics-bar" id="txAnalyticsBar">
                 <div class="tx-analytics-card">
@@ -2266,6 +2353,8 @@
                 <button class="fech-tab active" onclick="switchFechTab('balancete')" id="fechTabBalancete"><i class="fas fa-table"></i> Balancete</button>
                 <button class="fech-tab" onclick="switchFechTab('dre')" id="fechTabDre"><i class="fas fa-chart-line"></i> DRE</button>
                 <button class="fech-tab" onclick="switchFechTab('bp')" id="fechTabBp"><i class="fas fa-balance-scale"></i> Balanço Patrimonial</button>
+                <button class="fech-tab" onclick="switchFechTab('folha')" id="fechTabFolha"><i class="fas fa-users"></i> Conferência de Folha</button>
+                    <button class="fech-tab" onclick="switchFechTab('fiscal')" id="fechTabFiscal"><i class="fas fa-file-invoice-dollar"></i> Conferência de Imposto / Fiscal</button>
                 <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
                     <label class="input-label" style="margin:0;font-size:0.8rem;">Período:</label>
                     <input type="text" id="fechPeriodo" class="input-field" style="width:130px;font-size:0.82rem;" placeholder="Ex: 01/2026">
@@ -2405,6 +2494,100 @@
                 </div>
                 <div style="margin-top:16px;text-align:center;padding:14px;border-radius:10px;font-weight:800;font-size:1rem;" id="bpEquilibrioMsg">
                     Preencha o Balancete e clique em Recalcular para verificar o equilíbrio do Balanço.
+                </div>
+            </div>
+
+            <!-- CONFERÊNCIA DE FOLHA TAB -->
+            <div id="fechTabContentFolha" style="display:none;">
+                <div class="fech-conferencia-grid">
+                    <div class="fech-conferencia-stack">
+                        <div class="fech-conferencia-card">
+                            <div class="fech-conferencia-card-header folha">
+                                <div style="font-weight:800;font-size:0.95rem;"><i class="fas fa-users" style="margin-right:8px;"></i>Conferência de Folha</div>
+                                <span class="fech-conferencia-status warn" id="fechFolhaStatus">Aguardando conferência</span>
+                            </div>
+                            <div class="fech-conferencia-card-body">
+                                <div class="fech-conferencia-note" id="fechFolhaNote">Compare os pagamentos identificados como folha com o valor fechado do mês.</div>
+                                <div class="fech-conferencia-mini-grid">
+                                    <div class="fech-conferencia-mini-card"><span>Total lançado</span><strong id="fechFolhaLancado">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Total informado</span><strong id="fechFolhaInformado">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Diferença</span><strong id="fechFolhaDiferenca">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Lançamentos</span><strong id="fechFolhaQtd">0</strong></div>
+                                </div>
+                                <div style="overflow-x:auto;">
+                                    <table class="fech-conf-table">
+                                        <thead>
+                                            <tr><th>Categoria</th><th style="width:130px;text-align:right;">Lançado</th><th style="width:160px;">Valor conferido</th><th style="width:130px;text-align:right;">Diferença</th><th style="width:130px;">Status</th></tr>
+                                        </thead>
+                                        <tbody id="fechFolhaSummaryTbody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fech-conferencia-card">
+                        <div class="fech-conferencia-card-header folha">
+                            <div style="font-weight:800;font-size:0.95rem;"><i class="fas fa-list-check" style="margin-right:8px;"></i>Lançamentos encontrados</div>
+                            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);" onclick="recalcFechamento()"><i class="fas fa-sync"></i> Atualizar</button>
+                        </div>
+                        <div class="fech-conferencia-card-body" style="padding:0;">
+                            <div style="overflow-x:auto;">
+                                <table class="fech-conf-table">
+                                    <thead>
+                                        <tr><th>Data</th><th>Categoria</th><th>Débito</th><th>Crédito</th><th>Histórico</th><th>Complemento</th><th style="text-align:right;">Valor</th></tr>
+                                    </thead>
+                                    <tbody id="fechFolhaTransactionsTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONFERÊNCIA FISCAL TAB -->
+            <div id="fechTabContentFiscal" style="display:none;">
+                <div class="fech-conferencia-grid">
+                    <div class="fech-conferencia-stack">
+                        <div class="fech-conferencia-card">
+                            <div class="fech-conferencia-card-header fiscal">
+                                <div style="font-weight:800;font-size:0.95rem;"><i class="fas fa-file-invoice-dollar" style="margin-right:8px;"></i>Conferência de Imposto / Fiscal</div>
+                                <span class="fech-conferencia-status warn" id="fechFiscalStatus">Aguardando conferência</span>
+                            </div>
+                            <div class="fech-conferencia-card-body">
+                                <div class="fech-conferencia-note" id="fechFiscalNote">Compare os pagamentos fiscais localizados nos lançamentos com as guias e apurações do período.</div>
+                                <div class="fech-conferencia-mini-grid">
+                                    <div class="fech-conferencia-mini-card"><span>Total lançado</span><strong id="fechFiscalLancado">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Total informado</span><strong id="fechFiscalInformado">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Diferença</span><strong id="fechFiscalDiferenca">R$ 0,00</strong></div>
+                                    <div class="fech-conferencia-mini-card"><span>Lançamentos</span><strong id="fechFiscalQtd">0</strong></div>
+                                </div>
+                                <div style="overflow-x:auto;">
+                                    <table class="fech-conf-table">
+                                        <thead>
+                                            <tr><th>Categoria</th><th style="width:130px;text-align:right;">Lançado</th><th style="width:160px;">Valor conferido</th><th style="width:130px;text-align:right;">Diferença</th><th style="width:130px;">Status</th></tr>
+                                        </thead>
+                                        <tbody id="fechFiscalSummaryTbody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fech-conferencia-card">
+                        <div class="fech-conferencia-card-header fiscal">
+                            <div style="font-weight:800;font-size:0.95rem;"><i class="fas fa-list-check" style="margin-right:8px;"></i>Lançamentos encontrados</div>
+                            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);" onclick="recalcFechamento()"><i class="fas fa-sync"></i> Atualizar</button>
+                        </div>
+                        <div class="fech-conferencia-card-body" style="padding:0;">
+                            <div style="overflow-x:auto;">
+                                <table class="fech-conf-table">
+                                    <thead>
+                                        <tr><th>Data</th><th>Categoria</th><th>Débito</th><th>Crédito</th><th>Histórico</th><th>Complemento</th><th style="text-align:right;">Valor</th></tr>
+                                    </thead>
+                                    <tbody id="fechFiscalTransactionsTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2697,16 +2880,21 @@
         <!-- Tabs -->
         <div class="sis-ai-tabs">
             <button class="ml-robot-tab active" id="mlTabBtn1" onclick="switchMlTab('stats')"><i class="fas fa-chart-bar"></i> Estatísticas</button>
-            <button class="ml-robot-tab" id="mlTabBtn2" onclick="switchMlTab('search')"><i class="fas fa-search"></i> Consultar Padrões</button>
-            <button class="ml-robot-tab" id="mlTabBtn3" onclick="switchMlTab('chat')"><i class="fas fa-comment-dots"></i> Chat com Robô</button>
-            <button class="ml-robot-tab" id="mlTabBtn4" onclick="switchMlTab('manage')"><i class="fas fa-database"></i> Gerenciar</button>
-            <button class="ml-robot-tab" id="mlTabBtn5" onclick="switchMlTab('logic')"><i class="fas fa-sliders-h"></i> Lógica SIS-C AI</button>
+            <button class="ml-robot-tab" id="mlTabBtn2" onclick="switchMlTab('diagnostics')"><i class="fas fa-brain"></i> Diagnóstico</button>
+            <button class="ml-robot-tab" id="mlTabBtn3" onclick="switchMlTab('search')"><i class="fas fa-search"></i> Consultar Padrões</button>
+            <button class="ml-robot-tab" id="mlTabBtn4" onclick="switchMlTab('chat')"><i class="fas fa-comment-dots"></i> Chat com Robô</button>
+            <button class="ml-robot-tab" id="mlTabBtn5" onclick="switchMlTab('manage')"><i class="fas fa-database"></i> Gerenciar</button>
+            <button class="ml-robot-tab" id="mlTabBtn6" onclick="switchMlTab('logic')"><i class="fas fa-sliders-h"></i> Lógica SIS-C AI</button>
         </div>
         <!-- Body -->
         <div class="sis-ai-body">
             <!-- STATS TAB -->
             <div id="mlTabStats">
                 <div id="mlRobotStatsContent">Carregando...</div>
+            </div>
+            <!-- DIAGNOSTICS TAB -->
+            <div id="mlTabDiagnostics" style="display:none;">
+                <div id="mlRobotDiagnosticsContent">Carregando diagnóstico...</div>
             </div>
             <!-- SEARCH TAB -->
             <div id="mlTabSearch" style="display:none;">
@@ -2756,6 +2944,18 @@
                         <div class="input-group" style="margin-bottom:12px;">
                             <label class="input-label">Mínimo de tokens coincidentes</label>
                             <input id="sisAiMinTokenMatches" class="input-field" type="number" min="1" max="10" step="1">
+                        </div>
+                        <div class="input-group" style="margin-bottom:12px;">
+                            <label class="input-label">Confiança para alertas automáticos (%)</label>
+                            <input id="sisAiReviewAlertConfidence" class="input-field" type="number" min="70" max="99" step="1">
+                        </div>
+                        <div class="input-group" style="margin-bottom:12px;">
+                            <label class="input-label">Mínimo de recorrências para padrão</label>
+                            <input id="sisAiRecurringMinOccurrences" class="input-field" type="number" min="2" max="12" step="1">
+                        </div>
+                        <div class="input-group" style="margin-bottom:12px;">
+                            <label class="input-label">Multiplicador para anomalia de valor</label>
+                            <input id="sisAiAnomalyAmountMultiplier" class="input-field" type="number" min="1.5" max="10" step="0.1">
                         </div>
                         <label style="display:flex;align-items:center;gap:8px;font-size:0.84rem;color:#f8fafc;margin-bottom:12px;">
                             <input id="sisAiUppercaseImport" type="checkbox">
@@ -2877,9 +3077,16 @@
             <div class="modal-title"><i class="fas fa-search"></i> Pesquisar Conta Contábil</div>
             <div class="close-modal" onclick="closeSearchAccountModal()">&times;</div>
         </div>
+        <div class="input-group" id="searchAccountPlanGroup" style="display:none;">
+            <label class="input-label">Qual plano de contas deseja consultar?</label>
+            <select id="searchAccountPlanSelect" class="input-field" onchange="changeSearchAccountPlan(this.value)"></select>
+        </div>
         <div class="input-group">
             <label class="input-label">Digite o código ou nome da conta</label>
             <input type="text" id="searchAccountInput" class="input-field" placeholder="Ex: 1.1.1.001 ou Caixa ou Receita" oninput="searchAccount(this.value)" autocomplete="off">
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="searchAccount('', true)"><i class="fas fa-list"></i> Mostrar Balancete / Contas</button>
         </div>
         <div id="searchAccountResults" style="max-height:380px;overflow-y:auto;">
             <div style="text-align:center;padding:30px;color:var(--gray);">
@@ -2887,7 +3094,7 @@
                 Digite para pesquisar no plano de contas
             </div>
         </div>
-        <div style="margin-top:16px;padding:12px;background:var(--primary-light);border-radius:var(--border-radius);font-size:0.88rem;color:var(--primary);">
+        <div id="searchAccountHelpText" style="margin-top:16px;padding:12px;background:var(--primary-light);border-radius:var(--border-radius);font-size:0.88rem;color:var(--primary);">
             <i class="fas fa-info-circle"></i> Clique em qualquer resultado para copiar o código para a área de transferência.
         </div>
     </div>
@@ -3242,10 +3449,18 @@ const SIS_AI_DEFAULTS = {
     minConfidence: 75,
     batchSharedWords: 3,
     minTokenMatches: 2,
+    reviewAlertConfidence: 85,
+    recurringMinOccurrences: 3,
+    anomalyAmountMultiplier: 2.5,
     enforceUppercaseImport: true
 };
 let sisAiSettings = { ...SIS_AI_DEFAULTS, ...(JSON.parse(localStorage.getItem('sisAiSettings') || 'null') || {}) };
 let sisAiKnowledgeRows = [];
+let searchAccountContext = { mode: 'copy', ruleIndex: null, planId: '', showAll: false };
+const MULTI_COMPANY_STORAGE_KEY = 'multiCompanyImportData';
+let multiCompanyImportState = { activeSlotId: '', slots: [] };
+let currentDatasetContext = { mode: 'single', slotId: null };
+let multiCompanySelectedFiles = {};
 
 // Multi-OFX state
 let multiOfxFiles = [];
@@ -3292,7 +3507,7 @@ const pageTitles = {
     caixinha:"Caixinha", conversor:"Conversão PDF → OFX", ferramentas:"Ferramentas", banknf:"Banco NF",
     apuracoes:"Apurações",
     settings:"Configurações do Sistema", chart:"Plano de Contas", calculos:"Cálculos",
-    fechamento:"Fechamento de Balanço", demonstrativos:"Demonstrativos",
+    fechamento:"Fechamento e Conferências", demonstrativos:"Demonstrativos",
     correio:"Correio de Movimentação",
     tarefas:"Controle de Tarefas"
 };
@@ -3312,7 +3527,7 @@ const pageSubtitles = {
     settings:"Configure as preferências do sistema",
     chart:"Gerencie o plano de contas do sistema",
     calculos:"Controle de imobilizado, depreciação e cálculos por empresa",
-    fechamento:"Balancete, DRE e Balanço Patrimonial para fechamento contábil",
+    fechamento:"Balancete, DRE, balanço patrimonial e conferência de folha e impostos/fiscal",
     demonstrativos:"Modelos editáveis de faturamento e relatórios para download em PDF",
     correio:"Central de comunicados e movimentações — em construção",
     tarefas:"Calendário fiscal, agenda de obrigações e carteira de empresas"
@@ -3336,6 +3551,49 @@ const SIS_C_OPERATIONAL_RESET_KEYS = [
     'sisc_tf_tasks'
 ];
 let sisCDeployResetApplied = false;
+const FECHAMENTO_CONFERENCE_STORAGE_KEY = 'fechamentoConferenceData';
+let fechamentoConferenceData = JSON.parse(localStorage.getItem(FECHAMENTO_CONFERENCE_STORAGE_KEY) || '{}');
+const FECHAMENTO_TAB_SUFFIX = {
+    balancete: 'Balancete',
+    dre: 'Dre',
+    bp: 'Bp',
+    folha: 'Folha',
+    fiscal: 'Fiscal'
+};
+const FECHAMENTO_CONFERENCE_CONFIG = {
+    folha: {
+        icon: 'fa-users',
+        title: 'Conferência de Folha',
+        note: 'O sistema separa os pagamentos de folha encontrados nos lançamentos para você comparar com os valores apurados do período.',
+        baseTerms: ['FOLHA', 'SALARIO', 'SALARIOS', 'PRO LABORE', 'PROLABORE', 'INSS', 'FGTS', 'FERIAS', 'DECIMO', '13', 'RESCISAO', 'VALE TRANSPORTE', 'VALE ALIMENTACAO', 'ENCARGO'],
+        categories: [
+            { id: 'salarios', label: 'Salários', terms: ['SALARIO', 'SALARIOS', 'FOLHA', 'PAGAMENTO FOLHA', 'ORDENADOS'] },
+            { id: 'prolabore', label: 'Pró-labore', terms: ['PRO LABORE', 'PROLABORE'] },
+            { id: 'inss', label: 'INSS folha', terms: ['INSS', 'GPS', 'PREVIDENCIA'] },
+            { id: 'fgts', label: 'FGTS', terms: ['FGTS', 'SEFIP'] },
+            { id: 'ferias13', label: 'Férias e 13º', terms: ['FERIAS', '13 SALARIO', '13O', 'DECIMO TERCEIRO'] },
+            { id: 'beneficios', label: 'Benefícios', terms: ['VALE TRANSPORTE', 'VALE ALIMENTACAO', 'VR', 'VT', 'BENEFICIO'] },
+            { id: 'rescisao', label: 'Rescisões', terms: ['RESCISAO', 'RESCISORIO'] },
+            { id: 'outros', label: 'Outros da folha', terms: [], fallback: true }
+        ]
+    },
+    fiscal: {
+        icon: 'fa-file-invoice-dollar',
+        title: 'Conferência de Imposto / Fiscal',
+        note: 'Aqui ficam os pagamentos fiscais identificados nos lançamentos bancários para bater com DAS, guias, DARFs e demais tributos do período.',
+        baseTerms: ['DAS', 'SIMPLES', 'ISS', 'ICMS', 'IPI', 'PIS', 'COFINS', 'IRPJ', 'CSLL', 'DARF', 'GNRE', 'TRIBUTO', 'IMPOSTO', 'SEFAZ', 'PREFEITURA', 'RECEITA FEDERAL', 'REFIS', 'PARCELAMENTO', 'TAXA'],
+        categories: [
+            { id: 'simples', label: 'Simples / DAS', terms: ['DAS', 'SIMPLES NACIONAL', 'PGDAS'] },
+            { id: 'iss', label: 'ISS', terms: ['ISS', 'ISSQN', 'IMPOSTO SOBRE SERVICO', 'PREFEITURA'] },
+            { id: 'piscofins', label: 'PIS / COFINS', terms: ['PIS', 'COFINS'] },
+            { id: 'irpjcsll', label: 'IRPJ / CSLL', terms: ['IRPJ', 'CSLL'] },
+            { id: 'icmsipi', label: 'ICMS / IPI', terms: ['ICMS', 'IPI', 'GNRE', 'SEFAZ'] },
+            { id: 'parcelamentos', label: 'Parcelamentos', terms: ['PARCELAMENTO', 'REFIS'] },
+            { id: 'taxas', label: 'Taxas e alvarás', terms: ['TAXA', 'ALVARA', 'TFF', 'TAXA FISCAL'] },
+            { id: 'outros', label: 'Outros fiscais', terms: [], fallback: true }
+        ]
+    }
+};
 
 function sisCResetRuntimeState() {
     transactions = [];
@@ -3599,10 +3857,16 @@ function sisAiSyncSettingsUI() {
     const minConfidenceEl = document.getElementById('sisAiMinConfidence');
     const batchWordsEl = document.getElementById('sisAiBatchSharedWords');
     const minTokensEl = document.getElementById('sisAiMinTokenMatches');
+    const reviewAlertEl = document.getElementById('sisAiReviewAlertConfidence');
+    const recurringEl = document.getElementById('sisAiRecurringMinOccurrences');
+    const anomalyEl = document.getElementById('sisAiAnomalyAmountMultiplier');
     const uppercaseEl = document.getElementById('sisAiUppercaseImport');
     if (minConfidenceEl) minConfidenceEl.value = sisAiSettings.minConfidence;
     if (batchWordsEl) batchWordsEl.value = sisAiSettings.batchSharedWords;
     if (minTokensEl) minTokensEl.value = sisAiSettings.minTokenMatches;
+    if (reviewAlertEl) reviewAlertEl.value = sisAiSettings.reviewAlertConfidence;
+    if (recurringEl) recurringEl.value = sisAiSettings.recurringMinOccurrences;
+    if (anomalyEl) anomalyEl.value = sisAiSettings.anomalyAmountMultiplier;
     if (uppercaseEl) uppercaseEl.checked = !!sisAiSettings.enforceUppercaseImport;
 }
 
@@ -3716,6 +3980,9 @@ function saveSisAiSettingsFromUI() {
     sisAiSettings.minConfidence = Math.max(75, Math.min(99, parseInt(document.getElementById('sisAiMinConfidence')?.value || sisAiSettings.minConfidence, 10) || 75));
     sisAiSettings.batchSharedWords = Math.max(3, Math.min(10, parseInt(document.getElementById('sisAiBatchSharedWords')?.value || sisAiSettings.batchSharedWords, 10) || 3));
     sisAiSettings.minTokenMatches = Math.max(1, Math.min(10, parseInt(document.getElementById('sisAiMinTokenMatches')?.value || sisAiSettings.minTokenMatches, 10) || 2));
+    sisAiSettings.reviewAlertConfidence = Math.max(70, Math.min(99, parseInt(document.getElementById('sisAiReviewAlertConfidence')?.value || sisAiSettings.reviewAlertConfidence, 10) || 85));
+    sisAiSettings.recurringMinOccurrences = Math.max(2, Math.min(12, parseInt(document.getElementById('sisAiRecurringMinOccurrences')?.value || sisAiSettings.recurringMinOccurrences, 10) || 3));
+    sisAiSettings.anomalyAmountMultiplier = Math.max(1.5, Math.min(10, parseFloat(document.getElementById('sisAiAnomalyAmountMultiplier')?.value || sisAiSettings.anomalyAmountMultiplier) || 2.5));
     sisAiSettings.enforceUppercaseImport = !!document.getElementById('sisAiUppercaseImport')?.checked;
     sisAiSaveSettings();
     sisAiSyncSettingsUI();
@@ -3917,7 +4184,7 @@ function sisAiAppendKnowledgeRowsToTransactions(rows) {
             id: generateId()
         };
         applyRulesToTransaction(tx);
-        tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+        if (!tx.partnerMatch) tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
         sisAiSanitizeTransaction(tx, '', 'documento');
         transactions.push(tx);
         added++;
@@ -3967,6 +4234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // LOCAL STORAGE
 // ============================================================
 function loadFromLocalStorage() {
+    fechamentoConferenceData = JSON.parse(localStorage.getItem(FECHAMENTO_CONFERENCE_STORAGE_KEY) || '{}');
     const sc = localStorage.getItem('chartOfAccounts');
     if (sc) { chartOfAccounts = JSON.parse(sc); renderChartOfAccounts(); }
     else loadDefaultChartOfAccounts();
@@ -4034,16 +4302,26 @@ function loadFromLocalStorage() {
     }
 
     loadCompanies();
+    multiCompanyImportState = JSON.parse(localStorage.getItem(MULTI_COMPANY_STORAGE_KEY) || '{"activeSlotId":"","slots":[]}');
+    ensureMultiCompanyState();
+    renderMultiCompanyModule();
+    if (multiCompanyImportState.activeSlotId) activateMultiCompanySlot(multiCompanyImportState.activeSlotId, { silent: true });
+    else updateMultiCompanyScopeUI();
 }
 
 function saveToLocalStorage() {
-    localStorage.setItem('transactions', JSON.stringify({
-        transactions, rawTransactions, totalCredits, totalDebits, isMultiMonth, multiMonthTransactions
-    }));
+    if (currentDatasetContext.mode === 'multi') {
+        syncActiveContextIntoMultiCompanySlot();
+    } else {
+        localStorage.setItem('transactions', JSON.stringify({
+            transactions, rawTransactions, totalCredits, totalDebits, isMultiMonth, multiMonthTransactions
+        }));
+    }
     localStorage.setItem('keywordHistoryRules', JSON.stringify(keywordHistoryRules));
     localStorage.setItem('bankNfDocuments', JSON.stringify(bankNfDocuments));
     sisAiSaveSettings();
     if (currentCompanyId) saveCompanyData();
+    saveMultiCompanyState();
 }
 
 function startAutoSave() {
@@ -4140,7 +4418,18 @@ function setupEventListeners() {
     document.getElementById('bankAccountCode').addEventListener('input', function() { bankAccountCode = this.value; saveSettings(); });
     document.getElementById('defaultHistory').addEventListener('input', function() { defaultHistory = this.value; saveSettings(); });
     document.getElementById('previousBalance').addEventListener('input', function() { previousBalance = parseFloat(this.value) || 0; updateFinancialSummary(); saveSettings(); });
+    document.getElementById('expectedFinalBalance').addEventListener('input', function() {
+        if (currentDatasetContext.mode !== 'multi') return;
+        const slot = multiCompanyGetWorkingSlot();
+        if (!slot) return;
+        slot.expectedFinalBalance = this.value;
+        saveMultiCompanyState();
+        renderMultiCompanyModule();
+        updateMultiCompanyScopeUI();
+    });
     document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+    document.getElementById('fechPeriodo').addEventListener('change', fechamentoHandleScopeChange);
+    document.getElementById('fechEmpresaNome').addEventListener('change', fechamentoHandleScopeChange);
 
     bankAccountCode = document.getElementById('bankAccountCode').value;
     defaultHistory = document.getElementById('defaultHistory').value;
@@ -4213,6 +4502,424 @@ function switchStructureTab(tab) {
     if (t) t.classList.add('active');
     const c = document.getElementById(`${tab}StructureTab`);
     if (c) c.classList.add('active');
+}
+
+function cloneData(value) {
+    return JSON.parse(JSON.stringify(value));
+}
+
+function createDefaultMultiCompanySlot(index) {
+    return {
+        id: `multi_slot_${index + 1}`,
+        name: `Empresa ${index + 1}`,
+        bankAccountCode: '',
+        defaultHistory: defaultHistory,
+        previousBalance: 0,
+        expectedFinalBalance: '',
+        partnerName: '',
+        partnerAccount: '',
+        planId: '',
+        rules: [],
+        rawTransactions: [],
+        transactions: [],
+        totalCredits: 0,
+        totalDebits: 0,
+        isMultiMonth: false,
+        multiMonthTransactions: {},
+        filesMeta: [],
+        lastProcessedAt: ''
+    };
+}
+
+function getGlobalBaseRules() {
+    const stored = JSON.parse(localStorage.getItem('rules') || '[]');
+    return stored.length ? cloneData(stored) : cloneData(rules);
+}
+
+function ensureMultiCompanyState() {
+    if (!Array.isArray(multiCompanyImportState.slots) || multiCompanyImportState.slots.length !== 3) {
+        multiCompanyImportState.slots = Array.from({ length: 3 }, (_, index) => createDefaultMultiCompanySlot(index));
+    }
+    multiCompanyImportState.slots = multiCompanyImportState.slots.slice(0, 3).map((slot, index) => ({
+        ...createDefaultMultiCompanySlot(index),
+        ...slot,
+        rules: Array.isArray(slot.rules) ? slot.rules : [],
+        rawTransactions: Array.isArray(slot.rawTransactions) ? slot.rawTransactions : [],
+        transactions: Array.isArray(slot.transactions) ? slot.transactions : [],
+        multiMonthTransactions: slot.multiMonthTransactions && typeof slot.multiMonthTransactions === 'object' ? slot.multiMonthTransactions : {},
+        filesMeta: Array.isArray(slot.filesMeta) ? slot.filesMeta : []
+    }));
+    multiCompanyImportState.slots.forEach(slot => {
+        if (!Array.isArray(multiCompanySelectedFiles[slot.id])) multiCompanySelectedFiles[slot.id] = [];
+    });
+}
+
+function getMultiCompanySlot(slotId) {
+    ensureMultiCompanyState();
+    return multiCompanyImportState.slots.find(slot => slot.id === slotId) || null;
+}
+
+function saveMultiCompanyState() {
+    ensureMultiCompanyState();
+    localStorage.setItem(MULTI_COMPANY_STORAGE_KEY, JSON.stringify(multiCompanyImportState));
+}
+
+function multiCompanyGetWorkingSlot() {
+    if (!currentDatasetContext.slotId) return null;
+    return getMultiCompanySlot(currentDatasetContext.slotId);
+}
+
+function syncActiveContextIntoMultiCompanySlot() {
+    if (currentDatasetContext.mode !== 'multi') return;
+    const slot = multiCompanyGetWorkingSlot();
+    if (!slot) return;
+    slot.bankAccountCode = bankAccountCode;
+    slot.defaultHistory = defaultHistory;
+    slot.previousBalance = previousBalance;
+    slot.expectedFinalBalance = document.getElementById('expectedFinalBalance')?.value || slot.expectedFinalBalance || '';
+    slot.rules = cloneData(rules);
+    slot.transactions = cloneData(transactions);
+    slot.rawTransactions = cloneData(rawTransactions);
+    slot.totalCredits = totalCredits;
+    slot.totalDebits = totalDebits;
+    slot.isMultiMonth = isMultiMonth;
+    slot.multiMonthTransactions = cloneData(multiMonthTransactions);
+    saveMultiCompanyState();
+}
+
+function loadChartForMultiCompanySlot(slot) {
+    if (!slot || !slot.planId) return;
+    const plan = getLookupChartByPlanId(slot.planId);
+    if (plan && Array.isArray(plan.chart) && plan.chart.length) {
+        chartOfAccounts = cloneData(plan.chart);
+        renderChartOfAccounts();
+    }
+}
+
+function updateMultiCompanyScopeUI() {
+    ensureMultiCompanyState();
+    const toolbar = document.getElementById('multiCompanyToolbar');
+    const buttons = document.getElementById('multiCompanySlotButtons');
+    const planSelect = document.getElementById('multiCompanyPlanSelect');
+    const info = document.getElementById('multiCompanyToolbarInfo');
+    const rulesAlert = document.getElementById('rulesCompanyScopeAlert');
+    const hasProcessed = multiCompanyImportState.slots.some(slot => (slot.transactions || []).length > 0);
+    const activeSlot = currentDatasetContext.mode === 'multi' ? multiCompanyGetWorkingSlot() : null;
+    if (toolbar) toolbar.classList.toggle('show', currentDatasetContext.mode === 'multi' || hasProcessed);
+    if (buttons) {
+        buttons.innerHTML = multiCompanyImportState.slots.map(slot => {
+            const active = activeSlot && activeSlot.id === slot.id;
+            const txCount = (slot.transactions || []).length;
+            const scopeStatus = slot.planId ? 'plano definido' : 'plano pendente';
+            return `<button type="button" class="multi-company-slot-btn ${active ? 'active' : ''}" onclick="activateMultiCompanySlot('${slot.id}', { silent: true })">${slot.name || 'Empresa'}<small>${txCount ? `${txCount} lançamentos` : 'Sem lançamentos'} • ${scopeStatus}</small></button>`;
+        }).join('');
+    }
+    if (planSelect) {
+        const plans = getChartLookupPlans();
+        planSelect.innerHTML = '<option value="">Selecione o plano de contas</option>' + plans.map(plan => `<option value="${plan.id}">${plan.name}</option>`).join('');
+        planSelect.value = activeSlot?.planId || '';
+        planSelect.disabled = !activeSlot;
+    }
+    if (info) {
+        if (!activeSlot) {
+            info.innerHTML = 'Escolha uma empresa para trabalhar os lançamentos, o plano e as regras isoladas.';
+        } else {
+            info.innerHTML = `<strong>${activeSlot.name}</strong><br>Conta bancária: ${activeSlot.bankAccountCode || 'não informada'}<br>Sócio monitorado: ${activeSlot.partnerName || 'não informado'}${activeSlot.planId ? '<br>Plano contábil vinculado.' : '<br><span style="color:#b45309;">Defina o plano antes de concluir a classificação.</span>'}`;
+        }
+    }
+    if (rulesAlert) {
+        if (activeSlot && currentDatasetContext.mode === 'multi') {
+            rulesAlert.className = 'multi-company-scope-note show';
+            rulesAlert.innerHTML = `<strong>${activeSlot.name}</strong>: estas regras valem apenas para esta empresa importada.`;
+        } else {
+            rulesAlert.className = 'multi-company-scope-note';
+            rulesAlert.innerHTML = '';
+        }
+    }
+}
+
+function handleMultiCompanyConfigChange(slotId, field, value) {
+    const slot = getMultiCompanySlot(slotId);
+    if (!slot) return;
+    slot[field] = field === 'previousBalance' ? (parseFloat(value) || 0) : value;
+    saveMultiCompanyState();
+    renderMultiCompanyModule();
+    updateMultiCompanyScopeUI();
+}
+
+function handleMultiCompanyFileSelection(slotId, files) {
+    const slot = getMultiCompanySlot(slotId);
+    if (!slot) return;
+    const validFiles = Array.from(files).filter(file => file.name.match(/\.(ofx|qfx)$/i));
+    if (!validFiles.length) {
+        showStatus('Selecione arquivos OFX ou QFX.', 'error');
+        return;
+    }
+    multiCompanySelectedFiles[slotId] = validFiles.slice(0, 12);
+    slot.filesMeta = multiCompanySelectedFiles[slotId].map(file => ({ name: file.name, size: file.size }));
+    saveMultiCompanyState();
+    renderMultiCompanyModule();
+    if (validFiles.length > 12) showStatus('Cada empresa aceita no máximo 12 extratos.', 'warning');
+}
+
+function removeMultiCompanyFile(slotId, index) {
+    const slot = getMultiCompanySlot(slotId);
+    if (!slot) return;
+    multiCompanySelectedFiles[slotId].splice(index, 1);
+    slot.filesMeta = multiCompanySelectedFiles[slotId].map(file => ({ name: file.name, size: file.size }));
+    saveMultiCompanyState();
+    renderMultiCompanyModule();
+}
+
+function buildMultiCompanyCard(slot, index) {
+    const selectedFiles = multiCompanySelectedFiles[slot.id] || [];
+    const txCount = (slot.transactions || []).length;
+    const classes = ['multi-company-card'];
+    if (txCount) classes.push('processed');
+    if (currentDatasetContext.mode === 'multi' && currentDatasetContext.slotId === slot.id) classes.push('active-slot');
+    const filesHtml = selectedFiles.length ? selectedFiles.map((file, fileIndex) => `
+        <div class="multi-ofx-file-item">
+            <span><i class="fas fa-file-alt" style="color:var(--primary);margin-right:8px;"></i>${file.name}</span>
+            <span class="remove-file" onclick="removeMultiCompanyFile('${slot.id}', ${fileIndex})"><i class="fas fa-times"></i></span>
+        </div>`).join('') : '<div style="padding:12px;border:1px dashed var(--border);border-radius:10px;color:var(--gray);font-size:0.84rem;">Nenhum extrato selecionado.</div>';
+    return `
+        <div class="${classes.join(' ')}">
+            <div class="multi-company-card-header">
+                <div>
+                    <div class="multi-company-badge"><i class="fas fa-building"></i> Empresa ${index + 1}</div>
+                    <div style="margin-top:10px;font-size:1.05rem;font-weight:700;color:#0f172a;">${slot.name || `Empresa ${index + 1}`}</div>
+                    <div class="multi-company-files-meta">${txCount ? `${txCount} lançamentos processados` : 'Ainda sem processamento'}${slot.lastProcessedAt ? ` • ${slot.lastProcessedAt}` : ''}</div>
+                </div>
+                <button class="btn btn-outline btn-sm" type="button" onclick="activateMultiCompanySlot('${slot.id}', { navigate: true })"><i class="fas fa-arrow-right"></i> Abrir</button>
+            </div>
+            <div class="multi-company-card-body">
+                <div class="d-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-signature"></i> Nome da Empresa</label>
+                        <input type="text" class="input-field" value="${slot.name || ''}" onchange="handleMultiCompanyConfigChange('${slot.id}','name',this.value)">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-university"></i> Conta Bancária</label>
+                        <input type="text" class="input-field" value="${slot.bankAccountCode || ''}" onchange="handleMultiCompanyConfigChange('${slot.id}','bankAccountCode',this.value)" placeholder="1.1.1.001">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-user-tie"></i> Nome do Sócio</label>
+                        <input type="text" class="input-field" value="${slot.partnerName || ''}" onchange="handleMultiCompanyConfigChange('${slot.id}','partnerName',this.value)" placeholder="Nome para detectar no extrato">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-user-tag"></i> Conta do Sócio</label>
+                        <input type="text" class="input-field" value="${slot.partnerAccount || ''}" onchange="handleMultiCompanyConfigChange('${slot.id}','partnerAccount',this.value)" placeholder="2.1.1.001">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-history"></i> Histórico Padrão</label>
+                        <input type="text" class="input-field" value="${slot.defaultHistory || ''}" onchange="handleMultiCompanyConfigChange('${slot.id}','defaultHistory',this.value)">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label"><i class="fas fa-calculator"></i> Saldo Anterior</label>
+                        <input type="number" class="input-field" value="${slot.previousBalance || 0}" step="0.01" onchange="handleMultiCompanyConfigChange('${slot.id}','previousBalance',this.value)">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label"><i class="fas fa-balance-scale"></i> Saldo Final Esperado</label>
+                    <input type="number" class="input-field" value="${slot.expectedFinalBalance || ''}" step="0.01" onchange="handleMultiCompanyConfigChange('${slot.id}','expectedFinalBalance',this.value)" placeholder="Opcional">
+                </div>
+                <div class="multi-ofx-area" onclick="document.getElementById('multiCompanyInput_${slot.id}').click()">
+                    <div class="upload-icon"><i class="fas fa-folder-plus"></i></div>
+                    <div class="upload-text">Extratos da empresa</div>
+                    <div class="upload-subtext">Selecione até 12 arquivos OFX/QFX</div>
+                    <div class="upload-formats"><span class="format-badge">.ofx</span><span class="format-badge">.qfx</span></div>
+                    <input type="file" id="multiCompanyInput_${slot.id}" accept=".ofx,.qfx" multiple style="display:none" onchange="handleMultiCompanyFileSelection('${slot.id}', this.files)">
+                </div>
+                <div class="multi-ofx-file-list">${filesHtml}</div>
+                <div class="d-flex gap-10 flex-wrap" style="margin-top:14px;">
+                    <button class="btn btn-primary" type="button" onclick="processMultiCompanySlot('${slot.id}')"><i class="fas fa-cogs"></i> Processar Empresa</button>
+                    <button class="btn btn-outline" type="button" onclick="activateMultiCompanySlot('${slot.id}', { navigate: true })"><i class="fas fa-list"></i> Ir para Lançamentos</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function renderMultiCompanyModule() {
+    ensureMultiCompanyState();
+    const container = document.getElementById('multiCompanyImportContainer');
+    if (!container) return;
+    container.innerHTML = multiCompanyImportState.slots.map((slot, index) => buildMultiCompanyCard(slot, index)).join('');
+}
+
+function activateMultiCompanySlot(slotId, options = {}) {
+    const slot = getMultiCompanySlot(slotId);
+    if (!slot) return;
+    syncActiveContextIntoMultiCompanySlot();
+    currentDatasetContext = { mode: 'multi', slotId };
+    multiCompanyImportState.activeSlotId = slotId;
+    bankAccountCode = slot.bankAccountCode || bankAccountCode;
+    defaultHistory = slot.defaultHistory || defaultHistory;
+    previousBalance = parseFloat(slot.previousBalance) || 0;
+    transactions = cloneData(slot.transactions || []);
+    rawTransactions = cloneData(slot.rawTransactions || []);
+    totalCredits = slot.totalCredits || 0;
+    totalDebits = slot.totalDebits || 0;
+    isMultiMonth = !!slot.isMultiMonth;
+    multiMonthTransactions = cloneData(slot.multiMonthTransactions || {});
+    rules = cloneData(slot.rules && slot.rules.length ? slot.rules : getGlobalBaseRules());
+    if (!slot.rules || !slot.rules.length) slot.rules = cloneData(rules);
+    document.getElementById('bankAccountCode').value = bankAccountCode;
+    document.getElementById('defaultHistory').value = defaultHistory;
+    document.getElementById('previousBalance').value = previousBalance;
+    document.getElementById('expectedFinalBalance').value = slot.expectedFinalBalance || '';
+    loadChartForMultiCompanySlot(slot);
+    renderRules();
+    if (isMultiMonth) renderMultiMonthTransactions();
+    else displayTransactions();
+    updateFinancialSummary();
+    updateMultiCompanyScopeUI();
+    saveMultiCompanyState();
+    if (options.navigate) navigateToSection('transactions');
+    if (!options.silent) showStatus(`Empresa ativa: ${slot.name}.`, 'success');
+}
+
+function switchToSingleDatasetMode() {
+    syncActiveContextIntoMultiCompanySlot();
+    currentDatasetContext = { mode: 'single', slotId: null };
+    multiCompanyImportState.activeSlotId = '';
+    updateMultiCompanyScopeUI();
+    saveMultiCompanyState();
+}
+
+function updateMultiCompanyPlan(planId) {
+    const slot = multiCompanyGetWorkingSlot();
+    if (!slot) return;
+    slot.planId = planId;
+    loadChartForMultiCompanySlot(slot);
+    saveMultiCompanyState();
+    updateMultiCompanyScopeUI();
+    showStatus(`Plano vinculado para ${slot.name}.`, 'success');
+}
+
+function multiCompanyDescriptionMatchesPartner(slot, description) {
+    if (!slot || !slot.partnerName || !description) return false;
+    return sisAiNormalizeImportedDescription(description).includes(sisAiNormalizeImportedDescription(slot.partnerName));
+}
+
+function applyPartnerRuleToTransaction(tx) {
+    const slot = multiCompanyGetWorkingSlot();
+    if (!slot || !slot.partnerName || !slot.partnerAccount) return false;
+    if (!multiCompanyDescriptionMatchesPartner(slot, tx.description)) return false;
+    tx.partnerMatch = true;
+    tx.partnerName = slot.partnerName;
+    tx.partnerAccount = slot.partnerAccount;
+    tx.history = `MOVTO SOCIO - ${slot.partnerName}`;
+    if (tx.amount >= 0) {
+        tx.debitCode = bankAccountCode;
+        tx.creditCode = slot.partnerAccount;
+        totalCredits += tx.amount;
+    } else {
+        tx.debitCode = slot.partnerAccount;
+        tx.creditCode = bankAccountCode;
+        totalDebits += Math.abs(tx.amount);
+    }
+    return true;
+}
+
+async function processMultiCompanySlot(slotId) {
+    const slot = getMultiCompanySlot(slotId);
+    const files = multiCompanySelectedFiles[slotId] || [];
+    if (!slot) return;
+    if (!slot.name || !slot.name.trim()) { showStatus('Informe o nome da empresa.', 'error'); return; }
+    if (!slot.bankAccountCode || !slot.bankAccountCode.trim()) { showStatus(`Informe a conta bancária de ${slot.name}.`, 'error'); return; }
+    if (!files.length) { showStatus(`Selecione os extratos OFX/QFX de ${slot.name}.`, 'error'); return; }
+    if (files.length > 12) { showStatus('Cada empresa aceita no máximo 12 extratos.', 'error'); return; }
+
+    const backup = {
+        context: { ...currentDatasetContext },
+        bankAccountCode,
+        defaultHistory,
+        previousBalance,
+        rules: cloneData(rules),
+        transactions: cloneData(transactions),
+        rawTransactions: cloneData(rawTransactions),
+        totalCredits,
+        totalDebits,
+        isMultiMonth,
+        multiMonthTransactions: cloneData(multiMonthTransactions)
+    };
+
+    document.getElementById('loading').style.display = 'block';
+    try {
+        currentDatasetContext = { mode: 'multi', slotId };
+        bankAccountCode = slot.bankAccountCode.trim();
+        defaultHistory = slot.defaultHistory || defaultHistory;
+        previousBalance = parseFloat(slot.previousBalance) || 0;
+        rules = cloneData(slot.rules && slot.rules.length ? slot.rules : getGlobalBaseRules());
+        transactions = [];
+        rawTransactions = [];
+        totalCredits = 0;
+        totalDebits = 0;
+        isMultiMonth = files.length > 1;
+        multiMonthTransactions = {};
+
+        for (const file of files) {
+            const content = await readFileAsText(file, 'windows-1252');
+            const parsedTransactions = parseOFXContent(content);
+            parsedTransactions.forEach(rawTx => {
+                rawTransactions.push({ ...rawTx, companySlotId: slotId, companyName: slot.name, fileName: file.name });
+                const normalizedDescription = sisAiNormalizeImportedDescription(rawTx.description);
+                const tx = {
+                    date: rawTx.date,
+                    amount: rawTx.amount,
+                    description: normalizedDescription,
+                    debitCode: '',
+                    creditCode: '',
+                    type: rawTx.type,
+                    originalDescription: normalizedDescription,
+                    history: defaultHistory,
+                    id: generateId(),
+                    multiCompanySlotId: slotId,
+                    multiCompanyName: slot.name
+                };
+                applyRulesToTransaction(tx);
+                if (!tx.partnerMatch) tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+                sisAiSanitizeTransaction(tx, '', `multiempresa ${slot.name}`);
+                transactions.push(tx);
+                const [, month, year] = tx.date.split('/');
+                const monthKey = `${month}/${year}`;
+                if (!multiMonthTransactions[monthKey]) multiMonthTransactions[monthKey] = [];
+                multiMonthTransactions[monthKey].push(tx);
+            });
+        }
+
+        slot.transactions = cloneData(transactions);
+        slot.rawTransactions = cloneData(rawTransactions);
+        slot.totalCredits = totalCredits;
+        slot.totalDebits = totalDebits;
+        slot.isMultiMonth = isMultiMonth;
+        slot.multiMonthTransactions = cloneData(multiMonthTransactions);
+        slot.rules = cloneData(rules);
+        slot.filesMeta = files.map(file => ({ name: file.name, size: file.size }));
+        slot.lastProcessedAt = `Processado em ${new Date().toLocaleString('pt-BR')}`;
+        multiCompanyImportState.activeSlotId = slotId;
+        saveMultiCompanyState();
+        activateMultiCompanySlot(slotId, { navigate: true, silent: true });
+        enableExportButtons();
+        showStatus(`${slot.name} processada com ${transactions.length} lançamentos.`, 'success');
+    } catch (error) {
+        currentDatasetContext = backup.context;
+        bankAccountCode = backup.bankAccountCode;
+        defaultHistory = backup.defaultHistory;
+        previousBalance = backup.previousBalance;
+        rules = backup.rules;
+        transactions = backup.transactions;
+        rawTransactions = backup.rawTransactions;
+        totalCredits = backup.totalCredits;
+        totalDebits = backup.totalDebits;
+        isMultiMonth = backup.isMultiMonth;
+        multiMonthTransactions = backup.multiMonthTransactions;
+        showStatus(`Erro ao processar ${slot.name}: ${error.message}`, 'error');
+    } finally {
+        document.getElementById('loading').style.display = 'none';
+        renderMultiCompanyModule();
+        updateMultiCompanyScopeUI();
+    }
 }
 
 // ============================================================
@@ -4524,25 +5231,27 @@ function buildTransactionRow(trans, index, multiMode = false) {
     const isSelected = selectedTransactions.has(trans.id);
     const matchedDoc = trans.matchedDocumentId ? getBankNfDocumentById(trans.matchedDocumentId) : null;
     const matchedBadge = matchedDoc ? `<div style="margin-top:6px;padding:6px 8px;border-radius:6px;background:#ecfdf5;color:#065f46;font-size:0.75rem;border:1px solid #a7f3d0;"><i class="fas fa-link"></i> NF vinculada: ${matchedDoc.docNumber || matchedDoc.name}</div>` : '';
+    const partnerBadge = trans.partnerMatch ? `<div class="partner-match-badge"><i class="fas fa-user-tie"></i> Sócio detectado: ${trans.partnerName || 'conta do sócio'}</div>` : '';
 
     // === Error/warn row detection ===
     const bankAcc = bankAccountCode;
     const isDupBank = trans.debitCode && trans.creditCode && trans.debitCode === bankAcc && trans.creditCode === bankAcc;
     const isSameDC  = trans.debitCode && trans.creditCode && trans.debitCode === trans.creditCode;
     const isMissing = !trans.debitCode || !trans.creditCode;
-    let rowClass = '';
+    const rowClasses = [];
     let errorBadge = '';
     if (isDupBank) {
-        rowClass = 'tx-row-error';
+        rowClasses.push('tx-row-error');
         errorBadge = `<span class="tx-error-badge"><i class="fas fa-exclamation-triangle"></i> Conta bancária duplicada!</span>`;
     } else if (isSameDC) {
-        rowClass = 'tx-row-error';
+        rowClasses.push('tx-row-error');
         errorBadge = `<span class="tx-error-badge"><i class="fas fa-exclamation-triangle"></i> D = C mesma conta!</span>`;
     } else if (isMissing || trans.aiNeedsReview) {
-        rowClass = 'tx-row-warn';
+        rowClasses.push('tx-row-warn');
     }
+    if (trans.partnerMatch) rowClasses.push('tx-row-partner-match');
 
-    return `<tr data-id="${trans.id}" class="${rowClass}" ${isSelected?'style="background-color:var(--primary-light);"':''}>
+    return `<tr data-id="${trans.id}" class="${rowClasses.join(' ')}" ${isSelected?'style="background-color:var(--primary-light);"':''}>
         <td><input type="checkbox" class="transaction-checkbox" ${isSelected?'checked':''} onchange="toggleTransactionSelection('${trans.id}',this.checked)"></td>
         <td>${trans.date}</td>
         <td>${debitCell}</td>
@@ -4550,7 +5259,7 @@ function buildTransactionRow(trans, index, multiMode = false) {
         <td>${amountCell}</td>
         <td>${trans.history || defaultHistory}</td>
         <td>${matchedDoc ? `<span class="account-code">${matchedDoc.docNumber || matchedDoc.name.substring(0, 18)}</span>` : ''}</td>
-        <td><div style="position:relative;"><span class="editable" onclick="inlineEditComplement(this,${index})" title="Clique para editar o complemento">${trans.description}</span>${trans.description!==trans.originalDescription?`<div style="font-size:0.7rem;color:var(--gray);font-style:italic;margin-top:2px;">Original: ${trans.originalDescription}</div>`:''}${mlSuggestion}${reviewBadge}${matchedBadge}${errorBadge}</div></td>
+        <td><div style="position:relative;"><span class="editable" onclick="inlineEditComplement(this,${index})" title="Clique para editar o complemento">${trans.description}</span>${trans.description!==trans.originalDescription?`<div style="font-size:0.7rem;color:var(--gray);font-style:italic;margin-top:2px;">Original: ${trans.originalDescription}</div>`:''}${mlSuggestion}${reviewBadge}${matchedBadge}${partnerBadge}${errorBadge}</div></td>
         <td><div class="d-flex gap-5 flex-wrap"><button class="btn btn-sm btn-info" onclick="showTransactionNfMatchModal(${index})"><i class="fas fa-search-dollar"></i> NF</button><button class="btn btn-sm btn-outline" onclick="editTransaction(${index})"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger" onclick="deleteTransaction(${index})"><i class="fas fa-trash"></i></button></div></td>
     </tr>`;
 }
@@ -4560,6 +5269,7 @@ function buildTransactionRow(trans, index, multiMode = false) {
 // ============================================================
 function processFile(fileType) {
     let fileInput, reader;
+    switchToSingleDatasetMode();
     isMultiMonth = false;
     multiMonthTransactions = {};
 
@@ -4697,9 +5407,9 @@ function processTransactionsWithRules() {
     transactions = []; totalCredits = 0; totalDebits = 0;
     rawTransactions.forEach(rt => {
         const normalizedDescription = sisAiNormalizeImportedDescription(rt.description);
-        const tx = { date:rt.date, amount:rt.amount, description:normalizedDescription, debitCode:'', creditCode:'', type:rt.type, originalDescription:normalizedDescription, history:defaultHistory, id:generateId() };
+        const tx = { date:rt.date, amount:rt.amount, description:normalizedDescription, debitCode:'', creditCode:'', type:rt.type, originalDescription:normalizedDescription, history:defaultHistory, id:generateId(), multiCompanySlotId: rt.companySlotId || '', multiCompanyName: rt.companyName || '' };
         applyRulesToTransaction(tx);
-        tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
+        if (!tx.partnerMatch) tx.history = getHistoryFromKeywords(tx.description) || defaultHistory;
         sisAiSanitizeTransaction(tx, '', 'regras');
         transactions.push(tx);
     });
@@ -4708,6 +5418,7 @@ function processTransactionsWithRules() {
 function applyRulesToTransaction(tx) {
     tx.description = sisAiNormalizeImportedDescription(tx.description);
     tx.originalDescription = sisAiNormalizeImportedDescription(tx.originalDescription || tx.description);
+    if (applyPartnerRuleToTransaction(tx)) return;
     const du = tx.description.toUpperCase();
     let applied = false;
     for (const rule of rules) {
@@ -4736,6 +5447,7 @@ function applyRulesToTransaction(tx) {
 function displayTransactions() {
     const tbody = document.getElementById('transactionsTableBody');
     const container = document.getElementById('transactionsContainer');
+    updateMultiCompanyScopeUI();
 
     // Restore single-table layout if we switched from multi-month
     if (!container.querySelector('table.transactions-table')) {
@@ -4900,14 +5612,144 @@ function loadDefaultRules() {
     localStorage.setItem('rules', JSON.stringify(rules));
 }
 function loadDefaultComplementRules() { complementRules = []; localStorage.setItem('complementRules', JSON.stringify(complementRules)); }
+function persistRulesStorage() {
+    if (currentDatasetContext.mode === 'multi') {
+        const slot = multiCompanyGetWorkingSlot();
+        if (slot) {
+            slot.rules = cloneData(rules);
+            saveMultiCompanyState();
+        }
+    } else {
+        localStorage.setItem('rules', JSON.stringify(rules));
+    }
+    if (currentCompanyId) saveCompanyData();
+}
+
+function getChartLookupPlans() {
+    const plans = [];
+    const currentCompany = companies.find(company => company.id === currentCompanyId);
+    const currentChart = Array.isArray(chartOfAccounts) ? chartOfAccounts.filter(acc => acc && acc.code) : [];
+    if (currentChart.length) {
+        plans.push({
+            id: currentCompanyId || '__current__',
+            name: currentCompany ? `Plano atual: ${currentCompany.name}` : 'Plano atual carregado',
+            chart: currentChart
+        });
+    }
+
+    const globalChart = JSON.parse(localStorage.getItem('chartOfAccounts') || '[]').filter(acc => acc && acc.code);
+    if (globalChart.length) {
+        plans.push({ id: '__global__', name: 'Plano geral do sistema', chart: globalChart });
+    }
+
+    companies.forEach(company => {
+        const stored = JSON.parse(localStorage.getItem(`company_${company.id}`) || '{}');
+        const companyChart = (stored.chart || company.chart || []).filter(acc => acc && acc.code);
+        if (companyChart.length) plans.push({ id: company.id, name: company.name, chart: companyChart });
+    });
+
+    const distinctPlans = new Map();
+    plans.forEach(plan => {
+        const signature = JSON.stringify(plan.chart.map(acc => `${acc.code}|${acc.description}|${acc.group || acc.type || ''}`));
+        if (!distinctPlans.has(signature)) {
+            distinctPlans.set(signature, plan);
+            return;
+        }
+        const existing = distinctPlans.get(signature);
+        if (plan.id === currentCompanyId || (plan.id !== '__global__' && existing.id === '__global__')) distinctPlans.set(signature, plan);
+    });
+    return Array.from(distinctPlans.values());
+}
+
+function getLookupChartByPlanId(planId) {
+    const plans = getChartLookupPlans();
+    if (!plans.length) return [];
+    const selected = plans.find(plan => plan.id === planId);
+    return (selected || plans[0]).chart || [];
+}
+
+function getPreferredRuleLookupPlanId() {
+    const plans = getChartLookupPlans();
+    if (!plans.length) return '';
+    const currentPlan = plans.find(plan => plan.id === currentCompanyId);
+    return (currentPlan || plans[0]).id;
+}
+
+function buildRuleAccountResults(query, planId, limit = 8, showAll = false) {
+    const lookupChart = getLookupChartByPlanId(planId);
+    if (!lookupChart.length) return [];
+    const q = String(query || '').trim().toLowerCase();
+    const filtered = showAll || !q
+        ? lookupChart
+        : lookupChart.filter(acc =>
+            String(acc.code || '').toLowerCase().includes(q) ||
+            String(acc.description || '').toLowerCase().includes(q) ||
+            String(acc.group || acc.type || '').toLowerCase().includes(q)
+        );
+    return filtered.slice(0, limit);
+}
+
+function renderRuleAccountSuggestions(ruleIndex, query = '') {
+    const container = document.getElementById(`ruleAccountSuggestions${ruleIndex}`);
+    if (!container) return;
+    const planId = getPreferredRuleLookupPlanId();
+    const results = buildRuleAccountResults(query, planId, 8, !String(query || '').trim());
+    if (!results.length) {
+        container.style.display = 'block';
+        container.innerHTML = '<div style="padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--gray);font-size:0.82rem;">Nenhuma conta encontrada neste plano.</div>';
+        return;
+    }
+    container.style.display = 'block';
+    container.innerHTML = `<div style="border:1px solid var(--border);border-radius:10px;background:#fff;box-shadow:0 10px 24px rgba(15,23,42,0.08);overflow:hidden;">${results.map(acc => `<div style="padding:10px 12px;cursor:pointer;border-bottom:1px solid #eef2f7;display:flex;justify-content:space-between;gap:10px;align-items:center;" onmousedown="selectRuleAccount(${ruleIndex},'${String(acc.code || '').replace(/'/g, "\\'")}')"><div><strong style="color:var(--primary);">${acc.code}</strong><span style="margin:0 8px;color:var(--border);">|</span><span>${acc.description}</span></div><span style="font-size:0.74rem;color:var(--gray);">${acc.group || acc.type || ''}</span></div>`).join('')}</div>`;
+}
+
+function closeRuleAccountSuggestionsDelayed(ruleIndex) {
+    setTimeout(() => {
+        const container = document.getElementById(`ruleAccountSuggestions${ruleIndex}`);
+        if (container) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
+    }, 150);
+}
+
+function selectRuleAccount(ruleIndex, code) {
+    if (!rules[ruleIndex]) return;
+    rules[ruleIndex].account = code;
+    persistRulesStorage();
+    renderRules();
+    showStatus(`Conta ${code} vinculada à regra.`, 'success');
+}
+
+function openRuleAccountSearch(ruleIndex, showAll = false) {
+    searchAccountContext = {
+        mode: 'rule',
+        ruleIndex,
+        planId: getPreferredRuleLookupPlanId(),
+        showAll
+    };
+    showSearchAccountModal();
+    const accountValue = rules[ruleIndex]?.account || '';
+    document.getElementById('searchAccountInput').value = showAll ? '' : accountValue;
+    searchAccount(showAll ? '' : accountValue, showAll);
+}
+
 function renderRules() {
     const c = document.getElementById('rulesContainer'); c.innerHTML = '';
+    updateMultiCompanyScopeUI();
     if (rules.length === 0) { c.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-sliders-h" style="font-size:2rem;margin-bottom:10px;display:block;"></i><div>Nenhuma regra definida.</div></div>'; return; }
     rules.forEach((rule, i) => {
         const d = document.createElement('div'); d.className = 'rule-item';
         d.innerHTML = `<input type="text" class="rule-keyword" placeholder="Palavra-chave" value="${rule.keyword}" onchange="updateRule(${i},this.value,'keyword')">
         <select class="rule-type" onchange="updateRule(${i},this.value,'type')"><option value="credit" ${rule.type==='credit'?'selected':''}>Crédito (Entrada)</option><option value="debit" ${rule.type==='debit'?'selected':''}>Débito (Saída)</option></select>
-        <input type="text" class="rule-account" placeholder="Conta contábil" value="${rule.account}" onchange="updateRule(${i},this.value,'account')">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:320px;flex:1;">
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;">
+                <input type="text" id="ruleAccountInput${i}" class="rule-account" placeholder="Conta contábil" value="${rule.account}" onchange="updateRule(${i},this.value,'account')" onfocus="renderRuleAccountSuggestions(${i}, this.value)" oninput="renderRuleAccountSuggestions(${i}, this.value)" onblur="closeRuleAccountSuggestionsDelayed(${i})">
+                <button class="btn btn-outline btn-sm" type="button" onclick="openRuleAccountSearch(${i}, false)" title="Pesquisar conta por código ou nome"><i class="fas fa-search"></i></button>
+                <button class="btn btn-outline btn-sm" type="button" onclick="openRuleAccountSearch(${i}, true)" title="Mostrar balancete / plano de contas"><i class="fas fa-book-open"></i></button>
+            </div>
+            <div id="ruleAccountSuggestions${i}" style="display:none;"></div>
+        </div>
         <input type="text" class="complement-rule-input" placeholder="Complemento (opcional)" value="${rule.complementText||''}" onchange="updateRule(${i},this.value,'complementText')">
         <div class="d-flex gap-10">
             <button class="btn btn-outline btn-sm" onclick="moveRuleUp(${i})" ${i===0?'disabled':''}><i class="fas fa-arrow-up"></i></button>
@@ -4917,11 +5759,11 @@ function renderRules() {
         c.appendChild(d);
     });
 }
-function updateRule(i, v, f) { if (f==='keyword') rules[i].keyword=v.toUpperCase(); else rules[i][f]=v; localStorage.setItem('rules',JSON.stringify(rules)); }
-function moveRuleUp(i) { if (i>0) { [rules[i-1],rules[i]]=[rules[i],rules[i-1]]; renderRules(); localStorage.setItem('rules',JSON.stringify(rules)); } }
-function moveRuleDown(i) { if (i<rules.length-1) { [rules[i],rules[i+1]]=[rules[i+1],rules[i]]; renderRules(); localStorage.setItem('rules',JSON.stringify(rules)); } }
-function addRule() { rules.push({keyword:"",type:"credit",account:"",complementAction:"add_beginning",complementText:""}); renderRules(); localStorage.setItem('rules',JSON.stringify(rules)); showStatus("Nova regra adicionada.","info"); }
-function removeRuleByIndex(i) { if (confirm("Remover esta regra?")) { rules.splice(i,1); renderRules(); localStorage.setItem('rules',JSON.stringify(rules)); showStatus("Regra removida.","success"); } }
+function updateRule(i, v, f) { if (f==='keyword') rules[i].keyword=v.toUpperCase(); else rules[i][f]=v; persistRulesStorage(); }
+function moveRuleUp(i) { if (i>0) { [rules[i-1],rules[i]]=[rules[i],rules[i-1]]; renderRules(); persistRulesStorage(); } }
+function moveRuleDown(i) { if (i<rules.length-1) { [rules[i],rules[i+1]]=[rules[i+1],rules[i]]; renderRules(); persistRulesStorage(); } }
+function addRule() { rules.push({keyword:"",type:"credit",account:"",complementAction:"add_beginning",complementText:""}); renderRules(); persistRulesStorage(); showStatus("Nova regra adicionada.","info"); }
+function removeRuleByIndex(i) { if (confirm("Remover esta regra?")) { rules.splice(i,1); renderRules(); persistRulesStorage(); showStatus("Regra removida.","success"); } }
 
 // Keyword History Rules
 function renderKeywordHistoryRules() {
@@ -5202,30 +6044,64 @@ function updateAccountSummary() {
 // SEARCH ACCOUNT MODAL (NOVO)
 // ============================================================
 function showSearchAccountModal() {
-    document.getElementById('searchAccountInput').value = '';
+    if (searchAccountContext.mode !== 'rule') searchAccountContext = { mode: 'copy', ruleIndex: null, planId: '', showAll: false };
+    const plans = getChartLookupPlans();
+    const planGroup = document.getElementById('searchAccountPlanGroup');
+    const planSelect = document.getElementById('searchAccountPlanSelect');
+    const help = document.getElementById('searchAccountHelpText');
+    if (planGroup && planSelect) {
+        if (plans.length > 1) {
+            planGroup.style.display = 'block';
+            planSelect.innerHTML = plans.map(plan => `<option value="${plan.id}">${plan.name}</option>`).join('');
+            searchAccountContext.planId = plans.some(plan => plan.id === searchAccountContext.planId) ? searchAccountContext.planId : plans[0].id;
+            planSelect.value = searchAccountContext.planId;
+        } else {
+            planGroup.style.display = 'none';
+            searchAccountContext.planId = plans[0]?.id || '';
+        }
+    }
+    if (help) {
+        help.innerHTML = searchAccountContext.mode === 'rule'
+            ? '<i class="fas fa-info-circle"></i> Clique em qualquer resultado para preencher a conta contábil da regra.'
+            : '<i class="fas fa-info-circle"></i> Clique em qualquer resultado para copiar o código para a área de transferência.';
+    }
+    if (searchAccountContext.mode !== 'rule') document.getElementById('searchAccountInput').value = '';
     document.getElementById('searchAccountResults').innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-search" style="font-size:2rem;margin-bottom:10px;display:block;"></i>Digite para pesquisar no plano de contas</div>';
     document.getElementById('searchAccountModal').style.display = 'flex';
     setTimeout(() => document.getElementById('searchAccountInput').focus(), 100);
 }
 
-function closeSearchAccountModal() { document.getElementById('searchAccountModal').style.display = 'none'; }
+function closeSearchAccountModal() {
+    document.getElementById('searchAccountModal').style.display = 'none';
+    searchAccountContext = { mode: 'copy', ruleIndex: null, planId: '', showAll: false };
+}
 
-function searchAccount(query) {
+function changeSearchAccountPlan(planId) {
+    searchAccountContext.planId = planId;
+    searchAccount(document.getElementById('searchAccountInput')?.value || '', searchAccountContext.showAll);
+}
+
+function searchAccount(query, showAll = false) {
+    searchAccountContext.showAll = !!showAll;
     const container = document.getElementById('searchAccountResults');
-    if (!query || query.trim().length < 1) {
+    const plans = getChartLookupPlans();
+    if (!plans.length) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-folder-open" style="font-size:2rem;margin-bottom:10px;display:block;"></i>Nenhum plano de contas disponível.</div>';
+        return;
+    }
+    if (!showAll && (!query || query.trim().length < 1)) {
         container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-search" style="font-size:2rem;margin-bottom:10px;display:block;"></i>Digite para pesquisar</div>';
         return;
     }
     const q = query.trim().toLowerCase();
-    const results = chartOfAccounts.filter(acc =>
-        acc.code.toLowerCase().includes(q) || acc.description.toLowerCase().includes(q) || (acc.group && acc.group.toLowerCase().includes(q))
-    );
+    const activePlanId = searchAccountContext.planId || plans[0].id;
+    const results = buildRuleAccountResults(q, activePlanId, 50, showAll);
     if (results.length === 0) {
         container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-search-minus" style="font-size:2rem;margin-bottom:10px;display:block;"></i>Nenhuma conta encontrada.</div>';
         return;
     }
     container.innerHTML = results.slice(0, 50).map(acc => `
-        <div class="search-result-item" onclick="copyAccountCode('${acc.code}','${acc.description.replace(/'/g,"\\'")}')">
+        <div class="search-result-item" onclick="copyAccountCode('${acc.code}','${String(acc.description || '').replace(/'/g,"\\'")}')">
             <div>
                 <span class="search-result-code">${acc.code}</span>
                 <span style="margin:0 10px;color:var(--border);">|</span>
@@ -5237,6 +6113,11 @@ function searchAccount(query) {
 }
 
 function copyAccountCode(code, description) {
+    if (searchAccountContext.mode === 'rule' && searchAccountContext.ruleIndex !== null) {
+        selectRuleAccount(searchAccountContext.ruleIndex, code);
+        closeSearchAccountModal();
+        return;
+    }
     navigator.clipboard.writeText(code).then(() => {
         showStatus(`Código "${code} - ${description}" copiado!`, "success");
         closeSearchAccountModal();
@@ -6498,7 +7379,7 @@ function loadCompanyData() {
     if(!currentCompanyId)return; const c=companies.find(x=>x.id===currentCompanyId); if(!c)return;
     const d=JSON.parse(localStorage.getItem(`company_${currentCompanyId}`)||'{}');
     chartOfAccounts=d.chart||[]; caixinhaTransactions=d.caixinha||[]; rules=d.rules||[];
-    renderChartOfAccounts(); loadCaixinhaData(); showStatus(`Empresa "${c.name}" carregada.`,"info");
+    renderChartOfAccounts(); renderRules(); loadCaixinhaData(); showStatus(`Empresa "${c.name}" carregada.`,"info");
 }
 function saveCompanyData() { if(!currentCompanyId)return; const d=JSON.parse(localStorage.getItem(`company_${currentCompanyId}`)||'{}'); d.chart=chartOfAccounts;d.caixinha=caixinhaTransactions;d.rules=rules; localStorage.setItem(`company_${currentCompanyId}`,JSON.stringify(d)); }
 function showEditCompanyModal() { if(!currentCompanyId){showStatus("Selecione uma empresa.","info");return;} const c=companies.find(x=>x.id===currentCompanyId); document.getElementById('editCompanyName').value=c.name; document.getElementById('editCompanyCNPJ').value=c.cnpj; document.getElementById('editCompanyModal').style.display='flex'; }
@@ -6661,8 +7542,21 @@ async function parseBankStatementPDF(file) {
 // SETTINGS
 // ============================================================
 function saveSettings() {
-    const s = { bankAccountCode, defaultHistory, previousBalance, numberFormat:document.getElementById('numberFormat').value, dateFormat:document.getElementById('dateFormat').value, exportFormat:document.getElementById('exportFormat').value, autoSave:document.getElementById('autoSave').value };
-    localStorage.setItem('settings', JSON.stringify(s));
+    if (currentDatasetContext.mode === 'multi') {
+        const slot = multiCompanyGetWorkingSlot();
+        if (slot) {
+            slot.bankAccountCode = bankAccountCode;
+            slot.defaultHistory = defaultHistory;
+            slot.previousBalance = previousBalance;
+            slot.expectedFinalBalance = document.getElementById('expectedFinalBalance').value;
+            saveMultiCompanyState();
+            renderMultiCompanyModule();
+            updateMultiCompanyScopeUI();
+        }
+    } else {
+        const s = { bankAccountCode, defaultHistory, previousBalance, numberFormat:document.getElementById('numberFormat').value, dateFormat:document.getElementById('dateFormat').value, exportFormat:document.getElementById('exportFormat').value, autoSave:document.getElementById('autoSave').value };
+        localStorage.setItem('settings', JSON.stringify(s));
+    }
     showStatus("Configurações salvas.", "success");
 }
 
@@ -7529,10 +8423,24 @@ function clearAll() {
     if (!confirm("Limpar todas as transações?")) return;
     transactions=[]; rawTransactions=[]; totalCredits=0; totalDebits=0; finalBalance=previousBalance;
     selectedTransactions.clear(); isMultiMonth=false; multiMonthTransactions={};
+    if (currentDatasetContext.mode === 'multi') {
+        const slot = multiCompanyGetWorkingSlot();
+        if (slot) {
+            slot.transactions = [];
+            slot.rawTransactions = [];
+            slot.totalCredits = 0;
+            slot.totalDebits = 0;
+            slot.isMultiMonth = false;
+            slot.multiMonthTransactions = {};
+            slot.lastProcessedAt = '';
+            saveMultiCompanyState();
+            renderMultiCompanyModule();
+        }
+    }
     displayTransactions(); updateFinancialSummary();
     ['exportExcelBtn','exportTxtBtn','exportExcelBtn2','exportTxtBtn2','applyRulesBtn','applyRulesBtn2'].forEach(id=>{const e=document.getElementById(id);if(e)e.disabled=true;});
     document.getElementById('transactionsBadge').classList.add('d-none');
-    localStorage.removeItem('transactions');
+    if (currentDatasetContext.mode === 'single') localStorage.removeItem('transactions');
     showStatus("Todas as transações foram removidas.", "success");
 }
 
@@ -9638,18 +10546,223 @@ function closeMlRobotModal() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMlRobotModal(); });
 
 function switchMlTab(tab) {
-    ['stats','search','chat','manage','logic'].forEach((t, i) => {
+    ['stats','diagnostics','search','chat','manage','logic'].forEach((t, i) => {
         document.getElementById('mlTab' + t.charAt(0).toUpperCase() + t.slice(1)).style.display = t === tab ? '' : 'none';
         const btn = document.getElementById('mlTabBtn' + (i+1));
         if (btn) btn.classList.toggle('active', t === tab);
     });
     if (tab === 'stats')   renderMlStats();
+    if (tab === 'diagnostics') renderMlDiagnostics();
     if (tab === 'manage') renderMlManageList();
     if (tab === 'logic')  renderSisAiLogic();
     if (tab === 'chat')   initMlChat();
 }
 
+function sisAiGetTransactionsNeedingClassification() {
+    return (transactions || []).filter(tx => !tx.debitCode || !tx.creditCode);
+}
+
+function sisAiGetGroupingDescription(tx) {
+    return String(tx?.description || tx?.history || '').trim();
+}
+
+function sisAiBuildDescriptionGroups(sourceTransactions = transactions || []) {
+    const groups = new Map();
+    (sourceTransactions || []).forEach((tx, index) => {
+        const baseText = sisAiComparableText(sisAiGetGroupingDescription(tx)).replace(/\b\d+\b/g, ' ').replace(/\s+/g, ' ').trim();
+        const key = baseText.split(' ').slice(0, 7).join(' ').trim();
+        if (!key || key.length < 4) return;
+        if (!groups.has(key)) {
+            groups.set(key, {
+                key,
+                sample: sisAiGetGroupingDescription(tx) || 'Sem descricao',
+                count: 0,
+                totalAmount: 0,
+                amounts: [],
+                transactions: [],
+                unclassifiedCount: 0,
+                reviewCount: 0,
+                classifiedCount: 0,
+                latestDate: '',
+                firstIndex: index
+            });
+        }
+        const group = groups.get(key);
+        const amount = Math.abs(parseFloat(tx.amount) || 0);
+        group.count++;
+        group.totalAmount += amount;
+        group.amounts.push(amount);
+        group.transactions.push(tx);
+        group.latestDate = tx.date || group.latestDate;
+        if (!tx.debitCode || !tx.creditCode) group.unclassifiedCount++;
+        else group.classifiedCount++;
+        if (tx.aiNeedsReview) group.reviewCount++;
+    });
+    return Array.from(groups.values()).map(group => ({
+        ...group,
+        avgAmount: group.count ? group.totalAmount / group.count : 0,
+        maxAmount: group.amounts.length ? Math.max(...group.amounts) : 0,
+        minAmount: group.amounts.length ? Math.min(...group.amounts) : 0
+    }));
+}
+
+function sisAiBuildRuleSuggestions() {
+    return sisAiBuildDescriptionGroups(sisAiGetTransactionsNeedingClassification())
+        .filter(group => group.count >= sisAiSettings.recurringMinOccurrences)
+        .map(group => {
+            const guess = mlFindBestMatch({ description: group.sample, amount: -(group.avgAmount || 0.01) });
+            return { group, guess };
+        })
+        .filter(item => item.guess && item.guess.confidence >= sisAiSettings.reviewAlertConfidence)
+        .sort((left, right) => right.guess.confidence - left.guess.confidence || right.group.count - left.group.count)
+        .slice(0, 8);
+}
+
+function sisAiBuildAnomalyAlerts(groups) {
+    const alerts = [];
+    groups.forEach(group => {
+        if (group.count < 2 || group.avgAmount <= 0) return;
+        group.transactions.forEach(tx => {
+            const amount = Math.abs(parseFloat(tx.amount) || 0);
+            const isOutlier = amount >= group.avgAmount * sisAiSettings.anomalyAmountMultiplier && amount >= group.avgAmount + 100;
+            if (!isOutlier) return;
+            alerts.push({
+                sample: group.sample,
+                avgAmount: group.avgAmount,
+                amount,
+                date: tx.date || '—',
+                description: tx.description || tx.history || '—',
+                transaction: tx
+            });
+        });
+    });
+    return alerts.sort((left, right) => (right.amount - right.avgAmount) - (left.amount - left.avgAmount)).slice(0, 10);
+}
+
+function sisAiBuildRobotDiagnostics() {
+    const txs = transactions || [];
+    const groups = sisAiBuildDescriptionGroups(txs);
+    const unclassified = sisAiGetTransactionsNeedingClassification();
+    const recurring = groups
+        .filter(group => group.count >= sisAiSettings.recurringMinOccurrences)
+        .sort((left, right) => right.count - left.count || right.totalAmount - left.totalAmount)
+        .slice(0, 10);
+    const unclassifiedGroups = groups
+        .filter(group => group.unclassifiedCount > 0)
+        .sort((left, right) => right.unclassifiedCount - left.unclassifiedCount || right.count - left.count)
+        .slice(0, 10);
+    const reviewGroups = groups
+        .filter(group => group.reviewCount > 0)
+        .sort((left, right) => right.reviewCount - left.reviewCount || right.count - left.count)
+        .slice(0, 8);
+    const anomalies = sisAiBuildAnomalyAlerts(groups);
+    const suggestions = sisAiBuildRuleSuggestions();
+    const highConfidencePending = unclassified.reduce((count, tx) => {
+        const match = mlFindBestMatch(tx);
+        return count + (match && match.confidence >= sisAiSettings.reviewAlertConfidence ? 1 : 0);
+    }, 0);
+
+    return {
+        txCount: txs.length,
+        unclassifiedCount: unclassified.length,
+        reviewCount: txs.filter(tx => !!tx.aiNeedsReview).length,
+        recurringCount: recurring.length,
+        anomalyCount: anomalies.length,
+        suggestionCount: suggestions.length,
+        highConfidencePending,
+        recurring,
+        unclassifiedGroups,
+        reviewGroups,
+        anomalies,
+        suggestions
+    };
+}
+
+function renderMlDiagnostics() {
+    const el = document.getElementById('mlRobotDiagnosticsContent');
+    if (!el) return;
+
+    const diagnostics = sisAiBuildRobotDiagnostics();
+    const suggestionRows = diagnostics.suggestions.map(item => {
+        const matchedTokens = Array.from(item.guess.matchedTokens || []).slice(0, 4).map(token => token.replace(/_/g, ' ')).join(', ');
+        return `<div class="sis-ai-panel" style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;">
+                <div>
+                    <div style="font-weight:700;color:#f8fafc;">${sisAiEscapeHtml(item.group.sample)}</div>
+                    <div style="font-size:0.78rem;color:rgba(220,252,231,0.68);margin-top:4px;">${item.group.count} recorrencias sem classificacao completa</div>
+                </div>
+                <span class="fech-conferencia-status ok">${item.guess.confidence}%</span>
+            </div>
+            <div style="font-size:0.8rem;color:rgba(220,252,231,0.78);margin-top:8px;">Sugestao: D ${sisAiEscapeHtml(item.guess.entry.debitAccount || '—')} / C ${sisAiEscapeHtml(item.guess.entry.creditAccount || '—')}</div>
+            <div style="font-size:0.76rem;color:rgba(220,252,231,0.6);margin-top:4px;">Base: ${sisAiEscapeHtml(matchedTokens || 'padrão aprendido')}</div>
+        </div>`;
+    }).join('');
+
+    const recurringRows = diagnostics.recurring.map(group => `<tr>
+        <td>${sisAiEscapeHtml(group.sample)}</td>
+        <td style="text-align:right;">${group.count}</td>
+        <td style="text-align:right;">${fmtBRL(group.avgAmount)}</td>
+        <td style="text-align:right;">${fmtBRL(group.totalAmount)}</td>
+    </tr>`).join('');
+
+    const unclassifiedRows = diagnostics.unclassifiedGroups.map(group => `<tr>
+        <td>${sisAiEscapeHtml(group.sample)}</td>
+        <td style="text-align:right;">${group.unclassifiedCount}</td>
+        <td style="text-align:right;">${group.count}</td>
+        <td style="text-align:right;">${fmtBRL(group.avgAmount)}</td>
+    </tr>`).join('');
+
+    const anomalyRows = diagnostics.anomalies.map(item => `<tr>
+        <td>${sisAiEscapeHtml(item.date)}</td>
+        <td>${sisAiEscapeHtml(item.description)}</td>
+        <td style="text-align:right;">${fmtBRL(item.amount)}</td>
+        <td style="text-align:right;">${fmtBRL(item.avgAmount)}</td>
+    </tr>`).join('');
+
+    el.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px;">
+            <div class="ml-stat-card"><div class="ml-stat-icon" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">🧭</div><div><div style="font-size:1.4rem;font-weight:800;color:#f8fafc;">${diagnostics.unclassifiedCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Sem classificacao</div></div></div>
+            <div class="ml-stat-card"><div class="ml-stat-icon" style="background:linear-gradient(135deg,#854d0e,#f59e0b);">🛠</div><div><div style="font-size:1.4rem;font-weight:800;color:#fef3c7;">${diagnostics.suggestionCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Sugestoes de regra</div></div></div>
+            <div class="ml-stat-card"><div class="ml-stat-icon" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">🔁</div><div><div style="font-size:1.4rem;font-weight:800;color:#dbeafe;">${diagnostics.recurringCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Padroes recorrentes</div></div></div>
+            <div class="ml-stat-card"><div class="ml-stat-icon" style="background:linear-gradient(135deg,#7f1d1d,#ef4444);">🚨</div><div><div style="font-size:1.4rem;font-weight:800;color:#fee2e2;">${diagnostics.anomalyCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Anomalias de valor</div></div></div>
+        </div>
+        <div class="sis-ai-logic-grid" style="margin-bottom:16px;">
+            <div class="sis-ai-panel">
+                <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Prioridade operacional</div>
+                <div style="font-size:0.84rem;color:rgba(220,252,231,0.76);line-height:1.55;">
+                    <div><strong>${diagnostics.highConfidencePending}</strong> lancamento(s) sem classificacao ja possuem forte indicio de conta.</div>
+                    <div style="margin-top:6px;"><strong>${diagnostics.reviewCount}</strong> item(ns) continuam em revisao manual e podem alimentar novas regras.</div>
+                </div>
+            </div>
+            <div class="sis-ai-panel">
+                <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Recomendacao do robô</div>
+                <div style="font-size:0.84rem;color:rgba(220,252,231,0.76);line-height:1.55;">
+                    ${diagnostics.suggestionCount > 0
+                        ? 'Existem grupos recorrentes nao classificados. O melhor ganho imediato e transformar esses grupos em regras ou confirmar manualmente os lancamentos equivalentes.'
+                        : 'Nao encontrei sugestoes fortes de regra agora. O melhor proximo passo e confirmar lancamentos fora do padrao para ampliar a base do robô.'}
+                </div>
+            </div>
+        </div>
+        <div class="sis-ai-panel" style="margin-bottom:16px;">
+            <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Sugestoes de regra</div>
+            ${suggestionRows || '<div style="font-size:0.82rem;color:rgba(220,252,231,0.68);">Nenhuma sugestao forte neste momento.</div>'}
+        </div>
+        <div class="sis-ai-panel" style="margin-bottom:16px;overflow:auto;">
+            <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Padroes recorrentes</div>
+            <table class="data-table"><thead><tr><th>Descricao base</th><th style="text-align:right;">Qtd</th><th style="text-align:right;">Media</th><th style="text-align:right;">Total</th></tr></thead><tbody>${recurringRows || '<tr><td colspan="4" style="color:rgba(220,252,231,0.68);">Nenhum padrao recorrente suficiente.</td></tr>'}</tbody></table>
+        </div>
+        <div class="sis-ai-panel" style="margin-bottom:16px;overflow:auto;">
+            <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Grupos mais carentes de classificacao</div>
+            <table class="data-table"><thead><tr><th>Descricao base</th><th style="text-align:right;">Sem classe</th><th style="text-align:right;">Qtd</th><th style="text-align:right;">Media</th></tr></thead><tbody>${unclassifiedRows || '<tr><td colspan="4" style="color:rgba(220,252,231,0.68);">Nenhum grupo pendente.</td></tr>'}</tbody></table>
+        </div>
+        <div class="sis-ai-panel" style="overflow:auto;">
+            <div style="font-weight:700;margin-bottom:10px;color:#f8fafc;">Anomalias de valor</div>
+            <table class="data-table"><thead><tr><th>Data</th><th>Descricao</th><th style="text-align:right;">Valor</th><th style="text-align:right;">Media do grupo</th></tr></thead><tbody>${anomalyRows || '<tr><td colspan="4" style="color:rgba(220,252,231,0.68);">Nenhuma anomalia relevante encontrada.</td></tr>'}</tbody></table>
+        </div>`;
+}
+
 function renderMlStats() {
+    const diagnostics = sisAiBuildRobotDiagnostics();
     const tokens = Object.keys(mlReconcData || {});
     const nonAmt  = tokens.filter(t => !t.startsWith('amt_'));
     const total   = nonAmt.reduce((s, t) => s + ((mlReconcData[t].totalSeen) || 0), 0);
@@ -9685,6 +10798,14 @@ function renderMlStats() {
                 <div class="ml-stat-icon" style="background:linear-gradient(135deg,#064e3b,#10b981);">🎯</div>
                 <div><div style="font-size:1.4rem;font-weight:800;color:#a7f3d0;">${accuracy}%</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Consistência (≥80%)</div></div>
             </div>
+            <div class="ml-stat-card">
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#1d4ed8,#60a5fa);">📌</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#dbeafe;">${diagnostics.unclassifiedCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Pendentes de classe</div></div>
+            </div>
+            <div class="ml-stat-card">
+                <div class="ml-stat-icon" style="background:linear-gradient(135deg,#7c2d12,#f97316);">🧪</div>
+                <div><div style="font-size:1.4rem;font-weight:800;color:#ffedd5;">${diagnostics.anomalyCount}</div><div style="font-size:0.78rem;color:rgba(220,252,231,0.72);">Anomalias encontradas</div></div>
+            </div>
         </div>
         <div style="font-weight:700;font-size:0.85rem;margin-bottom:10px;color:#f8fafc;">🏆 Top 5 Padrões mais Vistos</div>
         ${topTokens.length === 0 ? '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum padrão aprendido ainda. Confirme transações para treinar o robô.</p>' :
@@ -9701,7 +10822,7 @@ function renderMlStats() {
             </div>`;
           }).join('')}
         <div class="sis-ai-panel" style="margin-top:16px;font-size:0.8rem;color:rgba(220,252,231,0.74);">
-            <strong style="color:#f8fafc;">💡 Dica:</strong> Quanto mais transações você confirmar manualmente, mais inteligente o robô fica. Acesse a aba <em>Chat</em> para simular como ele classificaria uma transação.
+            <strong style="color:#f8fafc;">💡 Dica:</strong> Quanto mais transações você confirmar manualmente, mais inteligente o robô fica. Hoje ele enxerga <strong>${diagnostics.suggestionCount}</strong> sugestao(oes) de regra e <strong>${diagnostics.highConfidencePending}</strong> pendencia(s) com forte indicio de classificacao.
         </div>`;
 }
 
@@ -9710,9 +10831,18 @@ function mlRobotSearch() {
     const resultsEl = document.getElementById('mlSearchResults');
     if (!resultsEl) return;
     if (!q) { resultsEl.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Digite algo para buscar...</p>'; return; }
+    const qSafe = sisAiEscapeHtml(q);
+    const normalizedQuery = q.replace(/\s+/g,'_');
     const tokens = Object.keys(mlReconcData || {}).filter(t => t.includes(q.replace(/\s+/g,'_')) || t.includes(q) || (mlReconcData[t].sampleDesc||'').toLowerCase().includes(q));
-    if (!tokens.length) { resultsEl.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum padrão encontrado para "' + q + '".</p>'; return; }
-    resultsEl.innerHTML = tokens.slice(0,50).map(t => {
+    const prediction = mlFindBestMatch({ description: q, amount: 0 });
+    const txMatches = (transactions || []).filter(tx => sisAiComparableText((tx.description || '') + ' ' + (tx.history || '')).includes(sisAiComparableText(q))).slice(0, 8);
+    if (!tokens.length && !prediction && txMatches.length === 0) { resultsEl.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum padrão encontrado para "' + qSafe + '".</p>'; return; }
+    const predictionHtml = prediction ? `<div class="sis-ai-panel" style="margin-bottom:12px;">
+        <div style="font-weight:700;color:#f8fafc;margin-bottom:8px;">Leitura do robô para o texto digitado</div>
+        <div style="font-size:0.84rem;color:rgba(220,252,231,0.78);line-height:1.55;">Débito sugerido: <strong>${sisAiEscapeHtml(prediction.entry.debitAccount || '—')}</strong> | Crédito sugerido: <strong>${sisAiEscapeHtml(prediction.entry.creditAccount || '—')}</strong> | Confiança: <strong>${prediction.confidence}%</strong></div>
+        <div style="font-size:0.76rem;color:rgba(220,252,231,0.62);margin-top:4px;">Tokens relevantes: ${sisAiEscapeHtml(Array.from(prediction.matchedTokens || []).slice(0, 5).map(token => token.replace(/_/g, ' ')).join(', ') || normalizedQuery.replace(/_/g, ' '))}</div>
+    </div>` : '';
+    const tokenHtml = tokens.slice(0,50).map(t => {
         const e = mlReconcData[t];
         const tot = (e.debitCount||0)+(e.creditCount||0);
         const conf = tot > 0 ? Math.round(Math.max(e.debitCount||0, e.creditCount||0)/tot*100) : 0;
@@ -9723,7 +10853,12 @@ function mlRobotSearch() {
             <span style="font-size:0.74rem;font-weight:700;color:#4ade80;">${conf}%</span>
             <button onclick="mlForgetToken('${t}');mlRobotSearch();" title="Esquecer este padrão" style="background:none;border:none;color:#ef4444;cursor:pointer;padding:2px 6px;"><i class="fas fa-trash-alt"></i></button>
         </div>`;
-    }).join('') + (tokens.length > 50 ? `<p style="font-size:0.78rem;color:rgba(220,252,231,0.62);">... e mais ${tokens.length-50} resultados. Refine a busca.</p>` : '');
+    }).join('');
+    const txHtml = txMatches.length ? `<div class="sis-ai-panel" style="margin-top:12px;">
+        <div style="font-weight:700;color:#f8fafc;margin-bottom:8px;">Lançamentos vivos relacionados</div>
+        ${txMatches.map(tx => `<div class="ml-token-row"><span style="flex:1;">${sisAiEscapeHtml(tx.description || tx.history || '—')}</span><span style="font-size:0.74rem;color:rgba(220,252,231,0.68);">${sisAiEscapeHtml(tx.date || '—')}</span><span style="font-size:0.74rem;color:#bbf7d0;">${fmtBRL(Math.abs(parseFloat(tx.amount) || 0))}</span></div>`).join('')}
+    </div>` : '';
+    resultsEl.innerHTML = predictionHtml + (tokenHtml || '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Nenhum token aprendido bateu com a busca.</p>') + (tokens.length > 50 ? `<p style="font-size:0.78rem;color:rgba(220,252,231,0.62);">... e mais ${tokens.length-50} resultados. Refine a busca.</p>` : '') + txHtml;
 }
 
 let _mlChatInit = false;
@@ -9733,7 +10868,7 @@ function initMlChat() {
     const msgs = document.getElementById('mlChatMessages');
     const sugg = document.getElementById('mlChatSuggestions');
     if (msgs) msgs.innerHTML = '<div class="ml-chat-msg bot">👋 Olá! Sou o Robô de Classificação. Pergunte como eu classificaria uma transação, ou peça para eu explicar meus padrões.</div>';
-    const examples = ['Como você classifica PIX?', 'Explique o padrão salário', 'O que você sabe sobre fornecedores?', 'Qual sua confiança geral?'];
+    const examples = ['Como você classifica PIX?', 'Quais anomalias você encontrou?', 'Me mostre regras sugeridas', 'Quais lançamentos mais precisam de atenção?'];
     if (sugg) sugg.innerHTML = '<span style="font-size:0.75rem;color:rgba(220,252,231,0.66);align-self:center;">Tente:</span>' +
         examples.map(e => `<button class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:3px 8px;" onclick="document.getElementById('mlChatInput').value='${e}';sendMlChatMessage();">${e}</button>`).join('');
 }
@@ -9757,10 +10892,29 @@ function sendMlChatMessage() {
 function _mlChatReply(text) {
     const q = text.toLowerCase();
     const tokens = Object.keys(mlReconcData || {});
+    const diagnostics = sisAiBuildRobotDiagnostics();
     // Simulate classification
     const fakeTx = { description: text, amount: 0 };
     const match = typeof mlFindBestMatch === 'function' ? mlFindBestMatch(fakeTx) : null;
 
+    if (/anomalia|fora do padrao|outlier/i.test(q)) {
+        if (!diagnostics.anomalies.length) return '🟢 Não encontrei anomalias relevantes de valor com a sensibilidade atual.';
+        const top = diagnostics.anomalies.slice(0, 3).map(item => `• ${item.date} — ${item.description} — ${fmtBRL(item.amount)} contra média de ${fmtBRL(item.avgAmount)}`).join('<br>');
+        return `🚨 Detectei <strong>${diagnostics.anomalyCount}</strong> anomalia(s) de valor. Principais casos:<br>${top}`;
+    }
+    if (/regra|sugest[aã]o|suger/i.test(q)) {
+        if (!diagnostics.suggestions.length) return '🧩 Ainda não tenho sugestão forte de regra. Falta recorrência ou confiança suficiente nos grupos pendentes.';
+        const top = diagnostics.suggestions.slice(0, 3).map(item => `• ${item.group.sample} → D ${item.guess.entry.debitAccount || '—'} / C ${item.guess.entry.creditAccount || '—'} (${item.guess.confidence}%)`).join('<br>');
+        return `🛠 Encontrei <strong>${diagnostics.suggestionCount}</strong> sugestão(ões) de regra. Melhores candidatas:<br>${top}`;
+    }
+    if (/aten[cç][aã]o|prioridade|pendente|nao classificado|sem classifica/i.test(q)) {
+        const topPending = diagnostics.unclassifiedGroups.slice(0, 3).map(group => `• ${group.sample} — ${group.unclassifiedCount} pendência(s), média ${fmtBRL(group.avgAmount)}`).join('<br>');
+        return `📌 Hoje existem <strong>${diagnostics.unclassifiedCount}</strong> lançamento(s) sem classificação completa, sendo <strong>${diagnostics.highConfidencePending}</strong> com forte indício de conta. Prioridades:<br>${topPending || '• Nenhum grupo crítico no momento.'}`;
+    }
+    if (/recorr|repete|repetid/i.test(q)) {
+        const topRecurring = diagnostics.recurring.slice(0, 3).map(group => `• ${group.sample} — ${group.count} ocorrência(s), total ${fmtBRL(group.totalAmount)}`).join('<br>');
+        return `🔁 Identifiquei <strong>${diagnostics.recurringCount}</strong> padrão(ões) recorrente(s). Principais grupos:<br>${topRecurring || '• Ainda não há grupos suficientes.'}`;
+    }
     if (/confiança|precisão|acurácia/i.test(q)) {
         const nonAmt = tokens.filter(t => !t.startsWith('amt_'));
         const acc = nonAmt.length > 0 ? (nonAmt.filter(t => {
@@ -9770,7 +10924,7 @@ function _mlChatReply(text) {
         return `🎯 Minha consistência geral é de <strong>${acc}%</strong> — calculada sobre ${nonAmt.length} padrões onde pelo menos 80% das observações apontam para a mesma conta.`;
     }
     if (/quantos|quantas|banco de dados|base|padr[aã]o/i.test(q) && !/padrao\s+\w/i.test(q)) {
-        return `🧠 Tenho <strong>${tokens.filter(t=>!t.startsWith('amt_')).length}</strong> padrões aprendidos com um total de <strong>${tokens.reduce((s,t)=>s+(mlReconcData[t].totalSeen||0),0).toFixed(0)}</strong> observações acumuladas.`;
+        return `🧠 Tenho <strong>${tokens.filter(t=>!t.startsWith('amt_')).length}</strong> padrões aprendidos com um total de <strong>${tokens.reduce((s,t)=>s+(mlReconcData[t].totalSeen||0),0).toFixed(0)}</strong> observações acumuladas. Hoje também enxergo <strong>${diagnostics.suggestionCount}</strong> sugestão(ões) de regra e <strong>${diagnostics.anomalyCount}</strong> anomalia(s).`;
     }
     if (/explique|explica|sabe.*sobre|padr[aã]o\s+(\w+)/i.test(q)) {
         const keyword = (q.match(/(?:padrão|padrao|sobre)\s+(.+)/)?.[1] || '').trim();
@@ -9783,7 +10937,10 @@ function _mlChatReply(text) {
     }
     if (match) {
         const e = match.entry;
-        return `🔍 Para "<em>${text}</em>", eu classificaria como:<br>• <strong>Débito:</strong> <code>${e.debitAccount||'—'}</code><br>• <strong>Crédito:</strong> <code>${e.creditAccount||'—'}</code><br>• Confiança: <strong>${match.confidence}%</strong><br>• Gatilho: token "<em>${match.word?.replace(/_/g,' ')}</em>"`;
+        const matchedTokens = Array.from(match.matchedTokens || []).slice(0, 5).map(token => token.replace(/_/g,' ')).join(', ');
+        const debitDesc = getAccountDescription(e.debitAccount || '') || 'sem descrição';
+        const creditDesc = getAccountDescription(e.creditAccount || '') || 'sem descrição';
+        return `🔍 Para "<em>${text}</em>", eu classificaria como:<br>• <strong>Débito:</strong> <code>${e.debitAccount||'—'}</code> (${debitDesc})<br>• <strong>Crédito:</strong> <code>${e.creditAccount||'—'}</code> (${creditDesc})<br>• Confiança: <strong>${match.confidence}%</strong><br>• Gatilhos: <em>${matchedTokens || match.word?.replace(/_/g,' ') || 'base aprendida'}</em><br>• Lote: ${match.canBatch ? '<strong>pode</strong> sugerir aplicação em lote' : 'melhor revisar caso a caso'}`;
     }
     // Fallback: suggest something
     const suggestions = [
@@ -10299,14 +11456,206 @@ const fmtBRL = v => formatCurrency(v);
 
 function switchFechTab(tab) {
     document.querySelectorAll('.fech-tab').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.getElementById('fechTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+    const suffix = FECHAMENTO_TAB_SUFFIX[tab];
+    const activeBtn = document.getElementById('fechTab' + suffix);
     if (activeBtn) activeBtn.classList.add('active');
-    ['fechTabContentBalancete','fechTabContentDre','fechTabContentBp'].forEach(id => {
+    ['fechTabContentBalancete','fechTabContentDre','fechTabContentBp','fechTabContentFolha','fechTabContentFiscal'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
     });
-    const target = document.getElementById('fechTabContent' + tab.charAt(0).toUpperCase() + tab.slice(1));
+    const target = document.getElementById('fechTabContent' + suffix);
     if (target) target.style.display = '';
+}
+
+function fechamentoPersistConferenceData() {
+    localStorage.setItem(FECHAMENTO_CONFERENCE_STORAGE_KEY, JSON.stringify(fechamentoConferenceData));
+}
+
+function fechamentoGetScopeKey() {
+    const empresa = (document.getElementById('fechEmpresaNome')?.value || 'empresa').trim() || 'empresa';
+    const periodo = (document.getElementById('fechPeriodo')?.value || 'geral').trim() || 'geral';
+    return `${empresa}__${periodo}`.replace(/\s+/g, '_').replace(/[\\/]+/g, '-');
+}
+
+function fechamentoGetScopedConferenceData(createIfMissing = true) {
+    const key = fechamentoGetScopeKey();
+    if (!fechamentoConferenceData[key] && createIfMissing) fechamentoConferenceData[key] = { folha: {}, fiscal: {} };
+    return fechamentoConferenceData[key] || { folha: {}, fiscal: {} };
+}
+
+function fechamentoHandleScopeChange() {
+    recalcFechamento();
+}
+
+function fechamentoCaptureConferenceDrafts() {
+    const scoped = fechamentoGetScopedConferenceData();
+    document.querySelectorAll('.fech-conf-expected').forEach(input => {
+        const type = input.dataset.type;
+        const category = input.dataset.category;
+        if (!type || !category) return;
+        if (!scoped[type]) scoped[type] = {};
+        const rawValue = String(input.value || '').trim();
+        if (!rawValue) delete scoped[type][category];
+        else scoped[type][category] = parseFloat(rawValue) || 0;
+    });
+    fechamentoPersistConferenceData();
+}
+
+function fechamentoGetTransactionText(tx) {
+    const debitDesc = getAccountDescription(tx.debitCode || '') || '';
+    const creditDesc = getAccountDescription(tx.creditCode || '') || '';
+    return sisAiComparableText([
+        tx.description || '',
+        tx.history || '',
+        tx.debitCode || '',
+        tx.creditCode || '',
+        debitDesc,
+        creditDesc
+    ].join(' '));
+}
+
+function fechamentoClassifyConferenceTx(tx, config) {
+    const text = fechamentoGetTransactionText(tx);
+    const matched = config.categories.find(category =>
+        !category.fallback && category.terms.some(term => text.includes(sisAiComparableText(term)))
+    );
+    if (matched) return matched;
+    const hasBaseMatch = config.baseTerms.some(term => text.includes(sisAiComparableText(term)));
+    if (!hasBaseMatch) return null;
+    return config.categories.find(category => category.fallback) || null;
+}
+
+function fechamentoGetConferenceRows(type) {
+    const config = FECHAMENTO_CONFERENCE_CONFIG[type];
+    if (!config) return [];
+    return (transactions || [])
+        .filter(tx => (parseFloat(tx.amount) || 0) < 0)
+        .map(tx => {
+            const category = fechamentoClassifyConferenceTx(tx, config);
+            if (!category) return null;
+            return {
+                ...tx,
+                categoryId: category.id,
+                categoryLabel: category.label,
+                absAmount: Math.abs(parseFloat(tx.amount) || 0)
+            };
+        })
+        .filter(Boolean)
+        .sort((left, right) => (parseDate(left.date)?.getTime() || 0) - (parseDate(right.date)?.getTime() || 0));
+}
+
+function fechamentoGetConferenceMetrics(type) {
+    const config = FECHAMENTO_CONFERENCE_CONFIG[type];
+    const rows = fechamentoGetConferenceRows(type);
+    const scoped = fechamentoGetScopedConferenceData();
+    const informedValues = scoped[type] || {};
+    const categoryRows = config.categories.map(category => {
+        const launched = rows.filter(row => row.categoryId === category.id).reduce((sum, row) => sum + row.absAmount, 0);
+        const informed = parseFloat(informedValues[category.id]) || 0;
+        return {
+            ...category,
+            launched,
+            informed,
+            difference: informed - launched
+        };
+    });
+    const launchedTotal = categoryRows.reduce((sum, row) => sum + row.launched, 0);
+    const informedTotal = categoryRows.reduce((sum, row) => sum + row.informed, 0);
+    return {
+        rows,
+        categoryRows,
+        launchedTotal,
+        informedTotal,
+        differenceTotal: informedTotal - launchedTotal
+    };
+}
+
+function fechamentoGetStatusClass(difference, informed, launched) {
+    if (!informed && !launched) return 'warn';
+    const diff = Math.abs(difference);
+    if (diff < 0.01) return 'ok';
+    if (diff <= 5) return 'warn';
+    return 'err';
+}
+
+function fechamentoGetStatusLabel(statusClass, informed, launched) {
+    if (!informed && !launched) return 'Sem movimento';
+    if (!informed && launched) return 'Sem valor informado';
+    if (statusClass === 'ok') return 'Conferido';
+    if (statusClass === 'warn') return 'Ajustar';
+    return 'Divergente';
+}
+
+function fechamentoUpdateConferenceValue(type, categoryId, value) {
+    const scoped = fechamentoGetScopedConferenceData();
+    if (!scoped[type]) scoped[type] = {};
+    const rawValue = String(value || '').trim();
+    if (!rawValue) delete scoped[type][categoryId];
+    else scoped[type][categoryId] = parseFloat(rawValue) || 0;
+    fechamentoPersistConferenceData();
+    renderFechamentoConference(type);
+}
+
+function renderFechamentoConference(type) {
+    const config = FECHAMENTO_CONFERENCE_CONFIG[type];
+    if (!config) return;
+
+    const prefix = type === 'folha' ? 'Folha' : 'Fiscal';
+    const metrics = fechamentoGetConferenceMetrics(type);
+    const totalStatusClass = fechamentoGetStatusClass(metrics.differenceTotal, metrics.informedTotal, metrics.launchedTotal);
+    const totalStatusLabel = fechamentoGetStatusLabel(totalStatusClass, metrics.informedTotal, metrics.launchedTotal);
+
+    const launchedEl = document.getElementById(`fech${prefix}Lancado`);
+    const informedEl = document.getElementById(`fech${prefix}Informado`);
+    const diffEl = document.getElementById(`fech${prefix}Diferenca`);
+    const qtdEl = document.getElementById(`fech${prefix}Qtd`);
+    const statusEl = document.getElementById(`fech${prefix}Status`);
+    const noteEl = document.getElementById(`fech${prefix}Note`);
+    const summaryTbody = document.getElementById(`fech${prefix}SummaryTbody`);
+    const txTbody = document.getElementById(`fech${prefix}TransactionsTbody`);
+
+    if (launchedEl) launchedEl.textContent = fmtBRL(metrics.launchedTotal);
+    if (informedEl) informedEl.textContent = fmtBRL(metrics.informedTotal);
+    if (diffEl) {
+        diffEl.textContent = fmtBRL(Math.abs(metrics.differenceTotal));
+        diffEl.style.color = totalStatusClass === 'ok' ? '#166534' : totalStatusClass === 'warn' ? '#92400e' : '#b91c1c';
+    }
+    if (qtdEl) qtdEl.textContent = String(metrics.rows.length);
+    if (statusEl) {
+        statusEl.className = `fech-conferencia-status ${totalStatusClass}`;
+        statusEl.textContent = totalStatusLabel;
+    }
+    if (noteEl) noteEl.textContent = config.note;
+
+    if (summaryTbody) {
+        summaryTbody.innerHTML = metrics.categoryRows.map(row => {
+            const statusClass = fechamentoGetStatusClass(row.difference, row.informed, row.launched);
+            const statusLabel = fechamentoGetStatusLabel(statusClass, row.informed, row.launched);
+            return `<tr>
+                <td>${row.label}</td>
+                <td style="text-align:right;">${fmtBRL(row.launched)}</td>
+                <td><input type="number" class="input-field fech-conf-expected" data-type="${type}" data-category="${row.id}" value="${row.informed ? row.informed.toFixed(2) : ''}" step="0.01" placeholder="0,00" onchange="fechamentoUpdateConferenceValue('${type}','${row.id}',this.value)"></td>
+                <td style="text-align:right;" class="fech-conf-diff ${statusClass}">${fmtBRL(Math.abs(row.difference))}</td>
+                <td><span class="fech-conferencia-status ${statusClass}">${statusLabel}</span></td>
+            </tr>`;
+        }).join('');
+    }
+
+    if (txTbody) {
+        if (!metrics.rows.length) {
+            txTbody.innerHTML = `<tr><td colspan="7" class="fech-conf-empty"><i class="fas ${config.icon}"></i>Nenhum lançamento identificado para ${type === 'folha' ? 'folha' : 'imposto/fiscal'}.</td></tr>`;
+        } else {
+            txTbody.innerHTML = metrics.rows.map(row => `<tr>
+                <td>${row.date}</td>
+                <td><span class="fech-conf-tag">${row.categoryLabel}</span></td>
+                <td>${row.debitCode || '—'}</td>
+                <td>${row.creditCode || '—'}</td>
+                <td>${row.history || '—'}</td>
+                <td>${sisAiEscapeHtml(row.description || '')}</td>
+                <td style="text-align:right;font-weight:700;">${fmtBRL(row.absAmount)}</td>
+            </tr>`).join('');
+        }
+    }
 }
 
 function addBalanceteRow() {
@@ -10507,6 +11856,7 @@ function saveBalanceteToStorage() {
 }
 
 function recalcFechamento() {
+    fechamentoCaptureConferenceDrafts();
     const tbody = document.getElementById('balanceteTbody');
     if (!tbody) return;
     let totalSaldoAnt = 0, totalDeb = 0, totalCred = 0;
@@ -10691,9 +12041,13 @@ function recalcFechamento() {
         if (diff < 1) { balCard.classList.add('ok'); balCard.classList.remove('err'); balStatus.textContent = 'Equilibrado'; }
         else { balCard.classList.add('err'); balCard.classList.remove('ok'); balStatus.textContent = 'Diferença ' + fmtBRL(diff); }
     }
+
+    renderFechamentoConference('folha');
+    renderFechamentoConference('fiscal');
 }
 
 function exportFechamentoPDF() {
+    fechamentoCaptureConferenceDrafts();
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
     const empresa = document.getElementById('fechEmpresaNome')?.value || 'Empresa';
@@ -10723,10 +12077,34 @@ function exportFechamentoPDF() {
         doc.setFontSize(12); doc.text('DRE — Demonstração do Resultado do Exercício', 40, 40);
         doc.autoTable({ head: [['Descrição','Parcial','Total']], body: dreRows, startY: 60, styles: { fontSize: 8 } });
     }
+
+    const addConferencePdfPage = (type, titleText) => {
+        const metrics = fechamentoGetConferenceMetrics(type);
+        doc.addPage();
+        doc.setFontSize(12);
+        doc.text(titleText, 40, 40);
+        const summaryRows = metrics.categoryRows.map(row => [
+            row.label,
+            fmtBRL(row.launched),
+            fmtBRL(row.informed),
+            fmtBRL(Math.abs(row.difference)),
+            fechamentoGetStatusLabel(fechamentoGetStatusClass(row.difference, row.informed, row.launched), row.informed, row.launched)
+        ]);
+        doc.autoTable({ head: [['Categoria', 'Lançado', 'Conferido', 'Diferença', 'Status']], body: summaryRows, startY: 60, styles: { fontSize: 8 } });
+        const detailRows = metrics.rows.map(row => [row.date, row.categoryLabel, row.debitCode || '', row.creditCode || '', row.history || '', row.description || '', fmtBRL(row.absAmount)]);
+        if (detailRows.length) {
+            const nextY = (doc.lastAutoTable?.finalY || 60) + 18;
+            doc.autoTable({ head: [['Data', 'Categoria', 'Débito', 'Crédito', 'Histórico', 'Complemento', 'Valor']], body: detailRows, startY: nextY, styles: { fontSize: 7 } });
+        }
+    };
+
+    addConferencePdfPage('folha', 'Conferência de Folha');
+    addConferencePdfPage('fiscal', 'Conferência de Imposto / Fiscal');
     doc.save(`fechamento_${empresa}_${periodo || 'periodo'}.pdf`);
 }
 
 function exportFechamentoExcel() {
+    fechamentoCaptureConferenceDrafts();
     const wb = XLSX.utils.book_new();
     // Balancete
     const balRows = [['Código','Conta','Saldo Ant.','Débitos','Créditos','Saldo Atual']];
@@ -10745,6 +12123,29 @@ function exportFechamentoExcel() {
         dreRows.push([tds[0]?.textContent||'', tds[1]?.textContent||'', tds[2]?.textContent||'']);
     });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(dreRows), 'DRE');
+
+    const appendConferenceSheet = (type, name) => {
+        const metrics = fechamentoGetConferenceMetrics(type);
+        const rows = [['Categoria','Lançado','Conferido','Diferença','Status']];
+        metrics.categoryRows.forEach(row => {
+            rows.push([
+                row.label,
+                row.launched,
+                row.informed,
+                row.difference,
+                fechamentoGetStatusLabel(fechamentoGetStatusClass(row.difference, row.informed, row.launched), row.informed, row.launched)
+            ]);
+        });
+        rows.push([]);
+        rows.push(['Data','Categoria','Débito','Crédito','Histórico','Complemento','Valor']);
+        metrics.rows.forEach(row => {
+            rows.push([row.date, row.categoryLabel, row.debitCode || '', row.creditCode || '', row.history || '', row.description || '', row.absAmount]);
+        });
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), name);
+    };
+
+    appendConferenceSheet('folha', 'Conf Folha');
+    appendConferenceSheet('fiscal', 'Conf Fiscal');
     const empresa = document.getElementById('fechEmpresaNome')?.value || 'Empresa';
     const periodo = document.getElementById('fechPeriodo')?.value || 'periodo';
     XLSX.writeFile(wb, `fechamento_${empresa}_${periodo}.xlsx`);
