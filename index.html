@@ -314,6 +314,27 @@
         .transaction-preview-table td { padding:6px 10px; border-bottom:1px solid var(--border); }
         .transaction-preview-table tr:nth-child(even) { background:#f8fafc; }
 
+        /* SISTEMAS CLIENTE */
+        .subsystems-shell { display:grid; gap:18px; }
+        .subsystems-hero { position:relative; overflow:hidden; padding:26px 28px; border-radius:18px; background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 54%,#38bdf8 100%); color:white; box-shadow:0 18px 40px rgba(15,23,42,0.18); }
+        .subsystems-hero::after { content:''; position:absolute; inset:auto -60px -90px auto; width:220px; height:220px; border-radius:50%; background:rgba(255,255,255,0.09); }
+        .subsystems-hero h3 { font-size:1.45rem; font-weight:800; margin-bottom:8px; }
+        .subsystems-hero p { max-width:720px; color:rgba(255,255,255,0.86); font-size:0.92rem; line-height:1.6; }
+        .subsystems-config-note { display:flex; align-items:flex-start; gap:12px; padding:14px 16px; border-radius:14px; border:1px solid #fde68a; background:linear-gradient(135deg,#fffbeb,#fff7ed); color:#92400e; }
+        .subsystems-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+        .subsystem-card { position:relative; overflow:hidden; background:linear-gradient(180deg,#ffffff,#f8fafc); border:1px solid #dbeafe; border-radius:18px; padding:20px; box-shadow:0 16px 32px rgba(15,23,42,0.06); display:flex; flex-direction:column; min-height:240px; }
+        .subsystem-card::before { content:''; position:absolute; inset:0 auto auto 0; width:100%; height:5px; background:linear-gradient(90deg,#2563eb,#0ea5e9,#10b981); }
+        .subsystem-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:16px; }
+        .subsystem-icon { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.2rem; background:linear-gradient(135deg,#1d4ed8,#0ea5e9); box-shadow:0 12px 24px rgba(37,99,235,0.2); }
+        .subsystem-status { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:0.72rem; font-weight:800; letter-spacing:0.3px; text-transform:uppercase; }
+        .subsystem-status.ready { background:#dcfce7; color:#166534; }
+        .subsystem-status.pending { background:#fee2e2; color:#991b1b; }
+        .subsystem-card h4 { font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:8px; }
+        .subsystem-card p { color:var(--gray); font-size:0.86rem; line-height:1.55; margin-bottom:18px; }
+        .subsystem-card-meta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+        .subsystem-chip { display:inline-flex; align-items:center; padding:5px 10px; border-radius:999px; background:#eff6ff; color:#1d4ed8; font-size:0.74rem; font-weight:700; }
+        .subsystem-link-note { margin-top:auto; padding-top:14px; border-top:1px solid #e2e8f0; font-size:0.78rem; color:#64748b; }
+
         /* ANIMATIONS */
         @keyframes slideIn { from{transform:translateX(-20px);opacity:0} to{transform:translateX(0);opacity:1} }
         @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
@@ -339,6 +360,7 @@
             .sidebar-collapsed .sidebar { width:280px; }
             .header-actions { flex-wrap:wrap; }
             .header-actions .btn { font-size:0.8rem; padding:6px 10px; }
+            .subsystems-hero { padding:22px 20px; }
         }
         @media (max-width:768px) {
             .main-content { padding:12px 14px; }
@@ -936,6 +958,10 @@
                         <i class="fas fa-landmark"></i><span>Módulo Fiscal</span>
                         <span class="nav-item-badge-new">Ext</span>
                         <span class="nav-tooltip">Abrir módulo fiscal</span>
+                    </a>
+                    <a class="nav-item" data-section="sistemas-cliente">
+                        <i class="fas fa-th-large"></i><span>Sistemas Cliente</span>
+                        <span class="nav-tooltip">Acessar os subsistemas do SIS-C</span>
                     </a>
                 </div>
             </div>
@@ -1829,7 +1855,7 @@
                     <div class="card-header">
                         <div>
                             <div class="card-title"><i class="fas fa-file-excel"></i> Converter PDF para Excel</div>
-                            <div class="card-subtitle">Selecione uma região do PDF para extrair dados tabulares</div>
+                            <div class="card-subtitle">Leitura avançada de extratos com mapeamento por coordenadas, união de linhas quebradas e consolidação do primeiro ao último lançamento</div>
                         </div>
                     </div>
 
@@ -1843,6 +1869,13 @@
                             <input type="file" id="pdfExcelInput" accept=".pdf" style="display:none">
                         </div>
                         <div id="pdfExcelFileName" style="text-align:center;color:var(--gray);margin-bottom:16px;"></div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--primary-light);padding:14px 16px;border-radius:var(--border-radius);margin-bottom:16px;">
+                            <label style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--primary);font-weight:600;cursor:pointer;">
+                                <input type="checkbox" id="pdfExcelAutoExtract" checked style="width:18px;height:18px;cursor:pointer;">
+                                Extrair extrato automaticamente ao carregar o PDF
+                            </label>
+                            <span style="font-size:0.84rem;color:var(--gray);">Quando ativado, o sistema marca todas as páginas e organiza data, descrição e valores.</span>
+                        </div>
                     </div>
 
                     <!-- Step 2: Select region on rendered PDF -->
@@ -1882,6 +1915,7 @@
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                             <h4 style="color:var(--primary);font-weight:700;">Pré-visualização dos dados extraídos</h4>
                             <div class="d-flex gap-10">
+                                <button class="btn btn-outline btn-sm" onclick="pdfExcelOpenManualSelection()"><i class="fas fa-vector-square"></i> Seleção Manual</button>
                                 <button class="btn btn-outline btn-sm" onclick="goBackToPdfSelection()"><i class="fas fa-arrow-left"></i> Voltar</button>
                                 <button class="btn btn-outline btn-sm" onclick="resetPdfExcel()"><i class="fas fa-redo"></i> Recomeçar</button>
                             </div>
@@ -1889,6 +1923,7 @@
                         <div style="background:var(--primary-light);padding:12px;border-radius:var(--border-radius);margin-bottom:16px;font-size:0.88rem;">
                             <strong style="color:var(--primary);">Dados encontrados:</strong> <span id="pdfExcelRowCount">0</span> linhas × <span id="pdfExcelColCount">0</span> colunas
                         </div>
+                        <div id="pdfExcelExtractionInsights" style="display:none;background:#f8fafc;border:1px solid var(--border);border-radius:var(--border-radius);padding:14px 16px;margin-bottom:16px;font-size:0.88rem;color:var(--secondary);"></div>
                         <div class="table-container" style="max-height:400px;">
                             <table class="transactions-table" id="pdfExcelPreviewTable">
                                 <thead id="pdfExcelPreviewHead"></thead>
@@ -2801,6 +2836,18 @@
             </div>
         </section>
 
+        <!-- ======================== SISTEMAS CLIENTE SECTION ======================== -->
+        <section class="content-section d-none" id="sistemasClienteSection">
+            <div class="subsystems-shell">
+                <div class="subsystems-hero">
+                    <h3><i class="fas fa-th-large"></i> Central de Sistemas do Cliente</h3>
+                    <p>Reúna nesta tela os acessos dos subsistemas do SIS-C. Cada card pode apontar para um sistema diferente, com botão de entrada direto para o ambiente configurado.</p>
+                </div>
+
+                <div id="clientSubsystemGrid" class="subsystems-grid"></div>
+            </div>
+        </section>
+
     </main>
 </div>
 
@@ -3497,7 +3544,8 @@ const sections = {
     fechamento: document.getElementById('fechamentoSection'),
     demonstrativos: document.getElementById('demonstrativosSection'),
     correio: document.getElementById('correioSection'),
-    tarefas: document.getElementById('tarefasSection')
+    tarefas: document.getElementById('tarefasSection'),
+    'sistemas-cliente': document.getElementById('sistemasClienteSection')
 };
 
 const pageTitles = {
@@ -3509,7 +3557,8 @@ const pageTitles = {
     settings:"Configurações do Sistema", chart:"Plano de Contas", calculos:"Cálculos",
     fechamento:"Fechamento e Conferências", demonstrativos:"Demonstrativos",
     correio:"Correio de Movimentação",
-    tarefas:"Controle de Tarefas"
+    tarefas:"Controle de Tarefas",
+    'sistemas-cliente':"Sistemas Cliente"
 };
 const pageSubtitles = {
     import:"Carregue seu extrato bancário para processamento automático",
@@ -3530,7 +3579,8 @@ const pageSubtitles = {
     fechamento:"Balancete, DRE, balanço patrimonial e conferência de folha e impostos/fiscal",
     demonstrativos:"Modelos editáveis de faturamento e relatórios para download em PDF",
     correio:"Central de comunicados e movimentações — em construção",
-    tarefas:"Calendário fiscal, agenda de obrigações e carteira de empresas"
+    tarefas:"Calendário fiscal, agenda de obrigações e carteira de empresas",
+    'sistemas-cliente':"Central de acesso aos subsistemas e ambientes do SIS-C"
 };
 
 const SIS_C_DEPLOY_RESET_TOKEN = 'deploy-2026-03-26-sisc-clean-01';
@@ -4222,6 +4272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     initApuracoes();
     initBankNf();
+    renderClientSubsystemCards();
     updateFinancialSummary();
     if (sisCDeployResetApplied) {
         setTimeout(() => showStatus('Primeiro acesso deste deploy neste computador: o sistema iniciou limpo para novo aprendizado.', 'info'), 300);
@@ -4358,6 +4409,7 @@ function navigateToSection(section) {
     if (section === 'fechamento') recalcFechamento();
     if (section === 'demonstrativos') renderDemoPreview();
     if (section === 'tarefas') tarefasInit();
+    if (section === 'sistemas-cliente') renderClientSubsystemCards();
     closeMobileMenu();
 }
 
@@ -7391,29 +7443,110 @@ function deleteCompany() { if(!currentCompanyId)return; if(!confirm('Deletar est
 // PDF PARSER (para importação OFX - código original mantido)
 // ============================================================
 async function extractPDFText(file) {
-    if (!window.pdfjsLib) throw new Error("pdfjsLib não encontrado.");
-    const ab = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-    const texts = [];
-    for (let p = 1; p <= pdf.numPages; p++) {
-        const page = await pdf.getPage(p);
-        const content = await page.getTextContent();
-        // Group items by Y position for better line reconstruction
-        const items = content.items.filter(i => i.str && i.str.trim());
-        const lineMap = {};
-        items.forEach(item => {
-            const y = Math.round(item.transform[5]);
-            if (!lineMap[y]) lineMap[y] = [];
-            lineMap[y].push({ x: item.transform[4], text: item.str });
+    const analysis = await pdfStatementExtractPages(file);
+    return analysis.pages.map(page => page.text).join('\n');
+}
+
+function pdfStatementNormalizeInlineText(value) {
+    return String(value || '')
+        .replace(/\u00A0/g, ' ')
+        .replace(/[‐‑‒–—]/g, '-')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function pdfStatementNormalizeLineText(value) {
+    return pdfStatementNormalizeInlineText(value)
+        .replace(/\s+([,.;:])/g, '$1')
+        .replace(/([\(\[\/-])\s+/g, '$1')
+        .replace(/\s+([\)\]])/g, '$1')
+        .trim();
+}
+
+function pdfStatementBuildLineText(items) {
+    let text = '';
+    items.forEach((item, index) => {
+        const currentText = pdfStatementNormalizeInlineText(item.text);
+        if (!currentText) return;
+        if (!text) {
+            text = currentText;
+            return;
+        }
+        const previousItem = items[index - 1];
+        const previousText = pdfStatementNormalizeInlineText(previousItem?.text || '');
+        const estimatedCharWidth = previousText
+            ? Math.max((previousItem.width || 0) / Math.max(previousText.length, 1), 2)
+            : 4;
+        const previousEndX = (previousItem?.x || 0) + Math.max(previousItem?.width || 0, estimatedCharWidth * Math.max(previousText.length, 1));
+        const gap = item.x - previousEndX;
+        const needsSpaceFromGap = gap > Math.max(4, estimatedCharWidth * 0.8);
+        const needsSpaceByToken = gap > 1.5 && /[A-Za-z0-9\)]$/.test(text) && /^[A-Za-z0-9\(]/.test(currentText);
+        text += needsSpaceFromGap || needsSpaceByToken ? ` ${currentText}` : currentText;
+    });
+    return pdfStatementNormalizeLineText(text);
+}
+
+function pdfStatementGroupItemsToLines(items, yTolerance = 3.5) {
+    const sortedItems = [...items].sort((left, right) => {
+        if (Math.abs(left.y - right.y) <= yTolerance) return left.x - right.x;
+        return right.y - left.y;
+    });
+    const lines = [];
+    sortedItems.forEach(item => {
+        const tolerance = Math.max(yTolerance, (item.height || 8) * 0.45);
+        let targetLine = lines.find(line => Math.abs(line.y - item.y) <= tolerance && line.pageNum === item.pageNum);
+        if (!targetLine) {
+            targetLine = { pageNum: item.pageNum, y: item.y, items: [] };
+            lines.push(targetLine);
+        }
+        targetLine.items.push(item);
+        targetLine.y = (targetLine.y * (targetLine.items.length - 1) + item.y) / targetLine.items.length;
+    });
+    return lines
+        .map(line => {
+            const lineItems = [...line.items].sort((left, right) => left.x - right.x);
+            return { ...line, items: lineItems, text: pdfStatementBuildLineText(lineItems) };
+        })
+        .filter(line => line.text)
+        .sort((left, right) => {
+            if (left.pageNum !== right.pageNum) return left.pageNum - right.pageNum;
+            return right.y - left.y;
         });
-        // Sort by Y desc (top to bottom), then X asc
-        const sortedYs = Object.keys(lineMap).sort((a, b) => b - a);
-        sortedYs.forEach(y => {
-            lineMap[y].sort((a, b) => a.x - b.x);
-            texts.push(lineMap[y].map(i => i.text).join(' '));
+}
+
+async function pdfStatementGetDocument(source) {
+    if (source && typeof source.getPage === 'function' && typeof source.numPages === 'number') return source;
+    if (!source || typeof source.arrayBuffer !== 'function') throw new Error('Fonte PDF inválida para extração.');
+    if (!window.pdfjsLib) throw new Error('pdfjsLib não encontrado.');
+    const bytes = await source.arrayBuffer();
+    return pdfjsLib.getDocument({ data: bytes }).promise;
+}
+
+async function pdfStatementExtractPages(source) {
+    const pdf = await pdfStatementGetDocument(source);
+    const pages = [];
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const content = await page.getTextContent({ normalizeWhitespace: false, disableCombineTextItems: false });
+        const items = content.items
+            .filter(item => pdfStatementNormalizeInlineText(item.str))
+            .map(item => ({
+                pageNum,
+                text: item.str,
+                x: item.transform[4],
+                y: item.transform[5],
+                width: item.width || 0,
+                height: item.height || Math.abs(item.transform[0]) || 8
+            }));
+        const lines = pdfStatementGroupItemsToLines(items);
+        pages.push({
+            pageNum,
+            items,
+            lines,
+            text: lines.map(line => line.text).join('\n')
         });
     }
-    return texts.join('\n');
+    return { pdf, pages };
 }
 
 function rebuildTransactionLines(text) {
@@ -7530,12 +7663,291 @@ function extractTransactions(lines) {
     });
 }
 
+const PDF_STATEMENT_SKIP_LINE_RE = /^(?:saldo(?:\s+(?:anterior|do dia|dispon[ií]vel|em conta))?|total(?:\s+do dia)?|extrato(?:\s+banc[aá]rio)?|lan[çc]amentos?|movimenta[çc][aã]o(?:es)?|hist[oó]rico|descri[çc][aã]o|documento|ag[êe]ncia|conta(?:\s+corrente)?|p[aá]gina|folha|canal|cliente|cpf|cnpj|banco|data(?:\s+(?:lancto|mov|lancamento|documento))?|valor(?:\s+do\s+lan[çc]amento)?|debito|cr[eé]dito|sac|ouvidoria)$/i;
+const PDF_STATEMENT_DEBIT_HINT_RE = /\b(?:pagto|pagamento|saque|compra|tarifa|encargo|juros|iof|debito|d[eé]bito|ted\s+env|pix\s+env|transfer[êe]ncia\s+enviada|boleto|tributo|imposto|cheque|pag\.?)\b/i;
+const PDF_STATEMENT_CREDIT_HINT_RE = /\b(?:dep[oó]sito|credito|cr[eé]dito|ted\s+receb|pix\s+receb|transfer[êe]ncia\s+recebida|estorno|rendimento|recebimento|devolu[çc][aã]o|repasse|resgate)\b/i;
+
+function pdfStatementHasLeadingDate(text) {
+    return /^\d{1,2}\/\d{1,2}(?:\/\d{2,4})?(?:\s+\d{1,2}\/\d{1,2}(?:\/\d{2,4})?)?\b/.test(String(text || '').trim());
+}
+
+function pdfStatementShouldIgnoreLooseLine(text) {
+    const normalized = pdfStatementNormalizeLineText(text);
+    if (!normalized) return true;
+    if (PDF_STATEMENT_SKIP_LINE_RE.test(normalized)) return true;
+    if (/^(?:\d+\s+de\s+\d+|p[aá]g\.?\s*\d+)$/i.test(normalized)) return true;
+    if (/^(?:www\.|http|central\s+de\s+atendimento|atendimento\s+24h)/i.test(normalized)) return true;
+    if (!/[A-Za-z]/.test(normalized) && !/\d{1,2}\/\d{1,2}/.test(normalized)) return true;
+    return false;
+}
+
+function pdfStatementExtractLeadingDateParts(text) {
+    const match = String(text || '').trim().match(/^(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?)(?:\s+(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?))?/);
+    if (!match) return null;
+    return { primary: match[1], secondary: match[2] || '', consumed: match[0].length };
+}
+
+function pdfStatementShouldAppendContinuation(text) {
+    const normalized = pdfStatementNormalizeLineText(text);
+    if (!normalized) return false;
+    if (pdfStatementHasLeadingDate(normalized)) return false;
+    if (pdfStatementShouldIgnoreLooseLine(normalized)) return false;
+    return /[A-Za-z]/.test(normalized) || /\d{1,3}(?:\.\d{3})*,\d{2}/.test(normalized);
+}
+
+function pdfStatementBuildBlocksFromPages(pages) {
+    const blocks = [];
+    let currentBlock = null;
+    pages.forEach(page => {
+        const lines = Array.isArray(page.lines) ? page.lines : pdfStatementGroupItemsToLines(page.items || []);
+        lines.forEach(line => {
+            const text = pdfStatementNormalizeLineText(line.text);
+            if (!text) return;
+            if (pdfStatementHasLeadingDate(text)) {
+                if (currentBlock) blocks.push(currentBlock);
+                currentBlock = { pageNum: page.pageNum, lines: [text] };
+                return;
+            }
+            if (!currentBlock) return;
+            if (pdfStatementShouldAppendContinuation(text)) {
+                currentBlock.lines.push(text);
+                return;
+            }
+            if (pdfStatementShouldIgnoreLooseLine(text)) return;
+            blocks.push(currentBlock);
+            currentBlock = null;
+        });
+    });
+    if (currentBlock) blocks.push(currentBlock);
+    return blocks.map(block => ({
+        ...block,
+        text: pdfStatementNormalizeLineText(block.lines.join(' '))
+    }));
+}
+
+function pdfStatementExtractAmountTokens(text) {
+    const tokens = [];
+    const regex = /(\(?\s*-?\d{1,3}(?:\.\d{3})*,\d{2}\s*\)?(?:\s*[CD])?|\(?\s*-?\d+\.\d{2}\s*\)?(?:\s*[CD])?)/gi;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+        const raw = match[0];
+        const compact = raw.toUpperCase().replace(/\s+/g, '');
+        const indicator = compact.endsWith('D') ? 'D' : compact.endsWith('C') ? 'C' : '';
+        const value = parseBrazilianNumber(raw);
+        if (!isNaN(value)) {
+            tokens.push({
+                raw,
+                compact,
+                start: match.index,
+                end: match.index + raw.length,
+                indicator,
+                value
+            });
+        }
+    }
+    return tokens;
+}
+
+function pdfStatementSelectPrimaryAmount(tokens, text) {
+    if (!tokens.length) return null;
+    return tokens
+        .map((token, index) => {
+            let score = 0;
+            if (token.indicator) score += 6;
+            if (token.compact.includes('-') || token.value < 0) score += 4;
+            if (tokens.length === 1) score += 5;
+            if (index === tokens.length - 2 && tokens.length > 1) score += 4;
+            if (index === tokens.length - 1 && tokens.length > 1) score -= 4;
+            if (token.start > text.length * 0.45) score += 2;
+            const leftContext = text.slice(Math.max(0, token.start - 20), token.start).toUpperCase();
+            const rightContext = text.slice(token.end, Math.min(text.length, token.end + 20)).toUpperCase();
+            if (/\b(?:D|C|CR|DB)\b/.test(`${leftContext} ${rightContext}`)) score += 2;
+            if (/SALDO/.test(leftContext) || /SALDO/.test(rightContext)) score -= 5;
+            return { ...token, index, score };
+        })
+        .sort((left, right) => right.score - left.score || right.index - left.index)[0];
+}
+
+function pdfStatementResolveSign(token, description, fullText) {
+    if (!token) return 1;
+    if (token.value < 0 || token.indicator === 'D') return -1;
+    if (token.indicator === 'C') return 1;
+    const context = `${description} ${fullText.slice(token.end)}`.toUpperCase();
+    if (PDF_STATEMENT_DEBIT_HINT_RE.test(context)) return -1;
+    if (PDF_STATEMENT_CREDIT_HINT_RE.test(context)) return 1;
+    return token.value < 0 ? -1 : 1;
+}
+
+function pdfStatementDetectBaseYear(blocks) {
+    const counts = {};
+    blocks.forEach(block => {
+        const dates = block.text.match(/\b\d{1,2}\/\d{1,2}\/(\d{2,4})\b/g) || [];
+        dates.forEach(value => {
+            const yearPart = value.split('/')[2] || '';
+            if (!yearPart) return;
+            const year = yearPart.length === 2 ? Number(`20${yearPart}`) : Number(yearPart);
+            if (!year) return;
+            counts[year] = (counts[year] || 0) + 1;
+        });
+    });
+    const rankedYears = Object.entries(counts).sort((left, right) => right[1] - left[1]);
+    return rankedYears.length ? Number(rankedYears[0][0]) : new Date().getFullYear();
+}
+
+function pdfStatementParseBlock(block, baseYear) {
+    const line = pdfStatementNormalizeLineText(block.text);
+    const dateInfo = pdfStatementExtractLeadingDateParts(line);
+    if (!dateInfo) return null;
+    const dateParts = dateInfo.primary.split('/');
+    const day = (dateParts[0] || '').padStart(2, '0');
+    const month = (dateParts[1] || '').padStart(2, '0');
+    const explicitYear = dateParts[2]
+        ? Number(dateParts[2].length === 2 ? `20${dateParts[2]}` : dateParts[2])
+        : null;
+
+    const remainder = line.slice(dateInfo.consumed).trim().replace(/^[-:;|]+/, '').trim();
+    const amountTokens = pdfStatementExtractAmountTokens(remainder);
+    if (!amountTokens.length) return null;
+
+    const selectedAmount = pdfStatementSelectPrimaryAmount(amountTokens, remainder);
+    if (!selectedAmount) return null;
+
+    let description = remainder.slice(0, selectedAmount.start).trim();
+    const trailingText = remainder.slice(selectedAmount.end).trim();
+    if (trailingText && !/\bsaldo\b/i.test(trailingText) && !/\d{1,3}(?:\.\d{3})*,\d{2}/.test(trailingText)) {
+        description = `${description} ${trailingText}`.trim();
+    }
+    description = description
+        .replace(/^[-:;|]+/, '')
+        .replace(/[-:;|]+$/, '')
+        .replace(/\s+\d{2,}(?:\s+\d{2,})*$/, '')
+        .trim();
+
+    if (!description || pdfStatementShouldIgnoreLooseLine(description)) return null;
+
+    const absoluteValue = Math.abs(selectedAmount.value);
+    if (!isFinite(absoluteValue) || absoluteValue === 0) return null;
+
+    const sign = pdfStatementResolveSign(selectedAmount, description, remainder);
+    const year = explicitYear || baseYear || new Date().getFullYear();
+    const value = sign < 0 ? -absoluteValue : absoluteValue;
+
+    return {
+        pageNum: block.pageNum,
+        day,
+        month,
+        explicitYear,
+        year,
+        value,
+        description,
+        rawText: line
+    };
+}
+
+function pdfStatementFinalizeRows(parsedBlocks) {
+    const finalized = [];
+    const seen = new Set();
+    let rollingYear = parsedBlocks.find(block => block.explicitYear)?.explicitYear || parsedBlocks[0]?.year || new Date().getFullYear();
+    let previousMonth = null;
+
+    parsedBlocks.forEach(block => {
+        let resolvedYear = block.explicitYear || rollingYear;
+        const currentMonth = Number(block.month);
+        if (!block.explicitYear && previousMonth !== null && previousMonth >= 10 && currentMonth <= 2) {
+            resolvedYear += 1;
+        }
+        rollingYear = resolvedYear;
+        previousMonth = currentMonth;
+
+        const date = `${block.day}/${block.month}/${resolvedYear}`;
+        const key = `${date}|${block.value}|${block.description}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+
+        finalized.push({
+            DATA: date,
+            VALOR: block.value,
+            COMPLEMENTO: block.description,
+            HIST: '',
+            DOCUM: '',
+            DEBITO: block.value < 0 ? Math.abs(block.value) : null,
+            CREDITO: block.value > 0 ? block.value : null
+        });
+    });
+
+    return finalized;
+}
+
+function pdfStatementBuildMeta(rows, pageCount, strategy, warnings = []) {
+    const creditRows = rows.filter(row => row.VALOR > 0);
+    const debitRows = rows.filter(row => row.VALOR < 0);
+    const parsedDates = rows
+        .map(row => {
+            const parts = String(row.DATA || '').split('/');
+            if (parts.length !== 3) return null;
+            return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+        })
+        .filter(Boolean)
+        .sort((left, right) => left - right);
+
+    return {
+        strategy,
+        pageCount,
+        rowCount: rows.length,
+        creditCount: creditRows.length,
+        debitCount: debitRows.length,
+        totalCredits: creditRows.reduce((sum, row) => sum + row.VALOR, 0),
+        totalDebits: debitRows.reduce((sum, row) => sum + Math.abs(row.VALOR), 0),
+        periodStart: parsedDates[0] ? formatDate(parsedDates[0]) : '',
+        periodEnd: parsedDates.length ? formatDate(parsedDates[parsedDates.length - 1]) : '',
+        warnings: warnings.filter(Boolean)
+    };
+}
+
+function pdfStatementExtractStructuredRowsFromPages(pages, strategy = 'Mapeamento posicional avançado') {
+    const normalizedPages = pages.map(page => ({
+        pageNum: page.pageNum,
+        lines: Array.isArray(page.lines) && page.lines.length ? page.lines : pdfStatementGroupItemsToLines(page.items || []),
+        items: page.items || []
+    }));
+
+    const blocks = pdfStatementBuildBlocksFromPages(normalizedPages);
+    const baseYear = pdfStatementDetectBaseYear(blocks);
+    const parsedBlocks = blocks
+        .map(block => pdfStatementParseBlock(block, baseYear))
+        .filter(Boolean);
+
+    let rows = pdfStatementFinalizeRows(parsedBlocks);
+    let usedStrategy = strategy;
+    const warnings = [];
+
+    if (!rows.length) {
+        const text = normalizedPages.map(page => page.lines.map(line => line.text).join('\n')).join('\n');
+        rows = extractTransactions(rebuildTransactionLines(text)).map(tx => ({
+            ...tx,
+            DEBITO: tx.VALOR < 0 ? Math.abs(tx.VALOR) : null,
+            CREDITO: tx.VALOR > 0 ? tx.VALOR : null
+        }));
+        usedStrategy = 'Fallback textual linearizado';
+        warnings.push('A leitura posicional não encontrou linhas confiáveis e o sistema usou um fallback textual.');
+    }
+
+    return {
+        rows,
+        meta: pdfStatementBuildMeta(rows, normalizedPages.length, usedStrategy, warnings)
+    };
+}
+
+async function pdfStatementAnalyze(source, strategy) {
+    const analysis = await pdfStatementExtractPages(source);
+    const extracted = pdfStatementExtractStructuredRowsFromPages(analysis.pages, strategy);
+    return { ...extracted, pages: analysis.pages };
+}
+
 async function parseBankStatementPDF(file) {
     if (!file) return [];
-    const text = await extractPDFText(file);
-    const lines = rebuildTransactionLines(text);
-    const txs = extractTransactions(lines);
-    return txs.map(tx => ({...tx, DEBITO: tx.VALOR < 0 ? Math.abs(tx.VALOR) : null, CREDITO: tx.VALOR > 0 ? tx.VALOR : null}));
+    const analysis = await pdfStatementAnalyze(file, 'Mapeamento posicional completo do extrato');
+    return analysis.rows;
 }
 
 // ============================================================
@@ -8549,6 +8961,8 @@ let pdfExcelIsSelecting = false;
 let pdfExcelStartX = 0;
 let pdfExcelStartY = 0;
 let pdfExcelExtractedData = []; // 2D array
+let pdfExcelStructuredRows = [];
+let pdfExcelExtractionMeta = null;
 let pdfExcelScale = 1.5;
 
 (function initPdfExcel() {
@@ -8581,10 +8995,19 @@ async function loadPdfForExcel(file) {
         pdfExcelSelection = null;
         pdfExcelSelectionsByPage = {};
         pdfExcelExtractedData = [];
+        pdfExcelStructuredRows = [];
+        pdfExcelExtractionMeta = null;
         document.getElementById('pdfExcelStep1').style.display = 'none';
-        document.getElementById('pdfExcelStep2').style.display = 'block';
         document.getElementById('pdfExcelStep3').style.display = 'none';
-        renderPdfExcelPage();
+        if (document.getElementById('pdfExcelAutoExtract')?.checked) {
+            document.getElementById('pdfExcelStep2').style.display = 'block';
+            await renderPdfExcelPage();
+            await markAllPdfExcelPages();
+            await extractPdfAutoStructured(file);
+        } else {
+            document.getElementById('pdfExcelStep2').style.display = 'block';
+            await renderPdfExcelPage();
+        }
     } catch(e) {
         showStatus('Erro ao abrir PDF: ' + e.message, 'error');
     }
@@ -8671,6 +9094,50 @@ async function markAllPdfExcelPages() {
     showStatus(`${pdfExcelTotalPages} página(s) marcadas com a área completa do extrato.`, 'success');
 }
 
+async function extractPdfAutoStructured(file) {
+    try {
+        const analysis = await pdfStatementAnalyze(pdfExcelDoc || file, 'Mapeamento posicional completo do extrato');
+        const txs = analysis.rows || [];
+        pdfExcelStructuredRows = txs.map(tx => ({
+            data: tx.DATA || '',
+            descricao: tx.COMPLEMENTO || '',
+            debito: tx.DEBITO || null,
+            credito: tx.CREDITO || null,
+            valor: tx.VALOR || 0
+        })).filter(row => row.data && row.descricao && row.valor !== 0);
+        pdfExcelExtractionMeta = analysis.meta || null;
+
+        if (!pdfExcelStructuredRows.length) {
+            showStatus('Não foi possível organizar o extrato automaticamente. Use a seleção manual para tentar outra leitura.', 'warning');
+            return;
+        }
+
+        pdfExcelExtractedData = pdfExcelStructuredRows.map(row => [
+            row.data,
+            row.descricao,
+            row.debito ? formatCurrency(row.debito) : '',
+            row.credito ? formatCurrency(row.credito) : '',
+            formatCurrency(row.valor)
+        ]);
+
+        renderPdfExcelPreview();
+        document.getElementById('pdfExcelStep2').style.display = 'none';
+        document.getElementById('pdfExcelStep3').style.display = 'block';
+        showStatus(`${pdfExcelStructuredRows.length} lançamento(s) organizados automaticamente do PDF.`, 'success');
+    } catch (e) {
+        showStatus('Erro na extração automática: ' + e.message, 'error');
+    }
+}
+
+function pdfExcelOpenManualSelection() {
+    if (!pdfExcelDoc) return;
+    pdfExcelStructuredRows = [];
+    pdfExcelExtractionMeta = null;
+    document.getElementById('pdfExcelStep3').style.display = 'none';
+    document.getElementById('pdfExcelStep2').style.display = 'block';
+    renderPdfExcelPage();
+}
+
 function pdfExcelMouseDown(e) {
     const canvas = document.getElementById('pdfExcelCanvas');
     const container = document.getElementById('pdfExcelCanvasContainer');
@@ -8739,6 +9206,7 @@ async function extractPdfRegion() {
         }
 
         const extractedRows = [];
+        const structuredRegionPages = [];
 
         for (const pageNum of markedPages) {
             const page = await pdfExcelDoc.getPage(pageNum);
@@ -8755,6 +9223,21 @@ async function extractPdfRegion() {
             });
 
             if (items.length === 0) continue;
+
+            structuredRegionPages.push({
+                pageNum,
+                items: items.map(item => {
+                    const tx = viewport.convertToViewportPoint(item.transform[4], item.transform[5]);
+                    return {
+                        pageNum,
+                        text: item.str,
+                        x: tx[0],
+                        y: -tx[1],
+                        width: item.width || 0,
+                        height: item.height || 8
+                    };
+                })
+            });
 
             const rowTolerance = 5;
             const rows = [];
@@ -8803,7 +9286,39 @@ async function extractPdfRegion() {
             extractedRows.push(...pageRows);
         }
 
-        pdfExcelExtractedData = extractedRows.filter(row => row.some(c => c.trim() !== ''));
+        const structuredAnalysis = pdfStatementExtractStructuredRowsFromPages(structuredRegionPages, 'Mapeamento avançado por seleção manual');
+        if (structuredAnalysis.rows.length > 0) {
+            pdfExcelStructuredRows = structuredAnalysis.rows.map(tx => ({
+                data: tx.DATA || '',
+                descricao: tx.COMPLEMENTO || '',
+                debito: tx.DEBITO || null,
+                credito: tx.CREDITO || null,
+                valor: tx.VALOR || 0
+            })).filter(row => row.data && row.descricao && row.valor !== 0);
+            pdfExcelExtractionMeta = structuredAnalysis.meta || null;
+            pdfExcelExtractedData = pdfExcelStructuredRows.map(row => [
+                row.data,
+                row.descricao,
+                row.debito ? formatCurrency(row.debito) : '',
+                row.credito ? formatCurrency(row.credito) : '',
+                formatCurrency(row.valor)
+            ]);
+        } else {
+            pdfExcelStructuredRows = [];
+            pdfExcelExtractedData = extractedRows.filter(row => row.some(c => c.trim() !== ''));
+            pdfExcelExtractionMeta = {
+                strategy: 'Tabela livre por região marcada',
+                pageCount: markedPages.length,
+                rowCount: pdfExcelExtractedData.length,
+                creditCount: 0,
+                debitCount: 0,
+                totalCredits: 0,
+                totalDebits: 0,
+                periodStart: '',
+                periodEnd: '',
+                warnings: ['A área marcada não permitiu separar entradas e saídas com confiança; a tabela bruta foi preservada.']
+            };
+        }
 
         if (pdfExcelExtractedData.length === 0) {
             showStatus('Nenhum texto encontrado nas páginas marcadas. Tente ampliar a área marcada.', 'warning');
@@ -8825,7 +9340,50 @@ async function extractPdfRegion() {
 function renderPdfExcelPreview() {
     const head = document.getElementById('pdfExcelPreviewHead');
     const body = document.getElementById('pdfExcelPreviewBody');
-    if (pdfExcelExtractedData.length === 0) { head.innerHTML = ''; body.innerHTML = '<tr><td style="text-align:center;padding:30px;color:var(--gray);">Nenhum dado.</td></tr>'; return; }
+    const insights = document.getElementById('pdfExcelExtractionInsights');
+    if (pdfExcelExtractedData.length === 0) {
+        head.innerHTML = '';
+        body.innerHTML = '<tr><td style="text-align:center;padding:30px;color:var(--gray);">Nenhum dado.</td></tr>';
+        if (insights) insights.style.display = 'none';
+        return;
+    }
+
+    if (insights) {
+        if (pdfExcelExtractionMeta) {
+            const warnings = (pdfExcelExtractionMeta.warnings || []).map(warning => `<div style="margin-top:6px;color:#9a3412;"><i class="fas fa-triangle-exclamation"></i> ${warning}</div>`).join('');
+            insights.innerHTML = `
+                <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+                    <div><strong style="color:var(--primary);">Estratégia:</strong> ${escapeClientSubsystemHtml(pdfExcelExtractionMeta.strategy || 'Leitura estruturada')}</div>
+                    <div><strong style="color:var(--primary);">Páginas:</strong> ${pdfExcelExtractionMeta.pageCount || 0}</div>
+                    <div><strong style="color:var(--primary);">Período:</strong> ${escapeClientSubsystemHtml(pdfExcelExtractionMeta.periodStart || '—')} até ${escapeClientSubsystemHtml(pdfExcelExtractionMeta.periodEnd || '—')}</div>
+                    <div><strong style="color:var(--primary);">Entradas:</strong> ${pdfExcelExtractionMeta.creditCount || 0} (${formatCurrency(pdfExcelExtractionMeta.totalCredits || 0)})</div>
+                    <div><strong style="color:var(--primary);">Saídas:</strong> ${pdfExcelExtractionMeta.debitCount || 0} (${formatCurrency(pdfExcelExtractionMeta.totalDebits || 0)})</div>
+                </div>
+                ${warnings}
+            `;
+            insights.style.display = 'block';
+        } else {
+            insights.style.display = 'none';
+        }
+    }
+
+    if (pdfExcelStructuredRows.length > 0) {
+        head.innerHTML = '<tr><th style="padding:10px;">#</th><th style="padding:10px;">Data</th><th style="padding:10px;">Descrição da Operação</th><th style="padding:10px;text-align:right;">Débito</th><th style="padding:10px;text-align:right;">Crédito</th><th style="padding:10px;text-align:right;">Valor</th></tr>';
+        body.innerHTML = pdfExcelStructuredRows.map((row, index) => `
+            <tr>
+                <td style="padding:8px;font-weight:600;color:var(--gray);">${index + 1}</td>
+                <td style="padding:8px;white-space:nowrap;">${escapeClientSubsystemHtml(row.data)}</td>
+                <td style="padding:8px;">${escapeClientSubsystemHtml(row.descricao)}</td>
+                <td style="padding:8px;text-align:right;">${row.debito ? formatCurrency(row.debito) : ''}</td>
+                <td style="padding:8px;text-align:right;">${row.credito ? formatCurrency(row.credito) : ''}</td>
+                <td style="padding:8px;text-align:right;font-weight:700;">${formatCurrency(row.valor)}</td>
+            </tr>
+        `).join('');
+        document.getElementById('pdfExcelRowCount').textContent = pdfExcelStructuredRows.length;
+        document.getElementById('pdfExcelColCount').textContent = 5;
+        return;
+    }
+
     const numCols = Math.max(...pdfExcelExtractedData.map(r => r.length));
     // Generate column letters A, B, C...
     const colHeaders = Array.from({ length: numCols }, (_, i) => String.fromCharCode(65 + i));
@@ -8839,8 +9397,20 @@ function renderPdfExcelPreview() {
 }
 
 function exportPdfDataToExcel() {
-    if (pdfExcelExtractedData.length === 0) { showStatus('Sem dados para exportar.', 'error'); return; }
-    const ws = XLSX.utils.aoa_to_sheet(pdfExcelExtractedData);
+    if (pdfExcelExtractedData.length === 0 && pdfExcelStructuredRows.length === 0) { showStatus('Sem dados para exportar.', 'error'); return; }
+    const exportRows = pdfExcelStructuredRows.length > 0
+        ? [
+            ['Data', 'Descrição da Operação', 'Débito', 'Crédito', 'Valor'],
+            ...pdfExcelStructuredRows.map(row => [
+                row.data,
+                row.descricao,
+                row.debito || '',
+                row.credito || '',
+                row.valor
+            ])
+        ]
+        : pdfExcelExtractedData;
+    const ws = XLSX.utils.aoa_to_sheet(exportRows);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Dados Extraídos');
     XLSX.writeFile(wb, `PDF_Extraido_${new Date().toISOString().slice(0,10)}.xlsx`);
@@ -8848,19 +9418,23 @@ function exportPdfDataToExcel() {
 }
 
 function goBackToPdfSelection() {
+    pdfExcelStructuredRows = [];
+    pdfExcelExtractionMeta = null;
     document.getElementById('pdfExcelStep3').style.display = 'none';
     document.getElementById('pdfExcelStep2').style.display = 'block';
 }
 
 function resetPdfExcel() {
     pdfExcelDoc = null; pdfExcelPageNum = 1; pdfExcelTotalPages = 1;
-    pdfExcelSelection = null; pdfExcelSelectionsByPage = {}; pdfExcelExtractedData = [];
+    pdfExcelSelection = null; pdfExcelSelectionsByPage = {}; pdfExcelExtractedData = []; pdfExcelStructuredRows = []; pdfExcelExtractionMeta = null;
     document.getElementById('pdfExcelInput').value = '';
     document.getElementById('pdfExcelFileName').textContent = '';
     document.getElementById('pdfExcelStep1').style.display = 'block';
     document.getElementById('pdfExcelStep2').style.display = 'none';
     document.getElementById('pdfExcelStep3').style.display = 'none';
     document.getElementById('pdfExcelSelection').style.display = 'none';
+    const insights = document.getElementById('pdfExcelExtractionInsights');
+    if (insights) insights.style.display = 'none';
     updatePdfExcelSelectionSummary();
 }
 
@@ -11075,6 +11649,17 @@ function mlDoImport(input) {
 // ============================================================
 const BALANCETE_EXT_URL = 'https://kauan001c.github.io/balancete/'; // ⬅ Cole aqui o link do seu site de balancete
 
+// ======================== AREA DE LINKS SUBSISTEMAS ========================
+const CLIENT_SUBSYSTEM_LINKS = [
+    {
+        name: 'SIS-F (209)',
+        description: 'Acesso direto ao sistema financeiro do cliente.',
+        icon: 'fa-wallet',
+        tag: 'Financeiro',
+        link: 'https://kauan001c.github.io/SISTEMA-FINANCEIRO/'
+    }
+];
+
 let tfEmpresas = [], tfTasks = [];
 let tfCalYear = new Date().getFullYear(), tfCalMonth = new Date().getMonth();
 let tfCalSelectedDate = null, tfEditTaskId = null;
@@ -11096,6 +11681,61 @@ function tfSaveData() {
     localStorage.setItem('sisc_tf_tasks',    JSON.stringify(tfTasks));
 }
 function tfGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function renderClientSubsystemCards() {
+    const container = document.getElementById('clientSubsystemGrid');
+    if (!container) return;
+    if (!Array.isArray(CLIENT_SUBSYSTEM_LINKS) || CLIENT_SUBSYSTEM_LINKS.length === 0) {
+        container.innerHTML = '<div class="card"><div style="text-align:center;color:var(--gray);padding:26px;">Nenhum subsistema configurado na AREA DE LINKS SUBSISTEMAS.</div></div>';
+        return;
+    }
+
+    container.innerHTML = CLIENT_SUBSYSTEM_LINKS.map(system => {
+        const name = escapeClientSubsystemHtml(system.name || 'Subsistema');
+        const description = escapeClientSubsystemHtml(system.description || 'Configure a descrição deste subsistema.');
+        const tag = escapeClientSubsystemHtml(system.tag || 'SIS-C');
+        const icon = escapeClientSubsystemHtml(system.icon || 'fa-cube');
+        const link = String(system.link || '').trim();
+        const isReady = !!link;
+        const statusClass = isReady ? 'ready' : 'pending';
+        const statusLabel = isReady ? 'Link configurado' : 'Link pendente';
+        const escapedLink = link.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        const escapedName = String(system.name || 'Subsistema').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        return `
+            <div class="subsystem-card">
+                <div class="subsystem-card-top">
+                    <div class="subsystem-icon"><i class="fas ${icon}"></i></div>
+                    <span class="subsystem-status ${statusClass}">${statusLabel}</span>
+                </div>
+                <div class="subsystem-card-meta">
+                    <span class="subsystem-chip">${tag}</span>
+                </div>
+                <h4>${name}</h4>
+                <p>${description}</p>
+                <button class="btn ${isReady ? 'btn-primary' : 'btn-outline'}" onclick="openClientSubsystem('${escapedLink}', '${escapedName}')">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Entrar
+                </button>
+            </div>
+        `;
+    }).join('');
+}
+
+function openClientSubsystem(link, name) {
+    if (!link || !String(link).trim()) {
+        showStatus(`Configure o link do subsistema ${name || 'selecionado'} na AREA DE LINKS SUBSISTEMAS.`, 'warning');
+        return;
+    }
+    window.open(String(link).trim(), '_blank', 'noopener,noreferrer');
+}
+
+function escapeClientSubsystemHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 
 function openBalanceteExternal() {
     if (!BALANCETE_EXT_URL || BALANCETE_EXT_URL === 'https://SEU_LINK_AQUI') {
