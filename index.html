@@ -46,6 +46,306 @@
         .app-container { display:grid; grid-template-columns:var(--sidebar-width) 1fr; min-height:100vh; transition:grid-template-columns 0.3s cubic-bezier(.4,0,.2,1); }
         .app-container.sidebar-collapsed { grid-template-columns:var(--sidebar-collapsed) 1fr; }
 
+        /* AUTH */
+        body.auth-locked { overflow:hidden; }
+        body.auth-locked .app-container { display:none; }
+        body.auth-locked #floatRobotBtn { display:none !important; }
+        body.auth-ready #authScreen { display:none; }
+        .auth-screen {
+            min-height:100vh;
+            display:grid;
+            grid-template-columns:minmax(0, 1.1fr) minmax(360px, 460px);
+            gap:40px;
+            align-items:center;
+            padding:48px;
+            position:relative;
+            overflow:hidden;
+            isolation:isolate;
+            background:
+                radial-gradient(circle at top left, rgba(14,165,233,0.22), transparent 26%),
+                radial-gradient(circle at 82% 18%, rgba(59,130,246,0.18), transparent 20%),
+                radial-gradient(circle at bottom right, rgba(16,185,129,0.12), transparent 24%),
+                linear-gradient(135deg, #050b16 0%, #0b1220 36%, #11243d 72%, #0f766e 130%);
+        }
+        .auth-screen::before {
+            content:'';
+            position:absolute;
+            inset:32px;
+            border:1px solid rgba(255,255,255,0.06);
+            border-radius:36px;
+            pointer-events:none;
+            z-index:-1;
+        }
+        .auth-screen::after {
+            content:'';
+            position:absolute;
+            inset:auto auto -140px -80px;
+            width:420px;
+            height:420px;
+            background:radial-gradient(circle, rgba(14,165,233,0.18), rgba(14,165,233,0));
+            filter:blur(20px);
+            z-index:-1;
+            animation:authFloat 9s ease-in-out infinite;
+        }
+        .auth-orb {
+            position:absolute;
+            border-radius:999px;
+            filter:blur(2px);
+            opacity:0.8;
+            pointer-events:none;
+            z-index:-1;
+            animation:authDrift 12s ease-in-out infinite;
+        }
+        .auth-orb-one {
+            top:84px;
+            right:22%;
+            width:132px;
+            height:132px;
+            background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.75), rgba(59,130,246,0.15) 45%, rgba(59,130,246,0) 72%);
+        }
+        .auth-orb-two {
+            bottom:88px;
+            right:80px;
+            width:180px;
+            height:180px;
+            background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.25), rgba(16,185,129,0.16) 44%, rgba(16,185,129,0) 76%);
+            animation-duration:15s;
+        }
+        .auth-panel {
+            max-width:760px;
+            color:#e2e8f0;
+            animation:authReveal 0.9s cubic-bezier(.22,1,.36,1);
+        }
+        .auth-badge {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:9px 14px;
+            border-radius:999px;
+            border:1px solid rgba(125,211,252,0.22);
+            background:rgba(8,15,30,0.48);
+            box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02);
+            color:#bae6fd;
+            font-size:0.78rem;
+            font-weight:700;
+            letter-spacing:0.08em;
+            text-transform:uppercase;
+            margin-bottom:18px;
+        }
+        .auth-kicker {
+            font-family:'Sora',sans-serif;
+            font-size:clamp(1rem, 2vw, 1.25rem);
+            color:#7dd3fc;
+            margin-bottom:10px;
+            letter-spacing:0.01em;
+        }
+        .auth-system-name {
+            display:block;
+            font-family:'Sora',sans-serif;
+            font-size:clamp(3rem, 5vw, 5.6rem);
+            line-height:0.92;
+            letter-spacing:0.08em;
+            color:#f8fafc;
+            text-transform:uppercase;
+            margin-bottom:12px;
+            text-shadow:0 16px 50px rgba(14,165,233,0.24);
+        }
+        .auth-system-caption {
+            display:block;
+            max-width:560px;
+            color:rgba(226,232,240,0.7);
+            font-size:0.98rem;
+            font-weight:500;
+            letter-spacing:0.16em;
+            text-transform:uppercase;
+            margin-bottom:18px;
+        }
+        .auth-greeting {
+            max-width:560px;
+            color:rgba(226,232,240,0.82);
+            font-size:1.04rem;
+            line-height:1.9;
+            margin-bottom:24px;
+        }
+        .auth-feature-grid {
+            display:grid;
+            grid-template-columns:repeat(3, minmax(0, 1fr));
+            gap:14px;
+            max-width:720px;
+        }
+        .auth-feature-card {
+            padding:16px 16px 18px;
+            border-radius:20px;
+            border:1px solid rgba(148,163,184,0.16);
+            background:linear-gradient(180deg, rgba(15,23,42,0.52), rgba(15,23,42,0.2));
+            box-shadow:0 14px 36px rgba(2,6,23,0.18);
+            backdrop-filter:blur(10px);
+        }
+        .auth-feature-card i {
+            width:42px;
+            height:42px;
+            border-radius:14px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(135deg, rgba(59,130,246,0.24), rgba(125,211,252,0.24));
+            color:#e0f2fe;
+            margin-bottom:12px;
+            font-size:1rem;
+        }
+        .auth-feature-card strong {
+            display:block;
+            color:#f8fafc;
+            font-size:0.95rem;
+            margin-bottom:4px;
+        }
+        .auth-feature-card span {
+            display:block;
+            color:rgba(226,232,240,0.72);
+            font-size:0.84rem;
+            line-height:1.65;
+        }
+        .auth-card-wrap {
+            display:flex;
+            justify-content:center;
+            position:relative;
+            animation:authReveal 1s cubic-bezier(.22,1,.36,1);
+        }
+        .auth-card-shell {
+            width:100%;
+            max-width:470px;
+            position:relative;
+            padding:1px;
+            border-radius:30px;
+            background:linear-gradient(145deg, rgba(125,211,252,0.36), rgba(255,255,255,0.06), rgba(16,185,129,0.16));
+            box-shadow:0 30px 70px rgba(2,6,23,0.34);
+        }
+        .auth-card-shell::before {
+            content:'';
+            position:absolute;
+            inset:-18px -16px auto auto;
+            width:110px;
+            height:110px;
+            background:radial-gradient(circle, rgba(125,211,252,0.28), rgba(125,211,252,0));
+            filter:blur(10px);
+            pointer-events:none;
+        }
+        .auth-card {
+            width:100%;
+            max-width:468px;
+            padding:36px;
+            border-radius:29px;
+            border:1px solid rgba(255,255,255,0.56);
+            background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94));
+            color:var(--dark);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.72), 0 20px 55px rgba(15,23,42,0.18);
+            position:relative;
+            overflow:hidden;
+            animation:authCardFloat 7s ease-in-out infinite;
+        }
+        .auth-card::before {
+            content:'';
+            position:absolute;
+            inset:0 0 auto 0;
+            height:5px;
+            background:linear-gradient(90deg, #38bdf8, #2563eb 48%, #10b981);
+        }
+        .auth-card::after {
+            content:'';
+            position:absolute;
+            top:-120px;
+            right:-120px;
+            width:220px;
+            height:220px;
+            background:radial-gradient(circle, rgba(37,99,235,0.12), rgba(37,99,235,0));
+            pointer-events:none;
+        }
+        .auth-card-tag {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 12px;
+            border-radius:999px;
+            background:#eff6ff;
+            color:#1d4ed8;
+            border:1px solid #bfdbfe;
+            font-size:0.76rem;
+            font-weight:800;
+            letter-spacing:0.04em;
+            text-transform:uppercase;
+            margin-bottom:16px;
+        }
+        .auth-card-header { margin-bottom:22px; text-align:left; }
+        .auth-card-header h2 {
+            font-family:'Sora',sans-serif;
+            font-size:1.95rem;
+            margin-bottom:8px;
+            color:#0f172a;
+            letter-spacing:-0.03em;
+        }
+        .auth-card-header p {
+            color:#64748b;
+            line-height:1.7;
+            font-size:0.96rem;
+        }
+        .auth-status-message {
+            display:none;
+            margin-bottom:16px;
+            padding:12px 14px;
+            border-radius:14px;
+            font-size:0.88rem;
+            font-weight:600;
+            border:1px solid rgba(148,163,184,0.18);
+            background:#f8fafc;
+        }
+        .auth-actions { display:flex; gap:10px; margin-top:10px; }
+        .auth-actions .btn { flex:1; }
+        .auth-card-note {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-top:18px;
+            padding-top:16px;
+            border-top:1px solid rgba(226,232,240,0.9);
+            color:#475569;
+            font-size:0.84rem;
+        }
+        .auth-card-note i {
+            width:34px;
+            height:34px;
+            border-radius:10px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            background:#ecfeff;
+            color:#0891b2;
+            flex:none;
+        }
+        .auth-toggle-link {
+            border:none;
+            background:none;
+            color:var(--primary);
+            font-weight:700;
+            cursor:pointer;
+            padding:0;
+            margin-top:14px;
+            transition:var(--transition);
+        }
+        .auth-toggle-link:hover { color:var(--primary-dark); transform:translateX(2px); }
+        .auth-hidden { display:none; }
+        .session-chip {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 12px;
+            border-radius:999px;
+            background:#eff6ff;
+            color:#1d4ed8;
+            border:1px solid #bfdbfe;
+            font-size:0.82rem;
+            font-weight:700;
+        }
+
         /* SIDEBAR */
         .sidebar { background:linear-gradient(180deg, #0f172a 0%, #1e293b 100%); padding:16px 0; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; overflow-x:hidden; z-index:1000; transition:var(--transition); }
         .sidebar::-webkit-scrollbar { width:4px; }
@@ -342,6 +642,10 @@
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
         @keyframes partnerPulse { 0%,100%{ box-shadow:inset 4px 0 0 #f59e0b; } 50%{ box-shadow:inset 4px 0 0 #facc15; } }
+        @keyframes authReveal { from{transform:translateY(24px);opacity:0} to{transform:translateY(0);opacity:1} }
+        @keyframes authFloat { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(16px,-18px,0)} }
+        @keyframes authDrift { 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(-18px,14px,0) scale(1.06)} }
+        @keyframes authCardFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
         /* MOBILE */
         .mobile-menu-btn { display:none; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background-color:var(--primary); color:white; border:none; cursor:pointer; font-size:1.1rem; }
@@ -363,6 +667,15 @@
             .subsystems-hero { padding:22px 20px; }
         }
         @media (max-width:768px) {
+            .auth-screen { grid-template-columns:1fr; padding:26px 18px; gap:26px; }
+            .auth-panel { text-align:center; }
+            .auth-badge, .auth-system-caption { margin-left:auto; margin-right:auto; }
+            .auth-greeting { margin:0 auto; }
+            .auth-feature-grid { grid-template-columns:1fr; }
+            .auth-card-shell { max-width:100%; }
+            .auth-card { padding:24px 20px; border-radius:22px; }
+            .auth-card-header { text-align:center; }
+            .auth-actions { flex-direction:column; }
             .main-content { padding:12px 14px; }
             .financial-summary { grid-template-columns:1fr 1fr; }
             .rule-item { grid-template-columns:1fr; gap:6px; }
@@ -514,14 +827,23 @@
         /* ============================================================
            FLOATING ROBOT BUTTON
         ============================================================ */
-        .float-robot-btn { position:fixed; bottom:28px; right:28px; width:62px; height:62px; border-radius:50%; background:radial-gradient(circle at top, #22c55e 0%, #0b1f14 42%, #030704 100%); color:#f8fafc; border:1px solid rgba(34,197,94,0.5); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.7rem; box-shadow:0 14px 32px rgba(0,0,0,0.45),0 0 0 1px rgba(34,197,94,0.18),0 0 28px rgba(34,197,94,0.25); z-index:1500; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); font-family:'Sora', 'Inter', sans-serif; }
-        .float-robot-btn:hover { transform:scale(1.12) translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(74,222,128,0.32),0 0 36px rgba(34,197,94,0.34); }
-        .float-robot-btn .robot-pulse { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:50%; background:rgba(34,197,94,0.28); animation:robotPulse 2.5s ease-out infinite; }
-        .float-robot-btn .robot-badge { position:absolute; top:-3px; right:-3px; width:20px; height:20px; border-radius:50%; background:var(--danger); color:white; font-size:0.65rem; font-weight:800; display:flex; align-items:center; justify-content:center; border:2px solid white; opacity:0; transition:opacity 0.3s; }
+        .float-robot-btn { position:fixed; right:24px; bottom:24px; z-index:1500; width:auto; min-width:88px; min-height:78px; border:none; border-radius:28px; background:radial-gradient(circle at top left,rgba(103,232,249,0.42),transparent 34%),linear-gradient(145deg,#05212b,#0f766e 62%,#14b8a6); color:#fff; box-shadow:0 20px 44px rgba(8,47,73,0.34),0 0 0 1px rgba(94,234,212,0.22); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 18px; transition:transform .22s ease, box-shadow .22s ease, filter .22s ease; overflow:hidden; font-family:'Sora', 'Inter', sans-serif; }
+        .float-robot-btn::before { content:''; position:absolute; inset:1px; border-radius:27px; background:linear-gradient(180deg,rgba(255,255,255,0.16),rgba(255,255,255,0)); pointer-events:none; }
+        .float-robot-btn:hover { transform:translateY(-4px) scale(1.02); box-shadow:0 24px 54px rgba(8,47,73,0.42),0 0 0 1px rgba(153,246,228,0.32); filter:brightness(1.05); }
+        .float-robot-btn .robot-pulse { position:absolute; inset:0; border-radius:28px; border:1px solid rgba(240,253,250,0.24); animation:robotPulse 2.2s ease-out infinite; }
+        .float-robot-btn .robot-badge { position:absolute; top:-7px; right:-7px; min-width:28px; height:28px; border-radius:999px; background:linear-gradient(135deg,#f97316,#ef4444); color:#fff; font-size:0.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; padding:0 8px; box-shadow:0 12px 20px rgba(239,68,68,0.35); opacity:0; transition:opacity 0.3s; z-index:2; }
         .float-robot-btn.has-errors .robot-badge { opacity:1; }
-        .float-robot-btn .robot-label { position:absolute; right:72px; top:50%; transform:translateY(-50%); background:linear-gradient(135deg,#07110b,#0d1f13); color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:0.78rem; font-weight:700; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; border:1px solid rgba(34,197,94,0.35); box-shadow:0 10px 24px rgba(0,0,0,0.35); font-family:'Sora', 'Inter', sans-serif; letter-spacing:0.02em; }
-        .float-robot-btn:hover .robot-label { opacity:1; }
-        @keyframes robotPulse { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(1.8);opacity:0} }
+        .float-robot-btn .robot-icon { position:relative; z-index:1; font-size:1.55rem; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.24)); }
+        .float-robot-btn .robot-label { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-start; line-height:1.05; text-align:left; max-width:160px; }
+        .float-robot-btn .robot-label strong { font-size:0.92rem; letter-spacing:0.05em; }
+        .float-robot-btn .robot-label span { font-size:0.69rem; color:rgba(236,254,255,0.82); margin-top:5px; }
+        @keyframes robotPulse { 0%{transform:scale(1);opacity:0.7} 70%{transform:scale(1.18);opacity:0} 100%{transform:scale(1.18);opacity:0} }
+        @media (max-width:768px) {
+            .float-robot-btn { right:16px; bottom:16px; min-width:70px; min-height:70px; border-radius:24px; padding:12px 14px; }
+            .float-robot-btn .robot-icon { font-size:1.35rem; }
+            .float-robot-btn .robot-label strong { font-size:0.78rem; }
+            .float-robot-btn .robot-label span { display:none; }
+        }
 
         /* Robot Validator Modal */
         .robot-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.7); backdrop-filter:blur(6px); z-index:3000; align-items:center; justify-content:center; padding:20px; }
@@ -606,27 +928,28 @@
         .fech-tab:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
 
         /* ML Robot Modal */
-        .sis-ai-launch-btn { background:linear-gradient(135deg,#08110b,#14532d) !important; color:#f8fafc !important; border:1px solid rgba(34,197,94,0.32) !important; box-shadow:0 12px 24px rgba(0,0,0,0.28),0 0 0 1px rgba(34,197,94,0.12); font-family:'Sora','Inter',sans-serif; font-weight:700; }
-        .sis-ai-launch-btn:hover { filter:brightness(1.05); transform:translateY(-1px); }
-        .sis-ai-shell { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(180deg,#041008 0%,#08140d 22%,#07110a 100%); border-radius:18px; box-shadow:0 24px 60px rgba(0,0,0,0.48),0 0 0 1px rgba(34,197,94,0.16); width:min(820px,95vw); max-height:88vh; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(34,197,94,0.18); font-family:'Sora','Inter',sans-serif; color:#f8fafc; }
-        .sis-ai-header { padding:18px 22px; background:linear-gradient(135deg,#020403,#0a1c11 42%,#14532d); color:#fff; display:flex; align-items:center; gap:14px; flex-shrink:0; border-bottom:1px solid rgba(74,222,128,0.16); }
-        .sis-ai-avatar { width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at top,#22c55e 0%,#14532d 48%,#06110a 100%); display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 0 0 1px rgba(167,243,208,0.2),0 10px 18px rgba(0,0,0,0.22); }
-        .sis-ai-close { background:rgba(255,255,255,0.08); border:1px solid rgba(34,197,94,0.28); color:#fff; border-radius:10px; padding:6px 12px; cursor:pointer; font-size:0.85rem; }
-        .sis-ai-tabs { display:flex; border-bottom:1px solid rgba(34,197,94,0.16); flex-shrink:0; background:rgba(3,8,5,0.75); }
-        .ml-robot-tab { flex:1; padding:11px 8px; border:none; background:transparent; cursor:pointer; font-size:0.82rem; font-weight:700; color:rgba(220,252,231,0.66); border-bottom:3px solid transparent; transition:all 0.2s; font-family:'Sora','Inter',sans-serif; }
-        .ml-robot-tab.active { color:#f8fafc; border-bottom-color:#22c55e; background:linear-gradient(180deg,rgba(34,197,94,0.16),rgba(34,197,94,0.05)); }
-        .ml-robot-tab:hover:not(.active) { color:#bbf7d0; background:rgba(34,197,94,0.06); }
-        .sis-ai-body { overflow-y:auto; padding:18px 22px; flex:1; background:transparent; }
-        .sis-ai-panel { padding:14px; border:1px solid rgba(34,197,94,0.14); border-radius:14px; background:linear-gradient(180deg,rgba(9,18,12,0.96),rgba(11,28,17,0.92)); box-shadow:inset 0 1px 0 rgba(255,255,255,0.03); }
+        .sis-ai-launch-btn { background:linear-gradient(135deg,#07161c,#0f766e) !important; color:#f8fafc !important; border:1px solid rgba(45,212,191,0.36) !important; box-shadow:0 14px 30px rgba(8,47,73,0.24),0 0 0 1px rgba(45,212,191,0.12); font-family:'Sora','Inter',sans-serif; font-weight:700; }
+        .sis-ai-launch-btn:hover { filter:brightness(1.06); transform:translateY(-1px); }
+        .sis-ai-shell { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:radial-gradient(circle at top right,rgba(34,211,238,0.12),transparent 26%),linear-gradient(180deg,#03131a 0%,#071922 26%,#07151d 100%); border-radius:28px; box-shadow:0 30px 90px rgba(0,0,0,0.54),0 0 0 1px rgba(45,212,191,0.16); width:min(1080px,96vw); max-height:90vh; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(45,212,191,0.18); font-family:'Sora','Inter',sans-serif; color:#f8fafc; }
+        .sis-ai-header { padding:22px 24px; background:linear-gradient(135deg,#020d13,#08212b 42%,#115e59 100%); color:#fff; display:flex; align-items:center; gap:16px; flex-shrink:0; border-bottom:1px solid rgba(103,232,249,0.12); }
+        .sis-ai-avatar { width:52px; height:52px; border-radius:18px; background:radial-gradient(circle at top,#67e8f9 0%,#0f766e 48%,#06222b 100%); display:flex; align-items:center; justify-content:center; font-size:1.45rem; box-shadow:0 0 0 1px rgba(165,243,252,0.24),0 16px 30px rgba(0,0,0,0.24); }
+        .sis-ai-close { background:rgba(255,255,255,0.06); border:1px solid rgba(45,212,191,0.24); color:#fff; border-radius:12px; padding:8px 14px; cursor:pointer; font-size:0.9rem; transition:var(--transition); }
+        .sis-ai-close:hover { background:rgba(45,212,191,0.12); }
+        .sis-ai-tabs { display:flex; flex-wrap:wrap; gap:0; border-bottom:1px solid rgba(45,212,191,0.14); flex-shrink:0; background:rgba(2,12,16,0.88); padding:0 10px; }
+        .ml-robot-tab { flex:1; min-width:150px; padding:13px 10px; border:none; background:transparent; cursor:pointer; font-size:0.82rem; font-weight:700; color:rgba(207,250,254,0.66); border-bottom:3px solid transparent; transition:all 0.2s; font-family:'Sora','Inter',sans-serif; }
+        .ml-robot-tab.active { color:#f8fafc; border-bottom-color:#2dd4bf; background:linear-gradient(180deg,rgba(45,212,191,0.14),rgba(45,212,191,0.04)); }
+        .ml-robot-tab:hover:not(.active) { color:#ccfbf1; background:rgba(45,212,191,0.05); }
+        .sis-ai-body { overflow-y:auto; padding:20px 24px 24px; flex:1; background:linear-gradient(180deg,rgba(3,19,26,0.76),rgba(5,12,17,0.24)); }
+        .sis-ai-panel { padding:16px; border:1px solid rgba(45,212,191,0.14); border-radius:18px; background:linear-gradient(180deg,rgba(5,19,24,0.98),rgba(8,24,29,0.94)); box-shadow:inset 0 1px 0 rgba(255,255,255,0.03),0 14px 34px rgba(0,0,0,0.16); }
         .sis-ai-note { font-size:0.82rem; color:rgba(240,253,244,0.74); line-height:1.5; margin-bottom:12px; }
         .sis-ai-status { font-size:0.8rem; color:rgba(240,253,244,0.78); padding:10px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(34,197,94,0.12); }
         .sis-ai-chat-box { min-height:220px; max-height:300px; overflow-y:auto; border:1px solid rgba(34,197,94,0.14); border-radius:14px; padding:14px; margin-bottom:12px; background:linear-gradient(180deg,rgba(4,12,7,0.94),rgba(8,19,12,0.9)); }
         .sis-ai-action-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
         .sis-ai-logic-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:16px; }
-        .ml-stat-card { background:linear-gradient(180deg,rgba(9,18,12,0.96),rgba(11,28,17,0.92)); border-radius:14px; padding:14px 18px; display:flex; align-items:center; gap:14px; border:1px solid rgba(34,197,94,0.14); color:#f8fafc; }
+        .ml-stat-card { background:linear-gradient(180deg,rgba(5,19,24,0.96),rgba(8,24,29,0.92)); border-radius:18px; padding:16px 18px; display:flex; align-items:center; gap:14px; border:1px solid rgba(45,212,191,0.14); color:#f8fafc; box-shadow:0 14px 34px rgba(0,0,0,0.16); }
         .ml-stat-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
-        .ml-token-row { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; border:1px solid rgba(34,197,94,0.12); margin-bottom:6px; font-size:0.8rem; background:rgba(255,255,255,0.03); color:#f8fafc; }
-        .ml-token-row:hover { background:rgba(34,197,94,0.07); }
+        .ml-token-row { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:14px; border:1px solid rgba(45,212,191,0.12); margin-bottom:8px; font-size:0.8rem; background:rgba(255,255,255,0.03); color:#f8fafc; }
+        .ml-token-row:hover { background:rgba(45,212,191,0.07); }
         .ml-conf-bar { height:6px; border-radius:3px; background:rgba(255,255,255,0.08); overflow:hidden; min-width:60px; }
         .ml-conf-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#166534,#4ade80); transition:width 0.3s; }
         .ml-chat-msg { padding:10px 14px; border-radius:10px; margin-bottom:8px; font-size:0.85rem; max-width:82%; }
@@ -778,10 +1101,128 @@
         .demo-header-edit { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
         .demo-logo-btn { border:2px dashed #cbd5e1; border-radius:8px; padding:10px 16px; text-align:center; cursor:pointer; color:var(--gray); font-size:0.8rem; transition:var(--transition); background:#f8fafc; }
         .demo-logo-btn:hover { border-color:var(--primary); color:var(--primary); background:#eff6ff; }
+        .demo-billing-shell { position:relative; overflow:hidden; border-radius:24px; background:radial-gradient(circle at top right,#bfdbfe 0,#eff6ff 35%,#ffffff 72%); border:1px solid #dbeafe; padding:28px; box-shadow:0 24px 80px rgba(15,23,42,0.08); animation:demoBillingFloat 7s ease-in-out infinite; }
+        .demo-billing-shell::before { content:''; position:absolute; inset:0; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.72) 45%,transparent 72%); transform:translateX(-120%); animation:demoBillingSweep 10s linear infinite; pointer-events:none; }
+        .demo-billing-header { position:relative; z-index:1; display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:22px; }
+        .demo-billing-brand { max-width:72%; }
+        .demo-billing-title { font-family:'Sora',sans-serif; font-size:1.6rem; font-weight:800; color:#0f172a; margin:14px 0 8px; }
+        .demo-billing-subtitle { color:#475569; font-size:0.92rem; max-width:560px; }
+        .demo-billing-logo-stack { display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap; justify-content:flex-end; }
+        .demo-billing-logo-card { width:96px; height:70px; border:1px dashed #cbd5e1; border-radius:12px; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; overflow:hidden; font-size:0.68rem; color:#64748b; font-weight:700; text-align:center; padding:6px; }
+        .demo-billing-logo-card img { width:100%; height:100%; object-fit:contain; }
+        .demo-billing-meta { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:20px; }
+        .demo-billing-meta-card { background:rgba(255,255,255,0.88); border:1px solid #dbeafe; border-radius:16px; padding:14px 16px; box-shadow:0 12px 32px rgba(37,99,235,0.08); }
+        .demo-billing-meta-card span { display:block; font-size:0.74rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#64748b; margin-bottom:6px; }
+        .demo-billing-meta-card strong { display:block; font-size:0.98rem; color:#0f172a; word-break:break-word; }
+        .demo-billing-table-wrap { position:relative; z-index:1; background:rgba(255,255,255,0.92); border:1px solid #dbeafe; border-radius:20px; padding:16px; box-shadow:0 16px 40px rgba(15,23,42,0.06); }
+        .demo-billing-table { width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:16px; }
+        .demo-billing-table thead th { background:linear-gradient(90deg,#0f172a,#1d4ed8); color:#fff; padding:13px 16px; text-align:left; font-size:0.8rem; letter-spacing:0.05em; text-transform:uppercase; }
+        .demo-billing-table tbody td { padding:12px 16px; font-size:0.9rem; border-bottom:1px solid #e2e8f0; color:#0f172a; background:rgba(255,255,255,0.92); }
+        .demo-billing-table tbody tr:nth-child(even) td { background:#f8fbff; }
+        .demo-billing-table tbody tr:last-child td { border-bottom:none; }
+        .demo-billing-total-row td { background:linear-gradient(90deg,#dbeafe,#eff6ff) !important; font-weight:800; color:#1e3a8a; border-top:2px solid #93c5fd; }
+        .demo-billing-value { text-align:right; font-variant-numeric:tabular-nums; }
+        .demo-billing-empty { text-align:center; padding:34px 16px !important; color:#94a3b8 !important; font-style:italic; }
+        .demo-billing-footer { position:relative; z-index:1; display:flex; justify-content:space-between; gap:16px; align-items:flex-end; margin-top:24px; }
+        .demo-billing-signatures { display:grid; grid-template-columns:repeat(2,minmax(220px,1fr)); gap:20px; width:100%; }
+        .demo-billing-signature { width:min(320px,100%); text-align:left; }
+        .demo-billing-signature-line { border-top:2px solid #0f172a; margin-bottom:10px; }
+        .demo-billing-signature strong { display:block; font-size:0.95rem; color:#0f172a; }
+        .demo-billing-signature span { display:block; font-size:0.82rem; color:#64748b; line-height:1.45; }
+        .demo-billing-credit { text-align:right; font-size:0.78rem; color:#64748b; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; min-width:72px; }
+        .demo-billing-savebar { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+        .demo-billing-savehint { font-size:0.8rem; color:#64748b; font-weight:600; }
+        @keyframes demoBillingSweep {
+            0% { transform:translateX(-120%); }
+            50% { transform:translateX(140%); }
+            100% { transform:translateX(140%); }
+        }
+        @keyframes demoBillingFloat {
+            0%,100% { transform:translateY(0); }
+            50% { transform:translateY(-4px); }
+        }
+        @media (max-width: 900px) {
+            .demo-billing-meta { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .demo-billing-footer { flex-direction:column; align-items:flex-start; }
+            .demo-billing-credit { text-align:left; }
+            .demo-billing-signatures { grid-template-columns:1fr; }
+        }
+        @media (max-width: 640px) {
+            .demo-billing-header { flex-direction:column; }
+            .demo-billing-brand { max-width:100%; }
+            .demo-billing-meta { grid-template-columns:1fr; }
+            .demo-billing-logo-stack { justify-content:flex-start; }
+        }
         .demo-logo-preview { max-width:120px; max-height:60px; object-fit:contain; }
     </style>
 </head>
-<body>
+<body class="auth-locked">
+<div class="auth-screen" id="authScreen">
+    <div class="auth-orb auth-orb-one"></div>
+    <div class="auth-orb auth-orb-two"></div>
+    <div class="auth-panel">
+        <div class="auth-badge"><i class="fas fa-sparkles"></i> Plataforma contábil inteligente</div>
+        <div class="auth-kicker" id="authGreetingTitle">Bem-vindo ao seu centro de controle contábil</div>
+        <strong class="auth-system-name">SIS-C</strong>
+        <span class="auth-system-caption">Sistema Inteligente de Contabilidade e Automação Financeira</span>
+        <p class="auth-greeting" id="authGreetingText">Entre com seu email para continuar sua operação com mais velocidade, padronização e visão completa dos lançamentos.</p>
+        <div class="auth-feature-grid">
+            <div class="auth-feature-card">
+                <i class="fas fa-bolt"></i>
+                <strong>Rotina acelerada</strong>
+                <span>Importe, classifique e valide lançamentos em um fluxo único e direto.</span>
+            </div>
+            <div class="auth-feature-card">
+                <i class="fas fa-shield-check"></i>
+                <strong>Ambiente protegido</strong>
+                <span>Acesso local com bloqueio por credenciais e retomada rápida da sessão ativa.</span>
+            </div>
+            <div class="auth-feature-card">
+                <i class="fas fa-chart-line"></i>
+                <strong>Visão operacional</strong>
+                <span>Regras, conciliação e relatórios concentrados em um único cockpit do SIS-C.</span>
+            </div>
+        </div>
+    </div>
+    <div class="auth-card-wrap">
+        <div class="auth-card-shell">
+            <div class="auth-card">
+                <div class="auth-card-tag"><i class="fas fa-lock"></i> Acesso seguro SIS-C</div>
+                <div class="auth-card-header">
+                    <h2 id="authTitle">Acesso por email</h2>
+                    <p id="authSubtitle">Use seu email e senha para acessar o ambiente.</p>
+                </div>
+                <div class="auth-status-message" id="authStatusMessage"></div>
+                <form id="authForm">
+                    <div class="input-group auth-hidden" id="authDisplayNameGroup">
+                        <label class="input-label" for="authDisplayName">Nome</label>
+                        <input type="text" class="input-field" id="authDisplayName" placeholder="Seu nome">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="authEmail">Email</label>
+                        <input type="email" class="input-field" id="authEmail" placeholder="voce@empresa.com" autocomplete="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="authPassword">Senha</label>
+                        <input type="password" class="input-field" id="authPassword" placeholder="Digite sua senha" autocomplete="current-password" required>
+                    </div>
+                    <div class="input-group auth-hidden" id="authConfirmPasswordGroup">
+                        <label class="input-label" for="authConfirmPassword">Confirmar senha</label>
+                        <input type="password" class="input-field" id="authConfirmPassword" placeholder="Repita sua senha" autocomplete="new-password">
+                    </div>
+                    <div class="auth-actions">
+                        <button class="btn btn-primary btn-lg" type="submit" id="authSubmitBtn"><i class="fas fa-lock-open"></i> Entrar</button>
+                    </div>
+                </form>
+                <button class="auth-toggle-link" id="authModeToggle" type="button">Criar novo acesso</button>
+                <div class="auth-card-note">
+                    <i class="fas fa-stars"></i>
+                    <span>Seu ambiente abre pronto para operar com extratos, regras contábeis e sistemas cliente integrados.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="app-container">
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
@@ -938,6 +1379,10 @@
                     <i class="fas fa-chevron-down chevron"></i>
                 </div>
                 <div class="nav-group-items">
+                    <a class="nav-item" data-section="carteira">
+                        <i class="fas fa-briefcase"></i><span>Carteira</span>
+                        <span class="nav-tooltip">Empresas e arquivos individuais</span>
+                    </a>
                     <a class="nav-item" data-section="chart">
                         <i class="fas fa-sitemap"></i><span>Plano de Contas</span>
                         <span class="nav-tooltip">Gerenciar contas contábeis</span>
@@ -968,10 +1413,10 @@
         </nav>
         <div class="sidebar-footer">
             <div class="user-info">
-                <div class="user-avatar">FK</div>
+                <div class="user-avatar" id="sidebarUserAvatar">--</div>
                 <div class="user-details">
-                    <h4>Francisco Kauan</h4>
-                    <p><span class="sidebar-status-dot"></span>Sistema ativo</p>
+                    <h4 id="sidebarUserName">Acesso local</h4>
+                    <p id="sidebarUserStatus"><span class="sidebar-status-dot"></span>Aguardando login</p>
                 </div>
             </div>
             <div class="sidebar-version">SIS-C v2.0 © 2026</div>
@@ -988,6 +1433,7 @@
                 <p id="pageSubtitle">Carregue seu extrato bancário para processamento automático</p>
             </div>
             <div class="header-actions">
+                <span class="session-chip" id="sessionChipText">Sessão bloqueada</span>
                 <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
                 <!-- NOVO: Botão pesquisar conta -->
                 <button class="btn btn-outline" onclick="showSearchAccountModal()" title="Pesquisar conta pelo código ou nome">
@@ -1008,6 +1454,9 @@
                 <button class="btn sis-ai-launch-btn" onclick="openMlRobotModal()" title="Lógica SIS-C AI">
                     <i class="fas fa-brain"></i> Lógica SIS-C AI
                 </button>
+                <button class="btn btn-danger" onclick="logoutSisC()" id="logoutBtn" style="display:none;">
+                    <i class="fas fa-right-from-bracket"></i> Sair
+                </button>
             </div>
         </div>
 
@@ -1019,6 +1468,28 @@
                 <button class="tab" onclick="switchImportTab('multicompany')">Módulo Multi Empresas</button>
                 <button class="tab" onclick="switchImportTab('csv')">CSV</button>
                 <button class="tab" onclick="switchImportTab('excel')">Excel</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title"><i class="fas fa-link"></i> Vincular Importação</div>
+                        <div class="card-subtitle">Informe a empresa e o banco desta importação para arquivar o fechamento depois dos lançamentos.</div>
+                    </div>
+                </div>
+                <div class="d-grid" style="grid-template-columns:1.1fr 1fr;gap:20px;">
+                    <div class="input-group">
+                        <label class="input-label"><i class="fas fa-building"></i> Empresa da Importação</label>
+                        <select id="importArchiveCompanySelect" class="input-field" onchange="syncImportArchiveContextFromUI()">
+                            <option value="">Selecione a empresa da carteira</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label"><i class="fas fa-university"></i> Banco da Importação</label>
+                        <input type="text" id="importArchiveBankName" class="input-field" placeholder="Ex: Banco do Brasil" oninput="syncImportArchiveContextFromUI()">
+                    </div>
+                </div>
+                <div id="importArchiveContextInfo" style="font-size:0.84rem;color:var(--gray);"></div>
             </div>
 
             <!-- OFX TAB -->
@@ -1200,7 +1671,15 @@
                         <div class="card-title"><i class="fas fa-sliders-h"></i> Regras de Lançamento Contábil</div>
                         <div class="card-subtitle">Configure regras para categorização automática das transações</div>
                     </div>
-                    <button class="btn btn-success" onclick="addRule()"><i class="fas fa-plus"></i> Nova Regra</button>
+                    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+                        <div style="min-width:280px;">
+                            <label class="input-label" style="margin-bottom:6px;">Escopo das regras</label>
+                            <select id="rulesCompanySelect" class="input-field" onchange="switchRulesScope()">
+                                <option value="">Regras gerais do sistema</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="addRule()"><i class="fas fa-plus"></i> Nova Regra</button>
+                    </div>
                 </div>
                 <div id="rulesCompanyScopeAlert" class="multi-company-scope-note"></div>
                 <div class="rules-container" id="rulesContainer"></div>
@@ -1411,6 +1890,11 @@
                     <button class="btn btn-outline" onclick="validateAllTransactions()" title="Valida regras contábeis"><i class="fas fa-shield-alt"></i> Validar</button>
                     <button class="btn btn-outline" style="background:linear-gradient(135deg,#eff6ff,#e0e7ff);border-color:#818cf8;color:#4338ca;" onclick="openRobotValidator()"><i class="fas fa-robot"></i> Robô Bancário</button>
                 </div>
+                <div class="d-flex gap-10 flex-wrap" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+                    <button class="btn btn-outline" style="background:linear-gradient(135deg,#ecfeff,#cffafe);border-color:#67e8f9;color:#155e75;" onclick="openClientSubsystem('https://fgtsdigital.sistema.gov.br/portal/login','FGTS DIGITAL')"><i class="fas fa-arrow-up-right-from-square"></i> FGTS DIGITAL</button>
+                    <button class="btn btn-outline" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#93c5fd;color:#1d4ed8;" onclick="openClientSubsystem('https://cav.receita.fazenda.gov.br/autenticacao/login','E-CAC')"><i class="fas fa-building-columns"></i> E-CAC</button>
+                    <button class="btn btn-outline" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac;color:#166534;" onclick="openClientSubsystem('https://consultadanfe.com/','CONSULTA DE NF')"><i class="fas fa-file-invoice"></i> CONSULTA DE NF</button>
+                </div>
             </div>
 
             <!-- QUICK STATS BAR -->
@@ -1471,6 +1955,7 @@
                 <div class="d-flex justify-between mt-30">
                     <button class="btn btn-outline" onclick="clearAll()"><i class="fas fa-broom"></i> Limpar Tudo</button>
                     <div class="d-flex gap-10 flex-wrap">
+                        <button class="btn btn-success" id="archiveDoneBtn" onclick="archiveCurrentTransactionsDone()" disabled><i class="fas fa-box-archive"></i> Arquivar Feito</button>
                         <button class="btn btn-success" id="exportExcelBtn2" onclick="exportToExcel()" disabled><i class="fas fa-file-excel"></i> Excel</button>
                         <button class="btn btn-primary" id="exportTxtBtn2" onclick="exportToTxt()" disabled><i class="fas fa-file-alt"></i> TXT</button>
                         <button class="btn btn-warning" onclick="applyRulesToTransactions()" id="applyRulesBtn2" disabled><i class="fas fa-magic"></i> Aplicar Regras</button>
@@ -2731,6 +3216,59 @@
                         </div>
                     </div>
                 </div>
+                <div class="demo-model-card" id="demoModelCard4" onclick="selectDemoModel(4)">
+                    <div class="demo-model-header" style="background:linear-gradient(135deg,#0f172a,#1d4ed8);">
+                        <h4><i class="fas fa-file-signature"></i> Gerar Faturamento</h4>
+                        <p>Documento profissional em uma página com totalização e assinatura do contador</p>
+                    </div>
+                    <div class="demo-model-body">
+                        <p style="font-size:0.82rem;color:var(--gray);">Preencha manualmente o período, os valores por mês e emita um faturamento com layout executivo, pronto para PDF.</p>
+                        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+                            <span class="demo-month-chip">1 página</span>
+                            <span class="demo-month-chip">Total automático</span>
+                            <span class="demo-month-chip">Salvar dados</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="demoBillingConfigCard" style="display:none;">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title"><i class="fas fa-receipt"></i> Dados do Faturamento</div>
+                        <div class="card-subtitle">Esses dados alimentam a emissão do faturamento em PDF. Você pode salvar a base da empresa para reutilizar depois.</div>
+                    </div>
+                    <div class="d-flex gap-10 flex-wrap">
+                        <div class="demo-logo-btn" onclick="document.getElementById('demoBillingOfficeLogoInput').click()" title="Logo do escritório">
+                            <img id="demoBillingOfficeLogoPreviewImg" class="demo-logo-preview" style="display:none;" alt="Logo do escritório">
+                            <span id="demoBillingOfficeLogoBtnText"><i class="fas fa-building"></i><br>Logo Escritório</span>
+                        </div>
+                        <input type="file" id="demoBillingOfficeLogoInput" accept="image/*" style="display:none;" onchange="loadDemoBillingLogo(this, 'office')">
+                        <div class="demo-logo-btn" onclick="document.getElementById('demoBillingClientLogoInput').click()" title="Logo do cliente">
+                            <img id="demoBillingClientLogoPreviewImg" class="demo-logo-preview" style="display:none;" alt="Logo do cliente">
+                            <span id="demoBillingClientLogoBtnText"><i class="fas fa-user-tie"></i><br>Logo Cliente</span>
+                        </div>
+                        <input type="file" id="demoBillingClientLogoInput" accept="image/*" style="display:none;" onchange="loadDemoBillingLogo(this, 'client')">
+                        <button class="btn btn-outline btn-sm" onclick="loadDemoBillingProfile(false)"><i class="fas fa-cloud-download-alt"></i> Usar Dados Salvos</button>
+                        <button class="btn btn-primary btn-sm" onclick="saveDemoBillingProfile()"><i class="fas fa-save"></i> Salvar Dados da Empresa</button>
+                    </div>
+                </div>
+                <div class="demo-header-edit">
+                    <div class="input-group"><label class="input-label">Nome do Escritório</label><input type="text" id="demoBillingOfficeName" class="input-field" placeholder="Ex: Contabilidade Aurora" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">CNPJ do Escritório</label><input type="text" id="demoBillingOfficeCnpj" class="input-field" placeholder="00.000.000/0000-00" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Departamento Emissor</label><input type="text" id="demoBillingDepartment" class="input-field" placeholder="Ex: Departamento Contábil" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Período do Faturamento</label><input type="text" id="demoBillingPeriod" class="input-field" placeholder="Ex: Janeiro a Dezembro/2026" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Data de Emissão</label><input type="date" id="demoBillingIssueDate" class="input-field" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Nome do Cliente</label><input type="text" id="demoBillingClientName" class="input-field" placeholder="Razão social do cliente" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">CNPJ do Cliente</label><input type="text" id="demoBillingClientCnpj" class="input-field" placeholder="00.000.000/0000-00" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Responsável pela Empresa</label><input type="text" id="demoBillingClientResponsible" class="input-field" placeholder="Nome do responsável" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Nome do Contador</label><input type="text" id="demoBillingContadorName" class="input-field" placeholder="Nome completo do contador" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">CRC</label><input type="text" id="demoBillingContadorCrc" class="input-field" placeholder="CRC/UF 000000/O-0" oninput="renderDemoPreview()"></div>
+                    <div class="input-group"><label class="input-label">Assinatura do Responsável</label><select id="demoBillingShowClientSignature" class="input-field" onchange="renderDemoPreview()"><option value="no">Não adicionar</option><option value="yes">Adicionar assinatura</option></select></div>
+                </div>
+                <div class="demo-billing-savebar">
+                    <span class="demo-billing-savehint" id="demoBillingSavedStatus">Nenhum dado da empresa salvo neste navegador.</span>
+                </div>
             </div>
 
             <!-- Data input for the selected model -->
@@ -2832,6 +3370,100 @@
                         <button class="btn btn-success" style="width:100%;margin-top:8px;" onclick="tfSaveEmpresa()"><i class="fas fa-save"></i> Cadastrar Empresa</button>
                     </div>
                     <div id="tfEmpresasGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== CARTEIRA SECTION ======================== -->
+        <section class="content-section d-none" id="carteiraSection">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title"><i class="fas fa-briefcase"></i> Carteira de Empresas</div>
+                        <div class="card-subtitle">Cadastre empresas manualmente ou por TXT e mantenha arquivos, extratos e lançamentos isolados por empresa.</div>
+                    </div>
+                    <div class="d-flex gap-10 flex-wrap">
+                        <button class="btn btn-outline" onclick="document.getElementById('carteiraImportTxtInput').click()"><i class="fas fa-file-import"></i> Importar TXT</button>
+                        <button class="btn btn-info" onclick="downloadCompanyImportTemplate()"><i class="fas fa-file-lines"></i> Modelo TXT</button>
+                        <button class="btn btn-success" onclick="downloadChartTemplateExcel()"><i class="fas fa-file-excel"></i> Modelo Plano</button>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:18px;align-items:start;">
+                    <div class="card" style="margin-bottom:0;background:#f8fafc;">
+                        <div class="card-header"><div class="card-title"><i class="fas fa-plus-circle"></i> Nova Empresa</div></div>
+                        <div class="input-group"><label class="input-label">Numero da Empresa *</label><input type="text" id="carteiraCompanyNumber" class="input-field" placeholder="Ex: 001"></div>
+                        <div class="input-group"><label class="input-label">Nome / Razao Social *</label><input type="text" id="carteiraCompanyName" class="input-field" placeholder="Ex: Empresa ABC Ltda"></div>
+                        <div class="input-group"><label class="input-label">CNPJ</label><input type="text" id="carteiraCompanyCnpj" class="input-field" placeholder="00.000.000/0000-00"></div>
+                        <div class="input-group"><label class="input-label">Regime</label>
+                            <select id="carteiraCompanyRegime" class="input-field">
+                                <option value="">Selecione...</option>
+                                <option>MEI</option>
+                                <option>Simples Nacional</option>
+                                <option>Lucro Presumido</option>
+                                <option>Lucro Real</option>
+                                <option>Imunes / Isentas</option>
+                            </select>
+                        </div>
+                        <div class="input-group"><label class="input-label">Plano usado nos lancamentos</label>
+                            <select id="carteiraCompanyPlanMode" class="input-field">
+                                <option value="general">Usar plano geral</option>
+                                <option value="individual">Usar plano individual da empresa</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success btn-block" onclick="carteiraCreateCompanyFromForm()"><i class="fas fa-save"></i> Cadastrar Empresa</button>
+                        <input type="file" id="carteiraImportTxtInput" accept=".txt,.csv" style="display:none" onchange="carteiraImportCompaniesFile(this)">
+                    </div>
+
+                    <div class="card" style="margin-bottom:0;">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title"><i class="fas fa-table-list"></i> Empresas Cadastradas</div>
+                                <div class="card-subtitle">Clique em Arquivos para abrir a pasta digital da empresa.</div>
+                            </div>
+                        </div>
+                        <div id="carteiraCompaniesTableWrap"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="carteiraFilesCard">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title"><i class="fas fa-folder-tree"></i> Area de Arquivos</div>
+                        <div class="card-subtitle" id="carteiraFilesSubtitle">Selecione uma empresa para liberar o envio e a consulta dos arquivos.</div>
+                    </div>
+                    <div class="d-flex gap-10 flex-wrap" id="carteiraFilesActions" style="display:none;">
+                        <button class="btn btn-outline" onclick="carteiraOpenChartForActiveCompany()"><i class="fas fa-sitemap"></i> Abrir Plano</button>
+                        <button class="btn btn-success" onclick="downloadChartTemplateExcel(carteiraActiveCompanyId)"><i class="fas fa-file-excel"></i> Modelo do Plano</button>
+                    </div>
+                </div>
+                <div id="carteiraFilesEmptyState" style="text-align:center;padding:38px 20px;color:var(--gray);">
+                    <i class="fas fa-folder-open" style="font-size:2.6rem;opacity:0.28;display:block;margin-bottom:12px;"></i>
+                    Nenhuma empresa selecionada.
+                </div>
+                <div id="carteiraFilesShell" style="display:none;">
+                    <div style="display:grid;grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:18px;align-items:start;">
+                        <div class="card" style="margin-bottom:0;background:#f8fafc;">
+                            <div class="card-header"><div class="card-title"><i class="fas fa-file-arrow-up"></i> Importar Arquivos OFX</div></div>
+                            <div class="input-group"><label class="input-label">Mes de referencia *</label><input type="month" id="carteiraArchiveMonth" class="input-field"></div>
+                            <div class="input-group"><label class="input-label">Banco *</label><input type="text" id="carteiraArchiveBankName" class="input-field" placeholder="Ex: Banco do Brasil"></div>
+                            <div class="input-group"><label class="input-label">Codigo do Banco</label><input type="text" id="carteiraArchiveBankCode" class="input-field" placeholder="Ex: 001"></div>
+                            <div class="input-group"><label class="input-label">Conta Bancaria</label><input type="text" id="carteiraArchiveAccountCode" class="input-field" placeholder="Ex: 12345-6"></div>
+                            <div class="upload-area" onclick="document.getElementById('carteiraArchiveInput').click()" style="margin-bottom:12px;">
+                                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                <div class="upload-text">Selecione OFX/QFX da empresa ativa</div>
+                                <div class="upload-subtext">Os lancamentos ficam gravados por mes e banco sem misturar com outras empresas.</div>
+                                <div class="upload-formats"><span class="format-badge">.ofx</span><span class="format-badge">.qfx</span></div>
+                                <input type="file" id="carteiraArchiveInput" accept=".ofx,.qfx" multiple style="display:none" onchange="carteiraHandleArchiveFiles(this)">
+                            </div>
+                            <div id="carteiraArchiveUploadStatus" style="font-size:0.84rem;color:var(--gray);"></div>
+                        </div>
+                        <div>
+                            <div id="carteiraActiveCompanySummary"></div>
+                            <div id="carteiraArchiveGroups"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3151,9 +3783,11 @@
 <div class="modal" id="newCompanyModal">
     <div class="modal-content" style="max-width:500px;">
         <div class="modal-header"><div class="modal-title"><i class="fas fa-building"></i> Nova Empresa</div><div class="close-modal" onclick="closeNewCompanyModal()">&times;</div></div>
+        <div class="input-group"><label class="input-label">Numero da Empresa</label><input type="text" id="newCompanyNumber" class="input-field" placeholder="Ex: 001"></div>
         <div class="input-group"><label class="input-label">Nome da Empresa</label><input type="text" id="newCompanyName" class="input-field" placeholder="Ex: Empresa XYZ LTDA"></div>
         <div class="input-group"><label class="input-label">CNPJ (opcional)</label><input type="text" id="newCompanyCNPJ" class="input-field" placeholder="00.000.000/0000-00"></div>
-        <div class="input-group"><label class="input-label">Usar plano padrão?</label><select id="useDefaultChart" class="input-field"><option value="yes">Sim, usar plano de contas padrão</option><option value="no">Não, criar vazio</option></select></div>
+        <div class="input-group"><label class="input-label">Regime</label><select id="newCompanyRegime" class="input-field"><option value="">Selecione...</option><option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>Imunes / Isentas</option></select></div>
+        <div class="input-group"><label class="input-label">Plano usado nos lancamentos</label><select id="newCompanyPlanMode" class="input-field"><option value="general">Usar plano geral</option><option value="individual">Usar plano individual da empresa</option></select></div>
         <div class="d-flex justify-between mt-30">
             <button class="btn btn-outline" onclick="closeNewCompanyModal()"><i class="fas fa-times"></i> Cancelar</button>
             <button class="btn btn-primary" onclick="createNewCompany()"><i class="fas fa-check"></i> Criar Empresa</button>
@@ -3165,11 +3799,27 @@
 <div class="modal" id="editCompanyModal">
     <div class="modal-content" style="max-width:500px;">
         <div class="modal-header"><div class="modal-title"><i class="fas fa-building"></i> Editar Empresa</div><div class="close-modal" onclick="closeEditCompanyModal()">&times;</div></div>
+        <div class="input-group"><label class="input-label">Numero da Empresa</label><input type="text" id="editCompanyNumber" class="input-field"></div>
         <div class="input-group"><label class="input-label">Nome da Empresa</label><input type="text" id="editCompanyName" class="input-field"></div>
         <div class="input-group"><label class="input-label">CNPJ (opcional)</label><input type="text" id="editCompanyCNPJ" class="input-field"></div>
+        <div class="input-group"><label class="input-label">Regime</label><select id="editCompanyRegime" class="input-field"><option value="">Selecione...</option><option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>Imunes / Isentas</option></select></div>
+        <div class="input-group"><label class="input-label">Plano usado nos lancamentos</label><select id="editCompanyPlanMode" class="input-field"><option value="general">Usar plano geral</option><option value="individual">Usar plano individual da empresa</option></select></div>
         <div class="d-flex justify-between mt-30">
             <button class="btn btn-danger" onclick="deleteCompany()"><i class="fas fa-trash"></i> Excluir Empresa</button>
             <div><button class="btn btn-outline" onclick="closeEditCompanyModal()"><i class="fas fa-times"></i> Cancelar</button> <button class="btn btn-primary" onclick="updateCompany()"><i class="fas fa-check"></i> Atualizar</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="carteiraArchiveModal">
+    <div class="modal-content" style="max-width:1100px;">
+        <div class="modal-header"><div class="modal-title"><i class="fas fa-folder-open"></i> Detalhes do Arquivo</div><div class="close-modal" onclick="closeCarteiraArchiveModal()">&times;</div></div>
+        <div id="carteiraArchiveModalMeta" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px;"></div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead><tr><th>Data</th><th>Debito</th><th>Credito</th><th>Valor</th><th>Historico</th><th>Complemento</th></tr></thead>
+                <tbody id="carteiraArchiveModalBody"></tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -3423,11 +4073,11 @@
 </div>
 
 <!-- ======================== FLOATING ROBOT BUTTON ======================== -->
-<button class="float-robot-btn" id="floatRobotBtn" onclick="openRobotValidator()" title="Robô Bancário — Validação de Saldo e Contas">
+<button class="float-robot-btn" id="floatRobotBtn" onclick="openMlRobotModal()" title="SIS-C AI — Central inteligente de classificação e aprendizado">
     <div class="robot-pulse"></div>
-    <span style="z-index:1;position:relative;font-size:1.5rem;">🤖</span>
+    <span class="robot-icon">🤖</span>
     <span class="robot-badge" id="robotBadgeCount" style="display:none;">0</span>
-    <span class="robot-label"><i class="fas fa-shield-alt"></i> Validar Banco</span>
+    <span class="robot-label"><strong>SIS-C AI</strong><span>Aprender, sugerir e classificar</span></span>
 </button>
 
 <!-- ======================== ROBOT VALIDATOR MODAL ======================== -->
@@ -3475,10 +4125,16 @@ let selectedTransactions = new Set();
 let currentFileType = 'ofx';
 let companies = [];
 let currentCompanyId = null;
+let carteiraActiveCompanyId = '';
 let caixinhaTransactions = [];
 let selectedCaixinhaTransactions = new Set();
 let cruzamentoTransactions = [];
 let cruzamentoImportedData = [];
+const CARTEIRA_ACTIVE_COMPANY_KEY = 'siscCarteiraActiveCompanyId';
+const SIS_C_IMPORT_ARCHIVE_CONTEXT_KEY = 'siscImportArchiveContext';
+const COMPANY_IMPORT_TEMPLATE = 'NUMERO DA EMPRESA;NOME;CNPJ;REGIME\n001;EMPRESA MODELO LTDA;00.000.000/0001-00;SIMPLES NACIONAL';
+const COMPANY_CHART_TEMPLATE_HEADERS = ['NUMERO DA CONTA', 'NOME DA CONTA', 'GRUPO DA CONTA'];
+let importArchiveContext = { companyId: '', bankName: '', sourceLabel: '', sourceType: '' };
 
 // Edit transaction state
 let editingTransactionIndex = null;
@@ -3508,6 +4164,8 @@ const MULTI_COMPANY_STORAGE_KEY = 'multiCompanyImportData';
 let multiCompanyImportState = { activeSlotId: '', slots: [] };
 let currentDatasetContext = { mode: 'single', slotId: null };
 let multiCompanySelectedFiles = {};
+const DEMO_BILLING_PROFILE_STORAGE_KEY = 'siscDemoBillingProfile';
+const DEMO_BILLING_ROWS_LIMIT = 12;
 
 // Multi-OFX state
 let multiOfxFiles = [];
@@ -3518,12 +4176,272 @@ let isMultiMonth = false;
 let conversorTransactions = [];
 let conversorPdfFile = null;
 
+const SIS_C_AUTH_STORAGE_KEY = 'siscLocalAuth';
+const SIS_C_AUTH_SESSION_KEY = 'siscActiveSession';
+let sisCAuthMode = 'login';
+let sisCCurrentUser = null;
+let sisCAppInitialized = false;
+
 let csvStructure = {
     dateColumn:'A', dateFormat:'dd/MM/yyyy', descColumn:'B',
     valueColumn:'C', valueFormat:'decimal_comma', typeColumn:'', typeFormat:'positive_negative', startRow:1
 };
 
 const today = new Date().toISOString().split('T')[0];
+
+function sisCNormalizeAuthText(value) {
+    return String(value || '').trim();
+}
+
+function sisCGetStoredAuth() {
+    try {
+        return JSON.parse(localStorage.getItem(SIS_C_AUTH_STORAGE_KEY) || 'null');
+    } catch (error) {
+        return null;
+    }
+}
+
+function sisCHasStoredAuth() {
+    const stored = sisCGetStoredAuth();
+    return !!(stored && stored.email && stored.passwordHash);
+}
+
+function sisCGetStoredSession() {
+    try {
+        return JSON.parse(sessionStorage.getItem(SIS_C_AUTH_SESSION_KEY) || 'null');
+    } catch (error) {
+        return null;
+    }
+}
+
+async function sisCHashSecret(value) {
+    const normalized = String(value || '');
+    if (window.crypto?.subtle) {
+        const encoded = new TextEncoder().encode(normalized);
+        const digest = await crypto.subtle.digest('SHA-256', encoded);
+        return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+    return normalized;
+}
+
+function sisCBuildUserInitials(name) {
+    const tokens = String(name || '').trim().split(/\s+/).filter(Boolean).slice(0, 2);
+    if (!tokens.length) return '--';
+    return tokens.map(token => token[0].toUpperCase()).join('');
+}
+
+function sisCSetBodyAuthState(isAuthenticated) {
+    document.body.classList.toggle('auth-locked', !isAuthenticated);
+    document.body.classList.toggle('auth-ready', !!isAuthenticated);
+}
+
+function sisCShowAuthStatus(message, type = 'info') {
+    const el = document.getElementById('authStatusMessage');
+    if (!el) return;
+    el.textContent = message;
+    el.className = `auth-status-message status-${type}`;
+    el.style.display = 'block';
+}
+
+function sisCClearAuthStatus() {
+    const el = document.getElementById('authStatusMessage');
+    if (!el) return;
+    el.textContent = '';
+    el.style.display = 'none';
+}
+
+function sisCUpdateAuthGreeting() {
+    const titleEl = document.getElementById('authGreetingTitle');
+    const textEl = document.getElementById('authGreetingText');
+    if (!titleEl || !textEl) return;
+
+    const hour = new Date().getHours();
+    let title = 'Bem-vindo ao seu centro de controle contábil';
+    let text = 'Entre com seu email para continuar sua operação com mais velocidade, padronização e visão completa dos lançamentos.';
+
+    if (hour >= 5 && hour < 12) {
+        title = 'Bom dia. O SIS-C já está pronto para abrir sua rotina.';
+        text = 'Comece a manhã com importação, classificação e conferência organizadas em um único ambiente.';
+    } else if (hour >= 12 && hour < 18) {
+        title = 'Boa tarde. Hora de manter o financeiro sob controle fino.';
+        text = 'Acesse seu workspace e siga com regras, conciliações e análises sem perder contexto.';
+    } else {
+        title = 'Boa noite. Feche o dia com uma operação contábil mais limpa.';
+        text = 'Revise lançamentos, confirme saldos e avance com segurança no mesmo cockpit operacional.';
+    }
+
+    titleEl.textContent = title;
+    textEl.textContent = text;
+}
+
+function sisCSetAuthMode(mode) {
+    sisCAuthMode = mode === 'register' ? 'register' : 'login';
+    const isRegister = sisCAuthMode === 'register';
+    document.getElementById('authTitle').textContent = isRegister ? 'Registrar acesso' : 'Acesso por email';
+    document.getElementById('authSubtitle').textContent = isRegister
+        ? 'Cadastre email e senha para liberar o sistema neste navegador.'
+        : 'Use seu email e senha para acessar o ambiente.';
+    document.getElementById('authSubmitBtn').innerHTML = isRegister
+        ? '<i class="fas fa-user-plus"></i> Registrar'
+        : '<i class="fas fa-lock-open"></i> Entrar';
+    document.getElementById('authDisplayNameGroup').classList.toggle('auth-hidden', !isRegister);
+    document.getElementById('authConfirmPasswordGroup').classList.toggle('auth-hidden', !isRegister);
+    document.getElementById('authModeToggle').textContent = isRegister ? 'Entrar com acesso existente' : 'Criar novo acesso';
+    document.getElementById('authPassword').setAttribute('autocomplete', isRegister ? 'new-password' : 'current-password');
+    document.getElementById('authConfirmPassword').setAttribute('autocomplete', isRegister ? 'new-password' : 'off');
+    sisCClearAuthStatus();
+}
+
+function sisCUpdateSessionUI() {
+    const activeUser = sisCCurrentUser;
+    const avatar = document.getElementById('sidebarUserAvatar');
+    const name = document.getElementById('sidebarUserName');
+    const status = document.getElementById('sidebarUserStatus');
+    const chip = document.getElementById('sessionChipText');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (activeUser) {
+        if (avatar) avatar.textContent = sisCBuildUserInitials(activeUser.displayName || activeUser.email);
+        if (name) name.textContent = activeUser.displayName || activeUser.email;
+        if (status) status.innerHTML = '<span class="sidebar-status-dot"></span>Sessão autenticada';
+        if (chip) chip.textContent = `Usuário ativo: ${activeUser.email}`;
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+    } else {
+        if (avatar) avatar.textContent = '--';
+        if (name) name.textContent = 'Acesso local';
+        if (status) status.innerHTML = '<span class="sidebar-status-dot"></span>Aguardando login';
+        if (chip) chip.textContent = 'Sessão bloqueada';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
+
+function sisCFocusAuthField() {
+    const targetId = sisCAuthMode === 'register' ? 'authDisplayName' : 'authEmail';
+    setTimeout(() => document.getElementById(targetId)?.focus(), 80);
+}
+
+function setupAuthEventListeners() {
+    document.getElementById('authForm')?.addEventListener('submit', handleSisCAuthSubmit);
+    document.getElementById('authModeToggle')?.addEventListener('click', () => {
+        sisCSetAuthMode(sisCAuthMode === 'login' ? 'register' : 'login');
+        sisCFocusAuthField();
+    });
+}
+
+async function handleSisCAuthSubmit(event) {
+    event.preventDefault();
+    const displayName = sisCNormalizeAuthText(document.getElementById('authDisplayName')?.value || '');
+    const email = sisCNormalizeAuthText(document.getElementById('authEmail')?.value || '').toLowerCase();
+    const password = document.getElementById('authPassword')?.value || '';
+    const confirmPassword = document.getElementById('authConfirmPassword')?.value || '';
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        sisCShowAuthStatus('Informe um email válido.', 'warning');
+        return;
+    }
+    if (!password) {
+        sisCShowAuthStatus('Informe a senha de acesso.', 'warning');
+        return;
+    }
+
+    if (sisCAuthMode === 'register') {
+        if (!displayName) {
+            sisCShowAuthStatus('Informe seu nome para o cadastro.', 'warning');
+            return;
+        }
+        if (password.length < 4) {
+            sisCShowAuthStatus('Use uma senha com pelo menos 4 caracteres.', 'warning');
+            return;
+        }
+        if (password !== confirmPassword) {
+            sisCShowAuthStatus('A confirmação da senha não confere.', 'error');
+            return;
+        }
+
+        const storedAuth = {
+            email,
+            displayName,
+            passwordHash: await sisCHashSecret(password),
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem(SIS_C_AUTH_STORAGE_KEY, JSON.stringify(storedAuth));
+        sisCCurrentUser = { email: storedAuth.email, displayName: storedAuth.displayName, loginAt: new Date().toISOString() };
+        sessionStorage.setItem(SIS_C_AUTH_SESSION_KEY, JSON.stringify(sisCCurrentUser));
+        sisCSetBodyAuthState(true);
+        sisCUpdateSessionUI();
+        initializeSisCApp();
+        showStatus(`Acesso criado para ${storedAuth.email}.`, 'success');
+        return;
+    }
+
+    const stored = sisCGetStoredAuth();
+    if (!stored) {
+        sisCSetAuthMode('register');
+        sisCShowAuthStatus('Nenhum acesso encontrado. Registre o primeiro email para continuar.', 'info');
+        sisCFocusAuthField();
+        return;
+    }
+
+    const passwordHash = await sisCHashSecret(password);
+    if (stored.email !== email || stored.passwordHash !== passwordHash) {
+        sisCShowAuthStatus('Email ou senha inválidos.', 'error');
+        return;
+    }
+
+    sisCCurrentUser = { email: stored.email, displayName: stored.displayName || stored.email, loginAt: new Date().toISOString() };
+    sessionStorage.setItem(SIS_C_AUTH_SESSION_KEY, JSON.stringify(sisCCurrentUser));
+    sisCSetBodyAuthState(true);
+    sisCUpdateSessionUI();
+    initializeSisCApp();
+    showStatus(`Sessão iniciada para ${sisCCurrentUser.email}.`, 'success');
+}
+
+function logoutSisC() {
+    sessionStorage.removeItem(SIS_C_AUTH_SESSION_KEY);
+    sisCCurrentUser = null;
+    sisCSetBodyAuthState(false);
+    sisCSetAuthMode(sisCHasStoredAuth() ? 'login' : 'register');
+    sisCUpdateAuthGreeting();
+    sisCUpdateSessionUI();
+    document.getElementById('authForm')?.reset();
+    sisCShowAuthStatus('Sessão encerrada. Entre novamente para acessar o sistema.', 'info');
+    sisCFocusAuthField();
+}
+
+function initializeSisCApp() {
+    if (sisCAppInitialized) return;
+    sisCAppInitialized = true;
+    document.getElementById('caixinhaDate').value = today;
+    sisCApplyDeployResetIfNeeded();
+    loadFromLocalStorage();
+    setupEventListeners();
+    setupNavigation();
+    initApuracoes();
+    initBankNf();
+    renderClientSubsystemCards();
+    updateFinancialSummary();
+    if (sisCDeployResetApplied) {
+        setTimeout(() => showStatus('Primeiro acesso deste deploy neste computador: o sistema iniciou limpo para novo aprendizado.', 'info'), 300);
+    }
+    setTimeout(() => showStatus('Bem-vindo ao SIS-C v2.0! Importe um extrato para começar.', 'info'), 800);
+    startAutoSave();
+}
+
+function bootstrapSisCAuth() {
+    setupAuthEventListeners();
+    sisCUpdateAuthGreeting();
+    sisCCurrentUser = sisCGetStoredSession();
+    sisCSetAuthMode(sisCHasStoredAuth() ? 'login' : 'register');
+    sisCUpdateSessionUI();
+    if (sisCCurrentUser) {
+        sisCSetBodyAuthState(true);
+        initializeSisCApp();
+    } else {
+        sisCSetBodyAuthState(false);
+        sisCFocusAuthField();
+    }
+}
 
 const sections = {
     import: document.getElementById('importSection'),
@@ -3538,6 +4456,7 @@ const sections = {
     ferramentas: document.getElementById('ferramentasSection'),
     banknf: document.getElementById('banknfSection'),
     apuracoes: document.getElementById('apuracoesSection'),
+    carteira: document.getElementById('carteiraSection'),
     settings: document.getElementById('settingsSection'),
     chart: document.getElementById('chartSection'),
     calculos: document.getElementById('calculosSection'),
@@ -3554,6 +4473,7 @@ const pageTitles = {
     'relatorio-mensal':"Relatório Mensal", 'relatorio-financeiro':"Relatório Financeiro Completo",
     caixinha:"Caixinha", conversor:"Conversão PDF → OFX", ferramentas:"Ferramentas", banknf:"Banco NF",
     apuracoes:"Apurações",
+    carteira:"Carteira de Empresas",
     settings:"Configurações do Sistema", chart:"Plano de Contas", calculos:"Cálculos",
     fechamento:"Fechamento e Conferências", demonstrativos:"Demonstrativos",
     correio:"Correio de Movimentação",
@@ -3573,6 +4493,7 @@ const pageSubtitles = {
     ferramentas:"Agrupe PDFs ou extraia tabelas de PDF para Excel",
     banknf:"Gerencie XMLs e PDFs de notas para conciliar com os lançamentos bancários",
     apuracoes:"Apure Simples Nacional, DAS, Fator R, IRPJ e CSLL em um só lugar",
+    carteira:"Cadastre empresas, defina o plano usado e organize arquivos individuais por mês e banco",
     settings:"Configure as preferências do sistema",
     chart:"Gerencie o plano de contas do sistema",
     calculos:"Controle de imobilizado, depreciação e cálculos por empresa",
@@ -3793,31 +4714,42 @@ function sisAiMergeMlKnowledge(currentData, incomingData) {
     const merged = { ...(currentData || {}) };
     Object.entries(incomingData || {}).forEach(([token, incomingEntry]) => {
         if (!incomingEntry || typeof incomingEntry !== 'object') return;
-        const existing = merged[token] || {};
-        const normalizedIncoming = {
-            debitAccount: String(incomingEntry.debitAccount || existing.debitAccount || '').trim(),
-            creditAccount: String(incomingEntry.creditAccount || existing.creditAccount || '').trim(),
-            debitCount: Number(incomingEntry.debitCount || 0),
-            creditCount: Number(incomingEntry.creditCount || 0),
-            totalSeen: Number(incomingEntry.totalSeen || 0),
-            lastUsed: incomingEntry.lastUsed || existing.lastUsed || null,
-            sampleDesc: sisAiNormalizeImportedDescription(incomingEntry.sampleDesc || existing.sampleDesc || '')
-        };
-        if (!merged[token]) {
-            merged[token] = normalizedIncoming;
-            return;
-        }
-        const currentLastUsed = existing.lastUsed ? new Date(existing.lastUsed).getTime() : 0;
-        const incomingLastUsed = normalizedIncoming.lastUsed ? new Date(normalizedIncoming.lastUsed).getTime() : 0;
-        merged[token] = {
-            debitAccount: normalizedIncoming.debitAccount || existing.debitAccount || '',
-            creditAccount: normalizedIncoming.creditAccount || existing.creditAccount || '',
-            debitCount: Number(existing.debitCount || 0) + normalizedIncoming.debitCount,
-            creditCount: Number(existing.creditCount || 0) + normalizedIncoming.creditCount,
-            totalSeen: Number(existing.totalSeen || 0) + normalizedIncoming.totalSeen,
-            lastUsed: incomingLastUsed > currentLastUsed ? normalizedIncoming.lastUsed : (existing.lastUsed || normalizedIncoming.lastUsed || null),
-            sampleDesc: normalizedIncoming.sampleDesc || existing.sampleDesc || ''
-        };
+        const existing = sisAiEnsureMlEntry(merged[token], incomingEntry.kind || 'token');
+        const incoming = sisAiEnsureMlEntry(incomingEntry, incomingEntry.kind || existing.kind || 'token');
+        const pairStats = { ...(existing.pairStats || {}) };
+        Object.entries(incoming.pairStats || {}).forEach(([pairKey, pairValue]) => {
+            const current = pairStats[pairKey] || { score: 0, hits: 0, hardHits: 0, lastUsed: null };
+            pairStats[pairKey] = {
+                score: Number(current.score || 0) + Number(pairValue?.score || 0),
+                hits: Number(current.hits || 0) + Number(pairValue?.hits || 0),
+                hardHits: Number(current.hardHits || 0) + Number(pairValue?.hardHits || 0),
+                lastUsed: (() => {
+                    const currentTime = current.lastUsed ? new Date(current.lastUsed).getTime() : 0;
+                    const incomingTime = pairValue?.lastUsed ? new Date(pairValue.lastUsed).getTime() : 0;
+                    return incomingTime > currentTime ? pairValue.lastUsed : (current.lastUsed || pairValue?.lastUsed || null);
+                })()
+            };
+        });
+        merged[token] = sisAiRefreshMlEntryMeta({
+            ...existing,
+            kind: incoming.kind || existing.kind || 'token',
+            pairStats,
+            totalSeen: Number(existing.totalSeen || 0) + Number(incoming.totalSeen || 0),
+            sampleDesc: sisAiNormalizeImportedDescription(incoming.sampleDesc || existing.sampleDesc || ''),
+            lastUsed: (() => {
+                const existingTime = existing.lastUsed ? new Date(existing.lastUsed).getTime() : 0;
+                const incomingTime = incoming.lastUsed ? new Date(incoming.lastUsed).getTime() : 0;
+                return incomingTime > existingTime ? incoming.lastUsed : (existing.lastUsed || incoming.lastUsed || null);
+            })(),
+            signature: incoming.signature || existing.signature || '',
+            counterparty: incoming.counterparty || existing.counterparty || '',
+            direction: incoming.direction || existing.direction || '',
+            amountBucket: incoming.amountBucket || existing.amountBucket || '',
+            fixed: !!(existing.fixed || incoming.fixed),
+            fixedPair: incoming.fixedPair || existing.fixedPair || '',
+            manualHits: Number(existing.manualHits || 0) + Number(incoming.manualHits || 0),
+            exactMatchCount: Number(existing.exactMatchCount || 0) + Number(incoming.exactMatchCount || 0)
+        });
     });
     return merged;
 }
@@ -4265,20 +5197,7 @@ function sisAiImportKnowledgeRows() {
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('caixinhaDate').value = today;
-    sisCApplyDeployResetIfNeeded();
-    loadFromLocalStorage();
-    setupEventListeners();
-    setupNavigation();
-    initApuracoes();
-    initBankNf();
-    renderClientSubsystemCards();
-    updateFinancialSummary();
-    if (sisCDeployResetApplied) {
-        setTimeout(() => showStatus('Primeiro acesso deste deploy neste computador: o sistema iniciou limpo para novo aprendizado.', 'info'), 300);
-    }
-    setTimeout(() => showStatus("Bem-vindo ao SIS-C v2.0! Importe um extrato para começar.", "info"), 800);
-    startAutoSave();
+    bootstrapSisCAuth();
 });
 
 // ============================================================
@@ -4353,6 +5272,13 @@ function loadFromLocalStorage() {
     }
 
     loadCompanies();
+    try {
+        importArchiveContext = { ...importArchiveContext, ...(JSON.parse(localStorage.getItem(SIS_C_IMPORT_ARCHIVE_CONTEXT_KEY) || 'null') || {}) };
+    } catch (error) {}
+    carteiraActiveCompanyId = localStorage.getItem(CARTEIRA_ACTIVE_COMPANY_KEY) || '';
+    renderImportArchiveContextUI();
+    renderCarteiraSection();
+    loadDemoBillingProfile();
     multiCompanyImportState = JSON.parse(localStorage.getItem(MULTI_COMPANY_STORAGE_KEY) || '{"activeSlotId":"","slots":[]}');
     ensureMultiCompanyState();
     renderMultiCompanyModule();
@@ -4404,6 +5330,7 @@ function navigateToSection(section) {
     });
     if (section === 'calculos') populateDepCompanySelect();
     if (section === 'apuracoes') initApuracoes();
+    if (section === 'carteira') renderCarteiraSection();
     if (section === 'relatorio-mensal') renderRelatorioMensal();
     if (section === 'relatorio-financeiro') renderRelatorioFinanceiro();
     if (section === 'fechamento') recalcFechamento();
@@ -4412,7 +5339,6 @@ function navigateToSection(section) {
     if (section === 'sistemas-cliente') renderClientSubsystemCards();
     closeMobileMenu();
 }
-
 function toggleMobileMenu() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarOverlay').classList.toggle('show');
@@ -4449,13 +5375,31 @@ function toggleSidebarCollapse() {
 // ============================================================
 function setupEventListeners() {
     document.getElementById('fileInput').addEventListener('change', function() {
-        if (this.files.length) { document.getElementById('fileName').textContent = `Arquivo selecionado: ${this.files[0].name}`; }
+        if (this.files.length) {
+            document.getElementById('fileName').textContent = `Arquivo selecionado: ${this.files[0].name}`;
+            importArchiveContext.sourceLabel = this.files[0].name;
+            importArchiveContext.sourceType = 'ofx';
+            persistImportArchiveContext();
+            updateArchiveDoneButtonState();
+        }
     });
     document.getElementById('csvFileInput').addEventListener('change', function() {
-        if (this.files.length) { document.getElementById('csvFileName').textContent = `Arquivo selecionado: ${this.files[0].name}`; }
+        if (this.files.length) {
+            document.getElementById('csvFileName').textContent = `Arquivo selecionado: ${this.files[0].name}`;
+            importArchiveContext.sourceLabel = this.files[0].name;
+            importArchiveContext.sourceType = 'csv';
+            persistImportArchiveContext();
+            updateArchiveDoneButtonState();
+        }
     });
     document.getElementById('excelFileInput').addEventListener('change', function() {
-        if (this.files.length) { document.getElementById('excelFileName').textContent = `Arquivo selecionado: ${this.files[0].name}`; }
+        if (this.files.length) {
+            document.getElementById('excelFileName').textContent = `Arquivo selecionado: ${this.files[0].name}`;
+            importArchiveContext.sourceLabel = this.files[0].name;
+            importArchiveContext.sourceType = 'excel';
+            persistImportArchiveContext();
+            updateArchiveDoneButtonState();
+        }
     });
 
     setupDragAndDrop(document.getElementById('dropArea'), document.getElementById('fileInput'), document.getElementById('fileName'), 'OFX');
@@ -4988,6 +5932,11 @@ function handleMultiOfxFiles(files) {
     });
     if (multiOfxFiles.length > 15) { multiOfxFiles = multiOfxFiles.slice(0, 15); showStatus("Limitado a 15 arquivos.", "warning"); }
 
+    importArchiveContext.sourceLabel = multiOfxFiles.length === 1 ? multiOfxFiles[0].name : `${multiOfxFiles.length} arquivos OFX`;
+    importArchiveContext.sourceType = 'multiofx';
+    persistImportArchiveContext();
+    renderImportArchiveContextUI();
+
     renderMultiOfxFileList();
     document.getElementById('processMultiBtn').disabled = multiOfxFiles.length === 0;
 }
@@ -5263,6 +6212,7 @@ function renderMultiMonthTransactions() {
     document.getElementById('transactionCount').textContent = transactions.length.toString();
     const btn = document.getElementById('sendToCruzamentoBtn');
     if (btn) btn.disabled = transactions.length === 0;
+    updateArchiveDoneButtonState();
     updateBatchEditPanel();
     setTimeout(updateTxAnalytics, 0);
 }
@@ -5519,6 +6469,7 @@ function displayTransactions() {
     document.getElementById('transactionCount').textContent = transactions.length.toString();
     const btn = document.getElementById('sendToCruzamentoBtn');
     if (btn) btn.disabled = transactions.length === 0;
+    updateArchiveDoneButtonState();
     updateBatchEditPanel();
     setTimeout(updateTxAnalytics, 0);
 }
@@ -5680,11 +6631,15 @@ function persistRulesStorage() {
 function getChartLookupPlans() {
     const plans = [];
     const currentCompany = companies.find(company => company.id === currentCompanyId);
-    const currentChart = Array.isArray(chartOfAccounts) ? chartOfAccounts.filter(acc => acc && acc.code) : [];
+    const currentChart = currentCompanyId
+        ? getCompanyEffectiveChart(currentCompanyId).filter(acc => acc && acc.code)
+        : (Array.isArray(chartOfAccounts) ? chartOfAccounts.filter(acc => acc && acc.code) : []);
     if (currentChart.length) {
         plans.push({
             id: currentCompanyId || '__current__',
-            name: currentCompany ? `Plano atual: ${currentCompany.name}` : 'Plano atual carregado',
+            name: currentCompany
+                ? (currentCompany.chartMode === 'individual' ? `Plano individual: ${currentCompany.name}` : `Plano geral em uso por ${currentCompany.name}`)
+                : 'Plano geral carregado',
             chart: currentChart
         });
     }
@@ -5723,8 +6678,16 @@ function getLookupChartByPlanId(planId) {
 function getPreferredRuleLookupPlanId() {
     const plans = getChartLookupPlans();
     if (!plans.length) return '';
-    const currentPlan = plans.find(plan => plan.id === currentCompanyId);
-    return (currentPlan || plans[0]).id;
+    if (currentCompanyId) {
+        const currentCompany = companies.find(company => company.id === currentCompanyId);
+        if (currentCompany?.chartMode === 'individual') {
+            const currentPlan = plans.find(plan => plan.id === currentCompanyId);
+            if (currentPlan) return currentPlan.id;
+        }
+        const globalPlan = plans.find(plan => plan.id === '__global__');
+        if (globalPlan) return globalPlan.id;
+    }
+    return plans[0].id;
 }
 
 function buildRuleAccountResults(query, planId, limit = 8, showAll = false) {
@@ -5788,7 +6751,13 @@ function openRuleAccountSearch(ruleIndex, showAll = false) {
 
 function renderRules() {
     const c = document.getElementById('rulesContainer'); c.innerHTML = '';
+    syncRulesScopeOptions();
     updateMultiCompanyScopeUI();
+    const scopeAlert = document.getElementById('rulesCompanyScopeAlert');
+    if (scopeAlert) {
+        const scopeMeta = getRulesScopeMeta();
+        scopeAlert.innerHTML = `<strong>${scopeMeta.title}</strong><div style="margin-top:4px;">${scopeMeta.detail}</div>`;
+    }
     if (rules.length === 0) { c.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);"><i class="fas fa-sliders-h" style="font-size:2rem;margin-bottom:10px;display:block;"></i><div>Nenhuma regra definida.</div></div>'; return; }
     rules.forEach((rule, i) => {
         const d = document.createElement('div'); d.className = 'rule-item';
@@ -6859,7 +7828,8 @@ function enableExportButtons() {
     document.getElementById('applyRulesBtn').disabled = false;
     document.getElementById('applyRulesBtn2').disabled = false;
     const badge = document.getElementById('transactionsBadge');
-    badge.textContent = transactions.length; badge.classList.remove('d-none');
+    if (badge) { badge.textContent = transactions.length; badge.classList.remove('d-none'); }
+    updateArchiveDoneButtonState();
     saveToLocalStorage();
 }
 
@@ -7073,8 +8043,15 @@ function importChartOfAccounts() {
                 const wb = XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
                 const ws = wb.Sheets[wb.SheetNames[0]];
                 const data = XLSX.utils.sheet_to_json(ws,{header:1}).filter(row => row.length>=2 && row[0] && row[1]);
-                chartOfAccounts = data.map(row => ({code:String(row[0]).trim(),description:String(row[1]).trim(),group:"Importado",type:"Importado"}));
-                localStorage.setItem('chartOfAccounts',JSON.stringify(chartOfAccounts)); renderChartOfAccounts();
+                const startIndex = data.length && /codigo|numero/i.test(String(data[0][0] || '')) ? 1 : 0;
+                chartOfAccounts = data.slice(startIndex).map(row => ({
+                    code:String(row[0]).trim(),
+                    description:String(row[1]).trim(),
+                    group:String(row[2] || 'Importado').trim() || 'Importado',
+                    type:String(row[2] || 'Importado').trim() || 'Importado'
+                })).filter(acc => acc.code && acc.description);
+                if (currentCompanyId) saveCompanyData(); else localStorage.setItem('chartOfAccounts',JSON.stringify(chartOfAccounts));
+                renderChartOfAccounts();
                 showStatus(`${chartOfAccounts.length} contas importadas.`,"success");
             } catch(err) { showStatus("Erro: "+err.message,"error"); }
         };
@@ -7410,34 +8387,890 @@ function loadCaixinhaData() { if(currentCompanyId){const d=JSON.parse(localStora
 // ============================================================
 // COMPANIES
 // ============================================================
+function companyChartModeLabel(mode) {
+    return mode === 'individual' ? 'Plano individual' : 'Plano geral';
+}
+
+function buildCompanyRecord(payload = {}) {
+    const globalChart = JSON.parse(localStorage.getItem('chartOfAccounts') || '[]');
+    const inferredChartMode = payload.chartMode || (Array.isArray(payload.chart) && payload.chart.length ? 'individual' : 'general');
+    return {
+        id: payload.id || generateId(),
+        number: String(payload.number || '').trim(),
+        name: String(payload.name || '').trim(),
+        cnpj: String(payload.cnpj || '').trim(),
+        regime: String(payload.regime || '').trim(),
+        chartMode: inferredChartMode === 'individual' ? 'individual' : 'general',
+        createdAt: payload.createdAt || new Date().toISOString(),
+        chart: Array.isArray(payload.chart) ? payload.chart : (inferredChartMode === 'individual' ? JSON.parse(JSON.stringify(globalChart)) : [])
+    };
+}
+
+function getCompanyStorageDefaults(company = {}) {
+    const inferredChartMode = company.chartMode || (Array.isArray(company.chart) && company.chart.length ? 'individual' : 'general');
+    return {
+        id: company.id || '',
+        number: company.number || '',
+        name: company.name || '',
+        cnpj: company.cnpj || '',
+        regime: company.regime || '',
+        chartMode: inferredChartMode === 'individual' ? 'individual' : 'general',
+        chart: Array.isArray(company.chart) ? company.chart : [],
+        transactions: [],
+        caixinha: [],
+        rules: [],
+        archives: []
+    };
+}
+
+function getCompanyStorage(companyId) {
+    const company = companies.find(item => item.id === companyId) || { id: companyId };
+    const stored = JSON.parse(localStorage.getItem(`company_${companyId}`) || 'null');
+    return { ...getCompanyStorageDefaults(company), ...(stored || {}) };
+}
+
+function saveCompanyStorage(companyId, nextData) {
+    localStorage.setItem(`company_${companyId}`, JSON.stringify(nextData));
+}
+
+function getCompanyEffectiveChart(companyId) {
+    const company = companies.find(item => item.id === companyId);
+    const globalChart = JSON.parse(localStorage.getItem('chartOfAccounts') || '[]');
+    if (!company || company.chartMode !== 'individual') return globalChart;
+    const stored = getCompanyStorage(companyId);
+    return Array.isArray(stored.chart) && stored.chart.length ? stored.chart : globalChart;
+}
+
+function getCompanyEffectiveRules(companyId) {
+    const storage = getCompanyStorage(companyId);
+    if (Array.isArray(storage.rules) && storage.rules.length) return cloneData(storage.rules);
+    const globalRules = JSON.parse(localStorage.getItem('rules') || '[]');
+    return Array.isArray(globalRules) && globalRules.length ? cloneData(globalRules) : cloneData(rules);
+}
+
+function syncRulesScopeOptions() {
+    const select = document.getElementById('rulesCompanySelect');
+    if (!select) return;
+    select.innerHTML = '<option value="">Regras gerais do sistema</option>';
+    companies.forEach(company => {
+        const option = document.createElement('option');
+        option.value = company.id;
+        option.textContent = [company.number, company.name].filter(Boolean).join(' - ');
+        select.appendChild(option);
+    });
+    select.value = currentCompanyId || '';
+}
+
+function getRulesScopeMeta() {
+    if (!currentCompanyId) {
+        return {
+            title: 'Escopo atual: regras gerais do sistema',
+            detail: 'Estas regras ficam disponíveis como base global para novas empresas e importações fora de um contexto empresarial específico.'
+        };
+    }
+    const company = companies.find(item => item.id === currentCompanyId);
+    const storage = company ? getCompanyStorage(company.id) : null;
+    const hasOwnRules = !!(storage && Array.isArray(storage.rules) && storage.rules.length);
+    const planLabel = company?.chartMode === 'individual' ? 'plano individual da empresa' : 'plano geral do sistema';
+    return {
+        title: `Escopo atual: regras da empresa ${company?.name || currentCompanyId}`,
+        detail: hasOwnRules
+            ? `As regras desta empresa são salvas separadamente e pesquisam contas no ${planLabel}.`
+            : `Esta empresa ainda não tem regras próprias salvas. Ao editar e salvar, o sistema criará uma cópia das regras gerais usando o ${planLabel}.`
+    };
+}
+
+function loadGlobalRuleContext(options = {}) {
+    currentCompanyId = null;
+    selectedChartAccounts.clear();
+
+    const storedChart = localStorage.getItem('chartOfAccounts');
+    if (storedChart) chartOfAccounts = JSON.parse(storedChart);
+    else loadDefaultChartOfAccounts();
+
+    const storedRules = localStorage.getItem('rules');
+    if (storedRules) rules = JSON.parse(storedRules);
+    else loadDefaultRules();
+
+    caixinhaTransactions = [];
+    syncCompanySelectOptions();
+    syncRulesScopeOptions();
+    if (storedChart) renderChartOfAccounts();
+    renderRules();
+    displayCaixinhaTransactions();
+    if (!options.silent) showStatus('Regras gerais carregadas.', 'info');
+}
+
+function switchRulesScope() {
+    const companyId = document.getElementById('rulesCompanySelect')?.value || '';
+    if (!companyId) {
+        loadGlobalRuleContext();
+        return;
+    }
+    currentCompanyId = companyId;
+    loadCompanyData();
+}
+
+function persistImportArchiveContext() {
+    localStorage.setItem(SIS_C_IMPORT_ARCHIVE_CONTEXT_KEY, JSON.stringify(importArchiveContext));
+}
+
+function inferImportArchiveContextDefaults() {
+    if (!importArchiveContext.companyId) {
+        importArchiveContext.companyId = carteiraActiveCompanyId || currentCompanyId || '';
+    }
+}
+
+function renderImportArchiveContextUI() {
+    inferImportArchiveContextDefaults();
+    const select = document.getElementById('importArchiveCompanySelect');
+    const bankInput = document.getElementById('importArchiveBankName');
+    const info = document.getElementById('importArchiveContextInfo');
+    if (select) {
+        select.innerHTML = '<option value="">Selecione a empresa da carteira</option>';
+        companies.forEach(company => {
+            const option = document.createElement('option');
+            option.value = company.id;
+            option.textContent = [company.number, company.name].filter(Boolean).join(' - ');
+            select.appendChild(option);
+        });
+        select.value = importArchiveContext.companyId || '';
+    }
+    if (bankInput) bankInput.value = importArchiveContext.bankName || '';
+    if (info) {
+        const company = companies.find(item => item.id === importArchiveContext.companyId);
+        const source = importArchiveContext.sourceLabel ? `Arquivo atual: ${importArchiveContext.sourceLabel}.` : 'Nenhum arquivo selecionado ainda.';
+        info.textContent = company
+            ? `Empresa vinculada: ${company.name}. Banco: ${importArchiveContext.bankName || 'não informado'}. ${source}`
+            : `Selecione a empresa e o banco antes de concluir o arquivamento. ${source}`;
+    }
+    updateArchiveDoneButtonState();
+}
+
+function syncImportArchiveContextFromUI() {
+    importArchiveContext.companyId = document.getElementById('importArchiveCompanySelect')?.value || '';
+    importArchiveContext.bankName = (document.getElementById('importArchiveBankName')?.value || '').trim();
+    persistImportArchiveContext();
+    renderImportArchiveContextUI();
+}
+
+function getArchiveDoneEligibility() {
+    const company = companies.find(item => item.id === importArchiveContext.companyId);
+    if (!transactions.length) return { ok: false, reason: 'Nenhum lançamento processado.' };
+    if (!company) return { ok: false, reason: 'Selecione a empresa da importação.' };
+    if (!String(importArchiveContext.bankName || '').trim()) return { ok: false, reason: 'Informe o banco da importação.' };
+    return { ok: true, company };
+}
+
+function updateArchiveDoneButtonState() {
+    const button = document.getElementById('archiveDoneBtn');
+    if (!button) return;
+    const eligibility = getArchiveDoneEligibility();
+    button.disabled = !eligibility.ok;
+    button.title = eligibility.ok ? 'Salvar os lançamentos atuais na Carteira da empresa.' : eligibility.reason;
+}
+
+function getArchiveMonthKeyFromTransaction(tx) {
+    const iso = sisAiDateToIso(tx?.date || '');
+    return /^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso.slice(0, 7) : new Date().toISOString().slice(0, 7);
+}
+
+function buildArchiveFingerprint(monthKey, bankName, txs) {
+    return JSON.stringify({
+        monthKey,
+        bankName: String(bankName || '').trim().toUpperCase(),
+        txs: (txs || []).map(tx => ({
+            date: tx.date,
+            amount: Number(tx.amount || 0),
+            description: sisAiComparableText(tx.description || ''),
+            debitCode: tx.debitCode || '',
+            creditCode: tx.creditCode || ''
+        }))
+    });
+}
+
+function archiveCurrentTransactionsDone() {
+    const eligibility = getArchiveDoneEligibility();
+    if (!eligibility.ok) { showStatus(eligibility.reason, 'warning'); return; }
+    const company = eligibility.company;
+    const storage = getCompanyStorage(company.id);
+    const existingArchives = Array.isArray(storage.archives) ? storage.archives.slice() : [];
+    const groups = new Map();
+    transactions.forEach(tx => {
+        const monthKey = getArchiveMonthKeyFromTransaction(tx);
+        if (!groups.has(monthKey)) groups.set(monthKey, []);
+        groups.get(monthKey).push(cloneData(tx));
+    });
+    let archivedCount = 0;
+    let skippedCount = 0;
+    groups.forEach((monthTransactions, monthKey) => {
+        const fingerprint = buildArchiveFingerprint(monthKey, importArchiveContext.bankName, monthTransactions);
+        const alreadyExists = existingArchives.some(archive => archive.fingerprint === fingerprint);
+        if (alreadyExists) {
+            skippedCount += 1;
+            return;
+        }
+        existingArchives.push({
+            id: generateId(),
+            monthKey,
+            bankName: importArchiveContext.bankName,
+            bankCode: '',
+            accountCode: window._ofxDetectedAccount || '',
+            fileName: importArchiveContext.sourceLabel || `lancamentos_${monthKey}`,
+            importedAt: new Date().toISOString(),
+            chartMode: company.chartMode,
+            sourceType: importArchiveContext.sourceType || currentFileType,
+            finalizedAt: new Date().toISOString(),
+            fingerprint,
+            transactions: monthTransactions
+        });
+        archivedCount += 1;
+    });
+    saveCompanyStorage(company.id, { ...storage, archives: existingArchives });
+    carteiraActiveCompanyId = company.id;
+    localStorage.setItem(CARTEIRA_ACTIVE_COMPANY_KEY, company.id);
+    renderCarteiraSection();
+    updateArchiveDoneButtonState();
+    if (archivedCount > 0 && skippedCount > 0) {
+        showStatus(`${archivedCount} lote(s) arquivado(s) e ${skippedCount} lote(s) já existiam para ${company.name}.`, 'warning');
+    } else if (archivedCount > 0) {
+        showStatus(`${archivedCount} lote(s) arquivado(s) com sucesso para ${company.name}.`, 'success');
+    } else {
+        showStatus('Este conjunto de lançamentos já foi arquivado para a empresa informada.', 'warning');
+    }
+}
+
+function syncCompanySelectOptions() {
+    const sel = document.getElementById('companySelect');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">-- Plano geral do sistema --</option>';
+    companies.forEach(company => {
+        const option = document.createElement('option');
+        option.value = company.id;
+        option.textContent = [company.number, company.name].filter(Boolean).join(' - ');
+        sel.appendChild(option);
+    });
+    if (currentCompanyId) sel.value = currentCompanyId;
+}
+
 function loadCompanies() {
-    const s=localStorage.getItem('companies'); companies=s?JSON.parse(s):[];
-    const sel=document.getElementById('companySelect'); if(!sel)return;
-    sel.innerHTML='<option value="">-- Selecione uma empresa --</option>';
-    companies.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;sel.appendChild(o);});
+    const stored = localStorage.getItem('companies');
+    companies = (stored ? JSON.parse(stored) : []).map(company => buildCompanyRecord(company));
+    localStorage.setItem('companies', JSON.stringify(companies));
+    syncCompanySelectOptions();
+    syncRulesScopeOptions();
+    renderImportArchiveContextUI();
 }
-function showNewCompanyModal() { document.getElementById('newCompanyName').value='';document.getElementById('newCompanyCNPJ').value='';document.getElementById('useDefaultChart').value='yes';document.getElementById('newCompanyModal').style.display='flex'; }
+
+function showNewCompanyModal() {
+    document.getElementById('newCompanyNumber').value = '';
+    document.getElementById('newCompanyName').value = '';
+    document.getElementById('newCompanyCNPJ').value = '';
+    document.getElementById('newCompanyRegime').value = '';
+    document.getElementById('newCompanyPlanMode').value = 'general';
+    document.getElementById('newCompanyModal').style.display = 'flex';
+}
+
 function closeNewCompanyModal() { document.getElementById('newCompanyModal').style.display='none'; }
+
+function upsertCompanyRecord(payload = {}, options = {}) {
+    const normalizedNumber = String(payload.number || '').trim();
+    const normalizedCnpj = String(payload.cnpj || '').trim();
+    const normalizedName = String(payload.name || '').trim().toLowerCase();
+    const existingIndex = companies.findIndex(company =>
+        (normalizedNumber && company.number === normalizedNumber) ||
+        (normalizedCnpj && company.cnpj === normalizedCnpj) ||
+        (options.matchByName && normalizedName && company.name.toLowerCase() === normalizedName)
+    );
+    const nextCompany = buildCompanyRecord(payload);
+    if (existingIndex >= 0) {
+        const current = companies[existingIndex];
+        companies[existingIndex] = {
+            ...current,
+            ...nextCompany,
+            id: current.id,
+            chart: Array.isArray(current.chart) && current.chart.length ? current.chart : nextCompany.chart,
+            createdAt: current.createdAt || nextCompany.createdAt
+        };
+        const storage = getCompanyStorage(current.id);
+        saveCompanyStorage(current.id, {
+            ...storage,
+            number: companies[existingIndex].number,
+            name: companies[existingIndex].name,
+            cnpj: companies[existingIndex].cnpj,
+            regime: companies[existingIndex].regime,
+            chartMode: companies[existingIndex].chartMode
+        });
+        return { company: companies[existingIndex], created: false };
+    }
+    companies.push(nextCompany);
+    saveCompanyStorage(nextCompany.id, { ...getCompanyStorageDefaults(nextCompany), chart: nextCompany.chart });
+    return { company: nextCompany, created: true };
+}
+
 function createNewCompany() {
-    const name=document.getElementById('newCompanyName').value; if(!name.trim()){showStatus("Digite o nome.","error");return;}
-    const cnpj=document.getElementById('newCompanyCNPJ').value; const ud=document.getElementById('useDefaultChart').value==='yes';
-    const c={id:generateId(),name,cnpj,createdAt:new Date().toISOString(),chart:ud?JSON.parse(JSON.stringify(chartOfAccounts)):[]};
-    companies.push(c); localStorage.setItem('companies',JSON.stringify(companies));
-    localStorage.setItem(`company_${c.id}`,JSON.stringify({...c,transactions:[],caixinha:[],rules:ud?JSON.parse(JSON.stringify(rules)):[]}));
-    loadCompanies(); closeNewCompanyModal(); showStatus(`Empresa "${name}" criada!`,"success");
+    const payload = {
+        number: document.getElementById('newCompanyNumber').value,
+        name: document.getElementById('newCompanyName').value,
+        cnpj: document.getElementById('newCompanyCNPJ').value,
+        regime: document.getElementById('newCompanyRegime').value,
+        chartMode: document.getElementById('newCompanyPlanMode').value
+    };
+    if(!String(payload.name || '').trim()){showStatus("Digite o nome.","error");return;}
+    const result = upsertCompanyRecord(payload, { matchByName: true });
+    localStorage.setItem('companies',JSON.stringify(companies));
+    loadCompanies();
+    renderCarteiraSection();
+    closeNewCompanyModal();
+    showStatus(`Empresa "${result.company.name}" ${result.created ? 'criada' : 'atualizada'}!`,"success");
 }
-function switchChartCompany() { const id=document.getElementById('companySelect').value; if(!id){showStatus("Selecione uma empresa.","info");return;} currentCompanyId=id; loadCompanyData(); }
-function loadCompanyData() {
-    if(!currentCompanyId)return; const c=companies.find(x=>x.id===currentCompanyId); if(!c)return;
-    const d=JSON.parse(localStorage.getItem(`company_${currentCompanyId}`)||'{}');
-    chartOfAccounts=d.chart||[]; caixinhaTransactions=d.caixinha||[]; rules=d.rules||[];
-    renderChartOfAccounts(); renderRules(); loadCaixinhaData(); showStatus(`Empresa "${c.name}" carregada.`,"info");
+
+function switchChartCompany() {
+    const id = document.getElementById('companySelect').value;
+    if (!id) {
+        loadGlobalRuleContext();
+        return;
+    }
+    currentCompanyId = id;
+    loadCompanyData();
 }
-function saveCompanyData() { if(!currentCompanyId)return; const d=JSON.parse(localStorage.getItem(`company_${currentCompanyId}`)||'{}'); d.chart=chartOfAccounts;d.caixinha=caixinhaTransactions;d.rules=rules; localStorage.setItem(`company_${currentCompanyId}`,JSON.stringify(d)); }
-function showEditCompanyModal() { if(!currentCompanyId){showStatus("Selecione uma empresa.","info");return;} const c=companies.find(x=>x.id===currentCompanyId); document.getElementById('editCompanyName').value=c.name; document.getElementById('editCompanyCNPJ').value=c.cnpj; document.getElementById('editCompanyModal').style.display='flex'; }
+
+function loadCompanyData(options = {}) {
+    if (!currentCompanyId) {
+        loadGlobalRuleContext(options);
+        return;
+    }
+    const company = companies.find(item => item.id === currentCompanyId);
+    if (!company) return;
+    const storage = getCompanyStorage(currentCompanyId);
+    selectedChartAccounts.clear();
+    chartOfAccounts = cloneData(getCompanyEffectiveChart(currentCompanyId));
+    caixinhaTransactions = storage.caixinha || [];
+    rules = getCompanyEffectiveRules(currentCompanyId);
+    syncCompanySelectOptions();
+    syncRulesScopeOptions();
+    renderChartOfAccounts();
+    renderRules();
+    loadCaixinhaData();
+    if (!options.silent) showStatus(`Empresa "${company.name}" carregada.`, 'info');
+}
+
+function saveCompanyData() {
+    if (!currentCompanyId) return;
+    const company = companies.find(item => item.id === currentCompanyId);
+    const storage = getCompanyStorage(currentCompanyId);
+    storage.caixinha = caixinhaTransactions;
+    storage.rules = cloneData(rules);
+    storage.chartMode = company?.chartMode || storage.chartMode || 'general';
+    storage.chart = storage.chartMode === 'individual' ? cloneData(chartOfAccounts) : (Array.isArray(storage.chart) ? storage.chart : []);
+    saveCompanyStorage(currentCompanyId, storage);
+}
+
+function showEditCompanyModal() {
+    if(!currentCompanyId){showStatus("Selecione uma empresa.","info");return;}
+    const c=companies.find(x=>x.id===currentCompanyId);
+    document.getElementById('editCompanyNumber').value=c.number || '';
+    document.getElementById('editCompanyName').value=c.name;
+    document.getElementById('editCompanyCNPJ').value=c.cnpj;
+    document.getElementById('editCompanyRegime').value=c.regime || '';
+    document.getElementById('editCompanyPlanMode').value=c.chartMode || 'general';
+    document.getElementById('editCompanyModal').style.display='flex';
+}
+
 function closeEditCompanyModal() { document.getElementById('editCompanyModal').style.display='none'; }
-function updateCompany() { if(!currentCompanyId)return; const i=companies.findIndex(c=>c.id===currentCompanyId); companies[i].name=document.getElementById('editCompanyName').value; companies[i].cnpj=document.getElementById('editCompanyCNPJ').value; localStorage.setItem('companies',JSON.stringify(companies)); loadCompanies(); closeEditCompanyModal(); showStatus("Empresa atualizada!","success"); }
-function deleteCompany() { if(!currentCompanyId)return; if(!confirm('Deletar esta empresa e todos seus dados?'))return; companies=companies.filter(c=>c.id!==currentCompanyId); localStorage.removeItem(`company_${currentCompanyId}`); localStorage.setItem('companies',JSON.stringify(companies)); currentCompanyId=null; caixinhaTransactions=[]; chartOfAccounts=[]; loadCompanies(); closeEditCompanyModal(); showStatus("Empresa deletada.","success"); }
+
+function updateCompany() {
+    if(!currentCompanyId)return;
+    const i=companies.findIndex(c=>c.id===currentCompanyId);
+    companies[i].number=document.getElementById('editCompanyNumber').value.trim();
+    companies[i].name=document.getElementById('editCompanyName').value;
+    companies[i].cnpj=document.getElementById('editCompanyCNPJ').value;
+    companies[i].regime=document.getElementById('editCompanyRegime').value;
+    companies[i].chartMode=document.getElementById('editCompanyPlanMode').value === 'individual' ? 'individual' : 'general';
+    localStorage.setItem('companies',JSON.stringify(companies));
+    const storage = getCompanyStorage(currentCompanyId);
+    saveCompanyStorage(currentCompanyId, { ...storage, ...companies[i], archives: storage.archives || [] });
+    loadCompanies();
+    loadCompanyData({ silent: true });
+    renderCarteiraSection();
+    closeEditCompanyModal();
+    showStatus("Empresa atualizada!","success");
+}
+
+function deleteCompany() {
+    if(!currentCompanyId)return;
+    if(!confirm('Deletar esta empresa e todos seus dados?'))return;
+    companies=companies.filter(c=>c.id!==currentCompanyId);
+    localStorage.removeItem(`company_${currentCompanyId}`);
+    if (carteiraActiveCompanyId === currentCompanyId) {
+        carteiraActiveCompanyId = '';
+        localStorage.removeItem(CARTEIRA_ACTIVE_COMPANY_KEY);
+    }
+    localStorage.setItem('companies',JSON.stringify(companies));
+    currentCompanyId=null;
+    caixinhaTransactions=[];
+    chartOfAccounts=[];
+    loadCompanies();
+    loadGlobalRuleContext({ silent: true });
+    renderCarteiraSection();
+    closeEditCompanyModal();
+    showStatus("Empresa deletada.","success");
+}
+
+function downloadCompanyImportTemplate() {
+    const blob = new Blob([COMPANY_IMPORT_TEMPLATE], { type:'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'modelo_carteira_empresas.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function downloadChartTemplateExcel(companyId = '') {
+    const company = companies.find(item => item.id === companyId);
+    const data = [
+        COMPANY_CHART_TEMPLATE_HEADERS,
+        ['1.1.1.001', 'Caixa', 'Ativo'],
+        ['1.1.2.001', 'Banco Conta Corrente', 'Ativo'],
+        ['3.1.1.001', 'Receita de Servicos', 'Receita'],
+        ['4.1.1.001', 'Despesas Administrativas', 'Despesa']
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Modelo Plano');
+    ws['!cols'] = [{wch:22},{wch:38},{wch:20}];
+    XLSX.writeFile(wb, `Modelo_Plano_${company ? company.name.replace(/\s+/g, '_') : 'SIS-C'}.xlsx`);
+    showStatus('Modelo de plano exportado.', 'success');
+}
+
+function carteiraCreateCompanyFromForm() {
+    const payload = {
+        number: document.getElementById('carteiraCompanyNumber').value,
+        name: document.getElementById('carteiraCompanyName').value,
+        cnpj: document.getElementById('carteiraCompanyCnpj').value,
+        regime: document.getElementById('carteiraCompanyRegime').value,
+        chartMode: document.getElementById('carteiraCompanyPlanMode').value
+    };
+    if (!String(payload.number || '').trim()) { showStatus('Informe o numero da empresa.', 'warning'); return; }
+    if (!String(payload.name || '').trim()) { showStatus('Informe o nome da empresa.', 'warning'); return; }
+    const result = upsertCompanyRecord(payload, { matchByName: true });
+    localStorage.setItem('companies', JSON.stringify(companies));
+    ['carteiraCompanyNumber','carteiraCompanyName','carteiraCompanyCnpj'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    const regimeEl = document.getElementById('carteiraCompanyRegime'); if (regimeEl) regimeEl.value = '';
+    const planEl = document.getElementById('carteiraCompanyPlanMode'); if (planEl) planEl.value = 'general';
+    carteiraActiveCompanyId = result.company.id;
+    localStorage.setItem(CARTEIRA_ACTIVE_COMPANY_KEY, carteiraActiveCompanyId);
+    loadCompanies();
+    renderCarteiraSection();
+    showStatus(`Empresa "${result.company.name}" ${result.created ? 'cadastrada' : 'atualizada'} na carteira.`, 'success');
+}
+
+function carteiraImportCompaniesFile(input) {
+    const file = input.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+        try {
+            const lines = String(event.target.result || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+            let imported = 0;
+            lines.forEach((line, index) => {
+                if (index === 0 && /numero\s+da\s+empresa|nome|cnpj|regime/i.test(line)) return;
+                const parts = line.split(';').map(part => part.trim());
+                if (parts.length < 4) return;
+                const result = upsertCompanyRecord({
+                    number: parts[0],
+                    name: parts[1],
+                    cnpj: parts[2],
+                    regime: parts[3],
+                    chartMode: 'general'
+                }, { matchByName: true });
+                imported += 1;
+                carteiraActiveCompanyId = result.company.id;
+            });
+            localStorage.setItem('companies', JSON.stringify(companies));
+            if (carteiraActiveCompanyId) localStorage.setItem(CARTEIRA_ACTIVE_COMPANY_KEY, carteiraActiveCompanyId);
+            loadCompanies();
+            renderCarteiraSection();
+            showStatus(`${imported} empresa(s) importada(s) para a carteira.`, imported ? 'success' : 'warning');
+        } catch (error) {
+            showStatus(`Erro ao importar empresas: ${error.message}`, 'error');
+        } finally {
+            input.value = '';
+        }
+    };
+    reader.readAsText(file, 'utf-8');
+}
+
+function renderCarteiraSection() {
+    const monthEl = document.getElementById('carteiraArchiveMonth');
+    if (monthEl && !monthEl.value) monthEl.value = new Date().toISOString().slice(0, 7);
+    renderCarteiraCompaniesTable();
+    renderCarteiraFilesArea();
+}
+
+function renderCarteiraCompaniesTable() {
+    const wrap = document.getElementById('carteiraCompaniesTableWrap');
+    if (!wrap) return;
+    if (!companies.length) {
+        wrap.innerHTML = '<div style="text-align:center;padding:36px 20px;color:var(--gray);"><i class="fas fa-briefcase" style="font-size:2.4rem;opacity:0.28;display:block;margin-bottom:10px;"></i>Nenhuma empresa cadastrada na carteira.</div>';
+        return;
+    }
+    wrap.innerHTML = `<div class="table-container"><table class="data-table"><thead><tr><th>Numero</th><th>Empresa</th><th>CNPJ</th><th>Regime</th><th>Plano</th><th>Arquivos</th><th style="width:220px;">Acoes</th></tr></thead><tbody>${companies.map(company => {
+        const storage = getCompanyStorage(company.id);
+        const archiveCount = Array.isArray(storage.archives) ? storage.archives.length : 0;
+        const activeClass = carteiraActiveCompanyId === company.id ? ' style="background:#eff6ff;"' : '';
+        return `<tr${activeClass}><td>${company.number || '—'}</td><td><strong>${company.name}</strong></td><td>${company.cnpj || '—'}</td><td>${company.regime || '—'}</td><td>${companyChartModeLabel(company.chartMode)}</td><td>${archiveCount}</td><td><div class="d-flex gap-10 flex-wrap"><button class="btn btn-primary btn-sm" onclick="selectCarteiraCompany('${company.id}')"><i class="fas fa-folder-open"></i> Arquivos</button><button class="btn btn-outline btn-sm" onclick="openCompanyChartFromCarteira('${company.id}')"><i class="fas fa-sitemap"></i> Plano</button><button class="btn btn-info btn-sm" onclick="openCompanyEditorFromCarteira('${company.id}')"><i class="fas fa-pen"></i> Editar</button></div></td></tr>`;
+    }).join('')}</tbody></table></div>`;
+}
+
+function selectCarteiraCompany(companyId) {
+    carteiraActiveCompanyId = companyId;
+    localStorage.setItem(CARTEIRA_ACTIVE_COMPANY_KEY, companyId);
+    renderCarteiraFilesArea();
+    renderCarteiraCompaniesTable();
+}
+
+function openCompanyChartFromCarteira(companyId) {
+    currentCompanyId = companyId;
+    const sel = document.getElementById('companySelect');
+    if (sel) sel.value = companyId;
+    loadCompanyData();
+    navigateToSection('chart');
+}
+
+function carteiraOpenChartForActiveCompany() {
+    if (!carteiraActiveCompanyId) return;
+    openCompanyChartFromCarteira(carteiraActiveCompanyId);
+}
+
+function openCompanyEditorFromCarteira(companyId) {
+    currentCompanyId = companyId;
+    showEditCompanyModal();
+}
+
+function formatCarteiraMonthLabel(monthKey) {
+    if (!monthKey || !/^\d{4}-\d{2}$/.test(monthKey)) return monthKey || 'Sem periodo';
+    const [year, month] = monthKey.split('-');
+    return new Date(Number(year), Number(month) - 1, 1).toLocaleDateString('pt-BR', { month:'long', year:'numeric' });
+}
+
+function getCarteiraActiveCompany() {
+    return companies.find(company => company.id === carteiraActiveCompanyId) || null;
+}
+
+function renderCarteiraFilesArea() {
+    const empty = document.getElementById('carteiraFilesEmptyState');
+    const shell = document.getElementById('carteiraFilesShell');
+    const subtitle = document.getElementById('carteiraFilesSubtitle');
+    const summary = document.getElementById('carteiraActiveCompanySummary');
+    const groups = document.getElementById('carteiraArchiveGroups');
+    const actions = document.getElementById('carteiraFilesActions');
+    if (!empty || !shell || !subtitle || !summary || !groups || !actions) return;
+    const company = getCarteiraActiveCompany();
+    if (!company) {
+        empty.style.display = 'block';
+        shell.style.display = 'none';
+        actions.style.display = 'none';
+        subtitle.textContent = 'Selecione uma empresa para liberar o envio e a consulta dos arquivos.';
+        return;
+    }
+    const storage = getCompanyStorage(company.id);
+    const archives = Array.isArray(storage.archives) ? storage.archives : [];
+    empty.style.display = 'none';
+    shell.style.display = 'block';
+    actions.style.display = 'flex';
+    subtitle.textContent = `${company.name} • ${companyChartModeLabel(company.chartMode)} • ${archives.length} arquivo(s) armazenado(s).`;
+    summary.innerHTML = `<div class="card" style="margin-bottom:16px;"><div class="card-header"><div class="card-title"><i class="fas fa-building"></i> ${company.name}</div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;"><div><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;">Numero</div><div style="font-weight:700;">${company.number || '—'}</div></div><div><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;">CNPJ</div><div style="font-weight:700;">${company.cnpj || '—'}</div></div><div><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;">Regime</div><div style="font-weight:700;">${company.regime || '—'}</div></div><div><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;">Plano aplicado</div><div style="font-weight:700;">${companyChartModeLabel(company.chartMode)}</div></div></div></div>`;
+    if (!archives.length) {
+        groups.innerHTML = '<div class="card" style="text-align:center;color:var(--gray);"><i class="fas fa-folder-tree" style="font-size:2rem;opacity:0.25;display:block;margin-bottom:12px;"></i>Nenhum arquivo importado para esta empresa.</div>';
+        return;
+    }
+    const byMonth = new Map();
+    archives.slice().sort((a, b) => String(b.monthKey || '').localeCompare(String(a.monthKey || '')) || String(b.importedAt || '').localeCompare(String(a.importedAt || ''))).forEach(archive => {
+        if (!byMonth.has(archive.monthKey)) byMonth.set(archive.monthKey, []);
+        byMonth.get(archive.monthKey).push(archive);
+    });
+    groups.innerHTML = Array.from(byMonth.entries()).map(([monthKey, monthArchives]) => {
+        const bankGroups = new Map();
+        monthArchives.forEach(archive => {
+            const bankKey = archive.bankName || 'Banco não informado';
+            if (!bankGroups.has(bankKey)) bankGroups.set(bankKey, []);
+            bankGroups.get(bankKey).push(archive);
+        });
+        return `<div class="card"><div class="card-header"><div><div class="card-title"><i class="fas fa-calendar-alt"></i> ${formatCarteiraMonthLabel(monthKey)}</div><div class="card-subtitle">${monthArchives.length} arquivo(s) agrupado(s) neste periodo.</div></div></div>${Array.from(bankGroups.entries()).map(([bankName, bankArchives]) => `<div style="border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;background:#fff;"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;"><div><div style="font-weight:800;color:var(--dark);">${bankName}</div><div style="font-size:0.82rem;color:var(--gray);">${bankArchives.length} arquivo(s) • ${bankArchives.reduce((sum, item) => sum + (item.transactions?.length || 0), 0)} lançamento(s)</div></div></div><div class="table-container"><table class="data-table"><thead><tr><th>Arquivo</th><th>Conta</th><th>Lançamentos</th><th>Importado em</th><th style="width:320px;">Ações</th></tr></thead><tbody>${bankArchives.map(archive => `<tr><td>${archive.fileName}</td><td>${archive.accountCode || '—'}</td><td>${archive.transactions?.length || 0}</td><td>${new Date(archive.importedAt).toLocaleString('pt-BR')}</td><td><div class="d-flex gap-10 flex-wrap"><button class="btn btn-outline btn-sm" onclick="openCarteiraArchiveModal('${archive.id}')"><i class="fas fa-eye"></i> Lançamentos</button><button class="btn btn-success btn-sm" onclick="downloadCarteiraArchiveExcel('${archive.id}')"><i class="fas fa-file-excel"></i> Planilha</button><button class="btn btn-primary btn-sm" onclick="downloadCarteiraArchiveOfx('${archive.id}')"><i class="fas fa-file-export"></i> OFX SIS-C PDF</button><button class="btn btn-danger btn-sm" onclick="deleteCarteiraArchive('${archive.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`).join('')}</tbody></table></div></div>`).join('')}</div>`;
+    }).join('');
+}
+
+function carteiraBuildTransactionsFromOfx(content, companyId) {
+    const backup = {
+        rawTransactions: cloneData(rawTransactions),
+        transactions: cloneData(transactions),
+        totalCredits,
+        totalDebits,
+        rules: cloneData(rules),
+        chartOfAccounts: cloneData(chartOfAccounts),
+        currentCompanyId,
+        isMultiMonth,
+        multiMonthTransactions: cloneData(multiMonthTransactions)
+    };
+    try {
+        rawTransactions = parseOFXContent(content).map(tx => ({ ...tx, description: sisAiNormalizeImportedDescription(tx.description) }));
+        const storage = getCompanyStorage(companyId);
+        rules = Array.isArray(storage.rules) && storage.rules.length ? cloneData(storage.rules) : cloneData(JSON.parse(localStorage.getItem('rules') || '[]'));
+        chartOfAccounts = cloneData(getCompanyEffectiveChart(companyId));
+        currentCompanyId = companyId;
+        transactions = [];
+        totalCredits = 0;
+        totalDebits = 0;
+        isMultiMonth = false;
+        multiMonthTransactions = {};
+        processTransactionsWithRules();
+        sisAiSanitizeTransactionList(transactions, 'carteira', { notify: false });
+        return cloneData(transactions);
+    } finally {
+        rawTransactions = backup.rawTransactions;
+        transactions = backup.transactions;
+        totalCredits = backup.totalCredits;
+        totalDebits = backup.totalDebits;
+        rules = backup.rules;
+        chartOfAccounts = backup.chartOfAccounts;
+        currentCompanyId = backup.currentCompanyId;
+        isMultiMonth = backup.isMultiMonth;
+        multiMonthTransactions = backup.multiMonthTransactions;
+    }
+}
+
+async function carteiraHandleArchiveFiles(input) {
+    const files = Array.from(input.files || []);
+    const company = getCarteiraActiveCompany();
+    if (!company) { showStatus('Selecione uma empresa na carteira antes de importar arquivos.', 'warning'); input.value = ''; return; }
+    const monthKey = document.getElementById('carteiraArchiveMonth')?.value || '';
+    const bankName = (document.getElementById('carteiraArchiveBankName')?.value || '').trim();
+    const bankCode = (document.getElementById('carteiraArchiveBankCode')?.value || '').trim();
+    const accountCode = (document.getElementById('carteiraArchiveAccountCode')?.value || '').trim();
+    const status = document.getElementById('carteiraArchiveUploadStatus');
+    if (!monthKey) { showStatus('Informe o mês de referência.', 'warning'); input.value = ''; return; }
+    if (!bankName) { showStatus('Informe o banco da remessa.', 'warning'); input.value = ''; return; }
+    if (!files.length) return;
+    if (status) status.textContent = 'Processando arquivos...';
+    try {
+        const companyStorage = getCompanyStorage(company.id);
+        const nextArchives = Array.isArray(companyStorage.archives) ? companyStorage.archives.slice() : [];
+        let imported = 0;
+        for (const file of files) {
+            const content = await readFileAsText(file, 'windows-1252');
+            window._ofxDetectedAccount = null;
+            const txs = carteiraBuildTransactionsFromOfx(content, company.id);
+            if (!txs.length) continue;
+            const normalizedAccount = accountCode || window._ofxDetectedAccount || '';
+            nextArchives.push({
+                id: generateId(),
+                monthKey,
+                bankName,
+                bankCode,
+                accountCode: normalizedAccount,
+                fileName: file.name,
+                importedAt: new Date().toISOString(),
+                chartMode: company.chartMode,
+                transactions: txs
+            });
+            imported += 1;
+        }
+        saveCompanyStorage(company.id, { ...companyStorage, archives: nextArchives });
+        renderCarteiraFilesArea();
+        renderCarteiraCompaniesTable();
+        showStatus(`${imported} arquivo(s) gravado(s) para ${company.name}.`, imported ? 'success' : 'warning');
+        if (status) status.textContent = imported ? `${imported} arquivo(s) enviado(s) com sucesso.` : 'Nenhum arquivo válido foi encontrado.';
+    } catch (error) {
+        if (status) status.textContent = '';
+        showStatus(`Erro ao importar arquivo da carteira: ${error.message}`, 'error');
+    } finally {
+        input.value = '';
+    }
+}
+
+function getCarteiraArchiveById(archiveId) {
+    const company = getCarteiraActiveCompany();
+    if (!company) return null;
+    const storage = getCompanyStorage(company.id);
+    const archive = (storage.archives || []).find(item => item.id === archiveId);
+    return archive ? { company, storage, archive } : null;
+}
+
+function openCarteiraArchiveModal(archiveId) {
+    const data = getCarteiraArchiveById(archiveId);
+    if (!data) return;
+    const meta = document.getElementById('carteiraArchiveModalMeta');
+    const body = document.getElementById('carteiraArchiveModalBody');
+    meta.innerHTML = `<div class="card" style="margin-bottom:0;padding:12px;"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Empresa</div><div style="font-weight:700;">${data.company.name}</div></div><div class="card" style="margin-bottom:0;padding:12px;"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Mês</div><div style="font-weight:700;">${formatCarteiraMonthLabel(data.archive.monthKey)}</div></div><div class="card" style="margin-bottom:0;padding:12px;"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Banco</div><div style="font-weight:700;">${data.archive.bankName}</div></div><div class="card" style="margin-bottom:0;padding:12px;"><div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;">Conta</div><div style="font-weight:700;">${data.archive.accountCode || '—'}</div></div>`;
+    body.innerHTML = (data.archive.transactions || []).map(tx => `<tr><td>${tx.date || '—'}</td><td>${tx.debitCode || '—'}</td><td>${tx.creditCode || '—'}</td><td>${formatCurrency(tx.amount || 0)}</td><td>${tx.history || defaultHistory}</td><td>${tx.description || '—'}</td></tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:22px;">Nenhum lançamento armazenado.</td></tr>';
+    document.getElementById('carteiraArchiveModal').style.display = 'flex';
+}
+
+function closeCarteiraArchiveModal() {
+    document.getElementById('carteiraArchiveModal').style.display = 'none';
+}
+
+function buildSisCOfxFromArchive(archive) {
+    const txs = Array.isArray(archive.transactions) ? archive.transactions : [];
+    const now = new Date();
+    const dtAsOf = now.toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
+    const dtStart = txs.length ? parseDate(txs[0].date).toISOString().replace(/[-:T.Z]/g, '').slice(0, 8) + '000000' : `${archive.monthKey.replace('-', '')}01000000`;
+    const dtEnd = txs.length ? parseDate(txs[txs.length - 1].date).toISOString().replace(/[-:T.Z]/g, '').slice(0, 8) + '235959' : `${archive.monthKey.replace('-', '')}28000000`;
+    const statementLines = txs.map((tx, index) => {
+        const date = parseDate(tx.date);
+        const dtPosted = date.toISOString().replace(/[-:T.Z]/g, '').slice(0, 8) + '000000';
+        const amount = Number(tx.amount || 0).toFixed(2);
+        const memo = String(tx.description || tx.history || 'SIS-C').replace(/[<>]/g, ' ');
+        return `<STMTTRN>\n<TRNTYPE>${Number(tx.amount || 0) >= 0 ? 'CREDIT' : 'DEBIT'}</TRNTYPE>\n<DTPOSTED>${dtPosted}\n<TRNAMT>${amount}\n<FITID>${archive.id}-${index + 1}\n<MEMO>${memo}\n</STMTTRN>`;
+    }).join('\n');
+    const balance = txs.reduce((sum, tx) => sum + Number(tx.amount || 0), 0).toFixed(2);
+    return `OFXHEADER:100\nDATA:OFXSGML\nVERSION:102\nSECURITY:NONE\nENCODING:USASCII\nCHARSET:1252\nCOMPRESSION:NONE\nOLDFILEUID:NONE\nNEWFILEUID:NONE\n\n<OFX>\n<SIGNONMSGSRSV1>\n<SONRS>\n<STATUS>\n<CODE>0\n<SEVERITY>INFO\n</STATUS>\n<DTSERVER>${dtAsOf}[-3:BRT]\n<LANGUAGE>POR\n</SONRS>\n</SIGNONMSGSRSV1>\n<BANKMSGSRSV1>\n<STMTTRNRS>\n<TRNUID>${archive.id}\n<STATUS>\n<CODE>0\n<SEVERITY>INFO\n</STATUS>\n<STMTRS>\n<CURDEF>BRL\n<BANKACCTFROM>\n<BANKID>${archive.bankCode || 'BANCO'}\n<ACCTID>${archive.accountCode || '000000'}\n<ACCTTYPE>CHECKING\n</BANKACCTFROM>\n<BANKTRANLIST>\n<DTSTART>${dtStart}[-3:BRT]\n<DTEND>${dtEnd}[-3:BRT]\n${statementLines}\n</BANKTRANLIST>\n<LEDGERBAL>\n<BALAMT>${balance}\n<DTASOF>${dtAsOf}[-3:BRT]\n</LEDGERBAL>\n</STMTRS>\n</STMTTRNRS>\n</BANKMSGSRSV1>\n</OFX>`;
+}
+
+function getCarteiraArchiveStatementData(archiveId) {
+    const data = getCarteiraArchiveById(archiveId);
+    if (!data) return null;
+    const relatedArchives = (data.storage.archives || []).filter(item => item.monthKey === data.archive.monthKey && String(item.bankName || '') === String(data.archive.bankName || ''));
+    const transactions = relatedArchives.flatMap((archive, archiveIndex) => (archive.transactions || []).map((tx, txIndex) => ({
+        ...tx,
+        _sortKey: `${archive.importedAt || ''}-${archiveIndex}-${String(txIndex).padStart(4, '0')}`
+    })));
+    transactions.sort((left, right) => {
+        const leftDate = parseDate(left.date)?.getTime?.() || 0;
+        const rightDate = parseDate(right.date)?.getTime?.() || 0;
+        if (leftDate !== rightDate) return leftDate - rightDate;
+        return String(left._sortKey || '').localeCompare(String(right._sortKey || ''));
+    });
+    return {
+        company: data.company,
+        archive: data.archive,
+        archives: relatedArchives,
+        transactions
+    };
+}
+
+function downloadCarteiraArchiveOfx(archiveId) {
+    const bundle = getCarteiraArchiveStatementData(archiveId);
+    if (!bundle) return;
+    const initialInput = prompt(`Informe o saldo inicial para o extrato de ${formatCarteiraMonthLabel(bundle.archive.monthKey)} (${bundle.archive.bankName}).`, '0,00');
+    if (initialInput === null) return;
+    const initialBalance = parseBrazilianCurrency(initialInput);
+    const txs = bundle.transactions || [];
+    const emittedAt = new Date();
+    const emittedBy = sisCCurrentUser?.displayName || sisCCurrentUser?.email || 'Usuário local';
+    let runningBalance = initialBalance;
+    const rows = txs.map(tx => {
+        const amount = Number(tx.amount || 0);
+        runningBalance += amount;
+        return [
+            tx.date || '—',
+            String(tx.description || tx.history || 'Movimentação').slice(0, 78),
+            formatCurrency(amount),
+            formatCurrency(runningBalance)
+        ];
+    });
+    const finalBalance = runningBalance;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+    doc.setFillColor(15, 23, 42);
+    doc.rect(0, 0, 595.28, 118, 'F');
+    doc.setFillColor(29, 78, 216);
+    doc.rect(0, 118, 595.28, 10, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(21);
+    doc.text('Extrato SIS-C', 40, 44);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text(bundle.company.name || 'Empresa', 40, 64);
+    doc.text(`Emitido por: ${emittedBy}`, 40, 81);
+    doc.text(`Emissão: ${emittedAt.toLocaleDateString('pt-BR')} ${emittedAt.toLocaleTimeString('pt-BR')}`, 40, 97);
+    doc.setTextColor(15, 23, 42);
+    const metaCards = [
+        { label: 'Mês', value: formatCarteiraMonthLabel(bundle.archive.monthKey) },
+        { label: 'Banco', value: bundle.archive.bankName || 'Não informado' },
+        { label: 'Saldo inicial', value: formatCurrency(initialBalance) },
+        { label: 'Saldo final', value: formatCurrency(finalBalance) }
+    ];
+    metaCards.forEach((card, index) => {
+        const x = 40 + (index * 128);
+        doc.setDrawColor(191, 219, 254);
+        doc.setFillColor(248, 250, 252);
+        doc.roundedRect(x, 144, 118, 58, 12, 12, 'FD');
+        doc.setFontSize(8);
+        doc.setTextColor(100, 116, 139);
+        doc.text(card.label.toUpperCase(), x + 12, 163);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(15, 23, 42);
+        doc.text(String(card.value || '—').slice(0, 22), x + 12, 184);
+        doc.setFont('helvetica', 'normal');
+    });
+    doc.autoTable({
+        startY: 222,
+        head: [['Data', 'Descrição', 'Valor', 'Saldo']],
+        body: rows.length ? rows : [['—', 'Nenhum lançamento disponível para o mês selecionado.', 'R$ 0,00', formatCurrency(initialBalance)]],
+        theme: 'grid',
+        styles: { fontSize: 8.4, cellPadding: 6, textColor: [15, 23, 42], lineColor: [226, 232, 240], lineWidth: 0.6 },
+        headStyles: { fillColor: [29, 78, 216], textColor: [255, 255, 255], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        columnStyles: {
+            0: { cellWidth: 70 },
+            1: { cellWidth: 275 },
+            2: { halign: 'right', cellWidth: 90 },
+            3: { halign: 'right', cellWidth: 90 }
+        },
+        margin: { left: 40, right: 40 }
+    });
+    const footerY = Math.min(doc.lastAutoTable.finalY + 28, 770);
+    doc.setDrawColor(191, 219, 254);
+    doc.line(40, footerY, 555, footerY);
+    doc.setFontSize(9);
+    doc.setTextColor(71, 85, 105);
+    doc.text(`Arquivos considerados: ${bundle.archives.length} | Lançamentos: ${txs.length} | Sistema: SIS-C`, 40, footerY + 18);
+    doc.text(`Conta: ${bundle.archive.accountCode || 'Não informada'}`, 40, footerY + 34);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(15, 23, 42);
+    doc.text(`Saldo final apurado: ${formatCurrency(finalBalance)}`, 390, footerY + 26, { align: 'right' });
+    const safeName = `${bundle.company.number || 'empresa'}_${bundle.archive.monthKey}_${String(bundle.archive.bankName || 'banco').replace(/\s+/g, '_')}_extrato.pdf`;
+    doc.save(safeName);
+    showStatus('Extrato PDF do mês emitido com sucesso.', 'success');
+}
+
+function downloadCarteiraArchiveExcel(archiveId) {
+    const data = getCarteiraArchiveById(archiveId);
+    if (!data) return;
+    const rows = [
+        ['Empresa', data.company.name],
+        ['Numero', data.company.number || ''],
+        ['Mes', formatCarteiraMonthLabel(data.archive.monthKey)],
+        ['Banco', data.archive.bankName || ''],
+        ['Conta', data.archive.accountCode || ''],
+        [],
+        ['Data', 'Debito', 'Credito', 'Valor', 'Historico', 'Complemento']
+    ];
+    (data.archive.transactions || []).forEach(tx => rows.push([tx.date, tx.debitCode || '', tx.creditCode || '', tx.amount || 0, tx.history || defaultHistory, tx.description || '']));
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Lancamentos');
+    ws['!cols'] = [{wch:12},{wch:15},{wch:15},{wch:14},{wch:24},{wch:46}];
+    XLSX.writeFile(wb, `${data.company.number || 'empresa'}_${data.archive.monthKey}_${String(data.archive.bankName || 'banco').replace(/\s+/g, '_')}.xlsx`);
+}
+
+function deleteCarteiraArchive(archiveId) {
+    const data = getCarteiraArchiveById(archiveId);
+    if (!data) return;
+    if (!confirm(`Excluir o arquivo ${data.archive.fileName} da empresa ${data.company.name}?`)) return;
+    const nextArchives = (data.storage.archives || []).filter(item => item.id !== archiveId);
+    saveCompanyStorage(data.company.id, { ...data.storage, archives: nextArchives });
+    renderCarteiraFilesArea();
+    renderCarteiraCompaniesTable();
+    showStatus('Arquivo removido da carteira.', 'success');
+}
 
 // ============================================================
 // PDF PARSER (para importação OFX - código original mantido)
@@ -8851,7 +10684,9 @@ function clearAll() {
     }
     displayTransactions(); updateFinancialSummary();
     ['exportExcelBtn','exportTxtBtn','exportExcelBtn2','exportTxtBtn2','applyRulesBtn','applyRulesBtn2'].forEach(id=>{const e=document.getElementById(id);if(e)e.disabled=true;});
-    document.getElementById('transactionsBadge').classList.add('d-none');
+    const badge = document.getElementById('transactionsBadge');
+    if (badge) badge.classList.add('d-none');
+    updateArchiveDoneButtonState();
     if (currentDatasetContext.mode === 'single') localStorage.removeItem('transactions');
     showStatus("Todas as transações foram removidas.", "success");
 }
@@ -10676,8 +12511,18 @@ function updateTxAnalytics() {
     const badge = document.getElementById('robotBadgeCount');
     const floatBtn = document.getElementById('floatRobotBtn');
     if (badge && floatBtn) {
-        if (bankDupErrors > 0 || reviewCount > 0) {
-            badge.textContent = String(bankDupErrors + reviewCount);
+        const diagnostics = typeof sisAiBuildRobotDiagnostics === 'function'
+            ? sisAiBuildRobotDiagnostics()
+            : { highConfidencePending: 0, reviewCount: 0, anomalyCount: 0, suggestionCount: 0 };
+        const attentionCount = (bankDupErrors || 0)
+            + (diagnostics.highConfidencePending || 0)
+            + (diagnostics.reviewCount || 0)
+            + (diagnostics.anomalyCount || 0);
+
+        floatBtn.title = `SIS-C AI — ${diagnostics.highConfidencePending || 0} classificações prontas, ${diagnostics.reviewCount || 0} em revisão, ${diagnostics.suggestionCount || 0} sugestões e ${diagnostics.anomalyCount || 0} anomalias`;
+
+        if (attentionCount > 0) {
+            badge.textContent = String(attentionCount);
             badge.style.display = 'flex';
             badge.style.opacity = '1';
             floatBtn.classList.add('has-errors');
@@ -10990,69 +12835,332 @@ const _ML_PATTERNS = [
     { re: /emprestimo|financ(?:iam)?|parcela/i, debitHint: '2.', creditHint: '1.1.1.' },
 ];
 
+const _ML_ACTIVITY = new Set([
+    'pix','ted','doc','transferencia','transf','pagamento','pagamentos','pagto','recebimento','recebimentos','receb','boleto',
+    'tarifa','taxa','compra','saque','deposito','credito','debito','pag','vencto','liquidacao','agendamento','comprovante',
+    'movimentacao','extrato','bancario','banco','nf','nfe','nota','fatura','parcela','mensalidade','servico','servicos'
+]);
+
+function sisAiPersistMlKnowledge() {
+    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+}
+
+function sisAiGetPairKey(debitAccount, creditAccount) {
+    return `${String(debitAccount || '').trim()}|${String(creditAccount || '').trim()}`;
+}
+
+function sisAiParsePairKey(pairKey) {
+    const [debitAccount = '', creditAccount = ''] = String(pairKey || '').split('|');
+    return { debitAccount, creditAccount };
+}
+
+function sisAiBuildFlowDirection(amount) {
+    return Number(amount || 0) >= 0 ? 'in' : 'out';
+}
+
+function _mlCoreWords(text, options = {}) {
+    const words = _mlNormalize(text).split(' ').filter(word => word.length >= (options.minLength || 3) && !_ML_STOP.has(word) && !/^\d+$/.test(word));
+    if (!options.dropActivity) return words;
+    const filtered = words.filter(word => !_ML_ACTIVITY.has(word));
+    return filtered.length ? filtered : words;
+}
+
+function sisAiBuildDescriptionSignature(text) {
+    return _mlCoreWords(text, { dropActivity: true, minLength: 3 }).slice(0, 6).join('_');
+}
+
+function sisAiExtractCounterparty(text) {
+    return _mlCoreWords(text, { dropActivity: true, minLength: 4 }).slice(0, 4).join('_');
+}
+
+function sisAiBuildKnowledgeContext(tx) {
+    const description = String(tx?.description || tx?.originalDescription || tx?.history || '').trim();
+    return {
+        description,
+        normalizedDescription: sisAiComparableText(description),
+        signature: sisAiBuildDescriptionSignature(description),
+        counterparty: sisAiExtractCounterparty(description),
+        direction: sisAiBuildFlowDirection(tx?.amount),
+        amountBucket: _mlAmountBucket(tx?.amount),
+        tokens: _mlTokenize(description)
+    };
+}
+
+function sisAiFormatKnowledgeKey(key) {
+    const raw = String(key || '');
+    if (raw.startsWith('exact:')) return `Fixo: ${raw.slice(6).replace(/\|/g, ' • ').replace(/_/g, ' ')}`;
+    if (raw.startsWith('sigamt:')) return `Assinatura+valor: ${raw.slice(7).replace(/\|/g, ' • ').replace(/_/g, ' ')}`;
+    if (raw.startsWith('sig:')) return `Assinatura: ${raw.slice(4).replace(/\|/g, ' • ').replace(/_/g, ' ')}`;
+    if (raw.startsWith('flow:')) return `Fluxo recorrente: ${raw.slice(5).replace(/\|/g, ' • ').replace(/_/g, ' ')}`;
+    if (raw.startsWith('cp:')) return `Contraparte: ${raw.slice(3).replace(/_/g, ' ')}`;
+    if (raw.startsWith('amt_')) return `Faixa de valor: ${raw.replace('amt_', '')}`;
+    return raw.replace(/_/g, ' ');
+}
+
+function sisAiEnsureMlEntry(entry = {}, fallbackKind = 'token') {
+    const next = { ...(entry || {}) };
+    const pairStats = (next.pairStats && typeof next.pairStats === 'object' && !Array.isArray(next.pairStats)) ? { ...next.pairStats } : {};
+    if (Object.keys(pairStats).length === 0) {
+        const legacyPairKey = sisAiGetPairKey(next.debitAccount, next.creditAccount);
+        if (legacyPairKey !== '|') {
+            pairStats[legacyPairKey] = {
+                score: Number(next.totalSeen || next.debitCount || next.creditCount || 1),
+                hits: Number(next.pairHits || next.totalSeen || 1),
+                hardHits: Number(next.hardHits || (next.fixed ? 1 : 0)),
+                lastUsed: next.lastUsed || null
+            };
+        }
+    }
+    next.pairStats = pairStats;
+    next.kind = next.kind || fallbackKind;
+    next.sampleDesc = String(next.sampleDesc || '').trim();
+    next.totalSeen = Number(next.totalSeen || 0);
+    next.debitCount = Number(next.debitCount || 0);
+    next.creditCount = Number(next.creditCount || 0);
+    next.pairHits = Number(next.pairHits || 0);
+    next.hardHits = Number(next.hardHits || 0);
+    next.fixed = !!next.fixed;
+    return sisAiRefreshMlEntryMeta(next);
+}
+
+function sisAiRefreshMlEntryMeta(entry) {
+    const pairs = Object.entries(entry.pairStats || {});
+    if (!pairs.length) {
+        entry.debitAccount = '';
+        entry.creditAccount = '';
+        entry.consistency = 0;
+        return entry;
+    }
+    const rankedPairs = pairs.sort((left, right) => {
+        const scoreDiff = Number(right[1]?.score || 0) - Number(left[1]?.score || 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        const hardDiff = Number(right[1]?.hardHits || 0) - Number(left[1]?.hardHits || 0);
+        if (hardDiff !== 0) return hardDiff;
+        return Number(right[1]?.hits || 0) - Number(left[1]?.hits || 0);
+    });
+    const [bestPairKey, bestPairStats] = rankedPairs[0];
+    const totalScore = rankedPairs.reduce((sum, [, pair]) => sum + Number(pair?.score || 0), 0);
+    const pair = sisAiParsePairKey(bestPairKey);
+    entry.debitAccount = pair.debitAccount;
+    entry.creditAccount = pair.creditAccount;
+    entry.debitCount = Number(bestPairStats?.score || 0);
+    entry.creditCount = Math.max(0, totalScore - Number(bestPairStats?.score || 0));
+    entry.totalSeen = Math.max(Number(entry.totalSeen || 0), totalScore);
+    entry.pairHits = Number(bestPairStats?.hits || 0);
+    entry.hardHits = Number(bestPairStats?.hardHits || 0);
+    entry.consistency = totalScore > 0 ? Number(bestPairStats?.score || 0) / totalScore : 0;
+    if (!entry.fixed) {
+        entry.fixed = entry.hardHits >= 2 || (entry.pairHits >= 3 && entry.consistency >= 0.9 && ['exact', 'signatureAmount', 'flow', 'signature'].includes(entry.kind));
+    }
+    if (entry.fixed) entry.fixedPair = bestPairKey;
+    return entry;
+}
+
+function sisAiApplyKnowledgeVote(key, tx, options = {}) {
+    const pairKey = sisAiGetPairKey(tx?.debitCode, tx?.creditCode);
+    if (!key || pairKey === '|') return;
+    const now = new Date().toISOString();
+    const weight = Number(options.weight || 1);
+    const entry = sisAiEnsureMlEntry(mlReconcData[key], options.kind || 'token');
+    const pairStats = entry.pairStats[pairKey] || { score: 0, hits: 0, hardHits: 0, lastUsed: null };
+    pairStats.score += weight;
+    pairStats.hits += 1;
+    if (options.hard) pairStats.hardHits += 1;
+    pairStats.lastUsed = now;
+    entry.pairStats[pairKey] = pairStats;
+    entry.lastUsed = now;
+    entry.totalSeen = Number(entry.totalSeen || 0) + weight;
+    entry.sampleDesc = sisAiNormalizeImportedDescription(options.sampleDesc || entry.sampleDesc || tx?.description || '');
+    entry.signature = options.signature || entry.signature || '';
+    entry.counterparty = options.counterparty || entry.counterparty || '';
+    entry.direction = options.direction || entry.direction || '';
+    entry.amountBucket = options.amountBucket || entry.amountBucket || '';
+    if (options.exact) entry.exactMatchCount = Number(entry.exactMatchCount || 0) + 1;
+    if (options.hard) entry.manualHits = Number(entry.manualHits || 0) + 1;
+    mlReconcData[key] = sisAiRefreshMlEntryMeta(entry);
+}
+
+function sisAiEvaluateKnowledgeCandidate(key, sourceEntry, context) {
+    const fallbackKind = key.startsWith('exact:') ? 'exact'
+        : key.startsWith('sigamt:') ? 'signatureAmount'
+        : key.startsWith('sig:') ? 'signature'
+        : key.startsWith('flow:') ? 'flow'
+        : key.startsWith('cp:') ? 'counterparty'
+        : key.startsWith('amt_') ? 'amount'
+        : 'token';
+    const entry = sisAiEnsureMlEntry(sourceEntry, fallbackKind);
+    const pairKey = entry.fixed && entry.fixedPair && entry.pairStats?.[entry.fixedPair]
+        ? entry.fixedPair
+        : Object.keys(entry.pairStats || {})[0];
+    if (!pairKey) return null;
+    const bestPair = entry.pairStats[pairKey];
+    if (!bestPair) return null;
+    const pair = sisAiParsePairKey(pairKey);
+    if (!pair.debitAccount || !pair.creditAccount) return null;
+    const totalScore = Object.values(entry.pairStats || {}).reduce((sum, item) => sum + Number(item?.score || 0), 0);
+    const consistency = totalScore > 0 ? Number(bestPair.score || 0) / totalScore : Number(entry.consistency || 0);
+    const sharedWords = sisAiSharedWordCount(entry.sampleDesc || entry.signature || '', context.description || '');
+    const exactPhrase = !!entry.sampleDesc && sisAiComparableText(entry.sampleDesc) === context.normalizedDescription;
+    const daysSince = entry.lastUsed ? (Date.now() - new Date(entry.lastUsed).getTime()) / 86400000 : 365;
+    const recencyBonus = daysSince <= 7 ? 1.2 : daysSince <= 30 ? 1.08 : 1;
+    const kindWeight = fallbackKind === 'exact' ? 6.2
+        : fallbackKind === 'signatureAmount' ? 5.3
+        : fallbackKind === 'flow' ? 4.8
+        : fallbackKind === 'signature' ? 4.4
+        : fallbackKind === 'counterparty' ? 3.7
+        : fallbackKind === 'amount' ? 1.1
+        : _mlTokenWeight(key);
+    const score = kindWeight * Math.max(1, Number(bestPair.score || 0)) * (0.65 + consistency) * recencyBonus * (entry.fixed ? 1.3 : 1) * (exactPhrase ? 1.5 : 1 + Math.min(0.45, sharedWords / 12));
+    let confidence = Math.round(((consistency * 0.42) + (Math.min(1, Number(bestPair.hits || 0) / 6) * 0.18) + (Math.min(1, Number(bestPair.score || 0) / 10) * 0.14) + (Math.min(1, sharedWords / 5) * 0.12) + (exactPhrase ? 0.08 : 0) + (entry.fixed ? 0.12 : 0)) * 100);
+    if (entry.fixed && (fallbackKind === 'exact' || fallbackKind === 'signatureAmount')) confidence = Math.max(confidence, 97);
+    else if (entry.fixed && fallbackKind === 'flow') confidence = Math.max(confidence, 94);
+    return {
+        entry: { debitAccount: pair.debitAccount, creditAccount: pair.creditAccount },
+        score,
+        confidence,
+        support: Number(bestPair.hits || 0),
+        matchedTokens: new Set([sisAiFormatKnowledgeKey(key)]),
+        matchedTokenCount: Math.max(1, fallbackKind === 'token' ? 1 : 2),
+        sharedWords,
+        exactPhrase,
+        canBatch: entry.fixed || exactPhrase || sharedWords >= Math.max(2, sisAiSettings.minTokenMatches),
+        fixed: !!entry.fixed,
+        word: key,
+        kind: fallbackKind
+    };
+}
+
+function sisAiFindDatasetRecurringMatch(tx, context = sisAiBuildKnowledgeContext(tx)) {
+    const byPair = new Map();
+    (transactions || []).forEach(other => {
+        if (!other || other === tx) return;
+        if (!other.debitCode || !other.creditCode || other.aiNeedsReview) return;
+        const otherContext = sisAiBuildKnowledgeContext(other);
+        if (otherContext.direction !== context.direction) return;
+        let score = 0;
+        const sharedWords = sisAiSharedWordCount(other.description || '', context.description || '');
+        const sameSignature = !!context.signature && context.signature === otherContext.signature;
+        const sameCounterparty = !!context.counterparty && context.counterparty === otherContext.counterparty;
+        if (sameSignature) score += 4.8;
+        if (sameCounterparty) score += 3.5;
+        if (otherContext.amountBucket === context.amountBucket) score += 1.2;
+        score += Math.min(2.4, sharedWords * 0.55);
+        if (score < 4.5) return;
+        const pairKey = sisAiGetPairKey(other.debitCode, other.creditCode);
+        if (!byPair.has(pairKey)) {
+            byPair.set(pairKey, {
+                debitAccount: other.debitCode,
+                creditAccount: other.creditCode,
+                score: 0,
+                hits: 0,
+                exactHits: 0,
+                counterpartyHits: 0,
+                sampleDesc: other.description || ''
+            });
+        }
+        const bucket = byPair.get(pairKey);
+        bucket.score += score;
+        bucket.hits += 1;
+        if (sameSignature) bucket.exactHits += 1;
+        if (sameCounterparty) bucket.counterpartyHits += 1;
+        if (!bucket.sampleDesc) bucket.sampleDesc = other.description || '';
+    });
+    const ranked = Array.from(byPair.values()).sort((left, right) => right.score - left.score || right.hits - left.hits);
+    const best = ranked[0];
+    if (!best) return null;
+    const confidence = Math.round(Math.min(98, 66 + (best.score * 4.2) + (best.hits * 3) + (best.exactHits * 4) + (best.counterpartyHits * 2)));
+    return {
+        entry: { debitAccount: best.debitAccount, creditAccount: best.creditAccount },
+        score: best.score * 2.2,
+        confidence: best.hits >= 2 ? Math.max(confidence, 94) : confidence,
+        support: best.hits,
+        matchedTokens: new Set(['Recorrência do lote atual']),
+        matchedTokenCount: Math.max(1, best.hits),
+        sharedWords: sisAiSharedWordCount(best.sampleDesc || '', context.description || ''),
+        exactPhrase: best.exactHits > 0,
+        canBatch: best.hits > 1,
+        fixed: best.hits >= 2 && best.exactHits > 0,
+        word: 'dataset',
+        kind: 'dataset'
+    };
+}
+
 // ---- Improved mlFindBestMatch ----
 function mlFindBestMatch(tx) {
-    const tokens = _mlTokenize(tx.description || '');
-    const amtBucket = 'amt_' + _mlAmountBucket(tx.amount);
-    const allTokens = [...new Set([...tokens, amtBucket])];
-    const normalizedDescription = sisAiComparableText(tx.description || '');
-    const candidates = {};
+    const context = sisAiBuildKnowledgeContext(tx);
+    const keys = [];
+    if (context.signature) {
+        keys.push(`exact:${context.signature}|${context.direction}|${context.amountBucket}`);
+        keys.push(`sigamt:${context.signature}|${context.direction}|${context.amountBucket}`);
+        keys.push(`sig:${context.signature}|${context.direction}`);
+        keys.push(`sig:${context.signature}`);
+    }
+    if (context.counterparty) {
+        keys.push(`flow:${context.direction}|${context.counterparty}`);
+        keys.push(`cp:${context.counterparty}`);
+    }
+    keys.push(`amt_${context.amountBucket}`);
+    context.tokens.forEach(token => keys.push(token));
 
-    for (const token of allTokens) {
-        const entry = mlReconcData[token];
-        if (!entry) continue;
-        const pairKey = `${entry.debitAccount || ''}|${entry.creditAccount || ''}`;
-        if (!pairKey.replace('|', '')) continue;
-        const totalVotes = (entry.debitCount || 0) + (entry.creditCount || 0);
-        if (totalVotes <= 0) continue;
-        const consistency = Math.max(entry.debitCount || 0, entry.creditCount || 0) / totalVotes;
-        const daysSince = entry.lastUsed ? (Date.now() - new Date(entry.lastUsed).getTime()) / 86400000 : 999;
-        const recencyBonus = daysSince <= 7 ? 1.25 : daysSince <= 30 ? 1.08 : 1;
-        const exactPhrase = entry.sampleDesc && sisAiComparableText(entry.sampleDesc) === normalizedDescription;
-        const sharedWords = sisAiSharedWordCount(entry.sampleDesc || '', tx.description || '');
-        const tokenScore = totalVotes * consistency * _mlTokenWeight(token) * recencyBonus * (exactPhrase ? 1.8 : 1 + Math.min(0.7, sharedWords / 10));
-
-        if (!candidates[pairKey]) {
-            candidates[pairKey] = {
-                entry: { ...entry },
+    const candidates = new Map();
+    const addCandidate = candidate => {
+        if (!candidate?.entry?.debitAccount || !candidate?.entry?.creditAccount) return;
+        const pairKey = sisAiGetPairKey(candidate.entry.debitAccount, candidate.entry.creditAccount);
+        if (!candidates.has(pairKey)) {
+            candidates.set(pairKey, {
+                entry: { ...candidate.entry },
                 score: 0,
                 support: 0,
-                consistencySum: 0,
+                fixed: false,
                 matchedTokens: new Set(),
                 sharedWords: 0,
                 exactPhrase: false,
-                word: token
-            };
+                matchedTokenCount: 0,
+                canBatch: false,
+                confidenceParts: [],
+                word: candidate.word,
+                kind: candidate.kind
+            });
         }
-
-        candidates[pairKey].score += tokenScore;
-        candidates[pairKey].support += totalVotes;
-        candidates[pairKey].consistencySum += consistency;
-        candidates[pairKey].matchedTokens.add(token);
-        candidates[pairKey].sharedWords = Math.max(candidates[pairKey].sharedWords, sharedWords);
-        candidates[pairKey].exactPhrase = candidates[pairKey].exactPhrase || exactPhrase;
-        if (tokenScore > (candidates[pairKey].bestTokenScore || 0)) {
-            candidates[pairKey].bestTokenScore = tokenScore;
-            candidates[pairKey].word = token;
+        const bucket = candidates.get(pairKey);
+        bucket.score += Number(candidate.score || 0);
+        bucket.support += Number(candidate.support || 0);
+        bucket.fixed = bucket.fixed || !!candidate.fixed;
+        bucket.sharedWords = Math.max(bucket.sharedWords, Number(candidate.sharedWords || 0));
+        bucket.exactPhrase = bucket.exactPhrase || !!candidate.exactPhrase;
+        bucket.canBatch = bucket.canBatch || !!candidate.canBatch;
+        bucket.matchedTokenCount += Number(candidate.matchedTokenCount || 0);
+        bucket.confidenceParts.push(Number(candidate.confidence || 0));
+        (candidate.matchedTokens || []).forEach(token => bucket.matchedTokens.add(token));
+        if ((candidate.score || 0) >= (bucket.bestTokenScore || 0)) {
+            bucket.bestTokenScore = candidate.score || 0;
+            bucket.word = candidate.word;
+            bucket.kind = candidate.kind;
         }
-    }
+    };
 
-    const ranked = Object.values(candidates).map(candidate => {
-        const matchedTokenCount = candidate.matchedTokens.size;
-        const avgConsistency = matchedTokenCount > 0 ? candidate.consistencySum / matchedTokenCount : 0;
-        const supportScore = Math.min(1, candidate.support / 18);
-        const coverageScore = Math.min(1, matchedTokenCount / Math.max(2, Math.min(5, tokens.length || 1)));
-        const phraseScore = candidate.exactPhrase ? 1 : Math.min(1, candidate.sharedWords / Math.max(3, sisAiSettings.batchSharedWords));
-        const confidence = Math.round(((avgConsistency * 0.40) + (supportScore * 0.25) + (coverageScore * 0.20) + (phraseScore * 0.15)) * 100);
+    [...new Set(keys)].forEach(key => {
+        if (!mlReconcData[key]) return;
+        addCandidate(sisAiEvaluateKnowledgeCandidate(key, mlReconcData[key], context));
+    });
+
+    addCandidate(sisAiFindDatasetRecurringMatch(tx, context));
+
+    const ranked = Array.from(candidates.values()).map(candidate => {
+        const averageConfidence = candidate.confidenceParts.length
+            ? candidate.confidenceParts.reduce((sum, value) => sum + value, 0) / candidate.confidenceParts.length
+            : 0;
+        let confidence = Math.round(Math.min(99, averageConfidence + Math.min(10, candidate.support * 0.8) + Math.min(6, candidate.matchedTokens.size * 1.2) + (candidate.fixed ? 10 : 0)));
+        if (candidate.fixed && candidate.exactPhrase) confidence = Math.max(confidence, 98);
         return {
             ...candidate,
-            matchedTokenCount,
             confidence,
-            debitConf: Math.round(avgConsistency * 100),
-            creditConf: Math.round(avgConsistency * 100),
-            canBatch: candidate.exactPhrase || candidate.sharedWords >= Math.max(3, sisAiSettings.batchSharedWords)
+            debitConf: confidence,
+            creditConf: confidence,
+            matchedTokenCount: Math.max(1, candidate.matchedTokenCount),
+            matchedTokens: new Set(candidate.matchedTokens)
         };
-    }).sort((a, b) => b.confidence - a.confidence || b.score - a.score);
+    }).sort((left, right) => right.confidence - left.confidence || Number(right.fixed) - Number(left.fixed) || right.score - left.score);
 
     return ranked[0] || null;
 }
@@ -11063,48 +13171,27 @@ function mlLearnFromTransaction(tx) {
     if (tx.debitCode === tx.creditCode) return;
     if (bankAccountCode && tx.debitCode === bankAccountCode && tx.creditCode === bankAccountCode) return;
     if (tx.aiNeedsReview) return;
-    const tokens = _mlTokenize(tx.description || '');
-    const amtBucket = 'amt_' + _mlAmountBucket(tx.amount);
-    const allTokens = [...tokens, amtBucket];
-    const now = new Date().toISOString();
 
-    for (const token of allTokens) {
-        const weight = _mlTokenWeight(token);
-        if (!mlReconcData[token]) {
-            mlReconcData[token] = {
-                debitAccount:  tx.debitCode  || '',
-                creditAccount: tx.creditCode || '',
-                debitCount:    tx.debitCode  ? weight : 0,
-                creditCount:   tx.creditCode ? weight : 0,
-                totalSeen:     weight,
-                lastUsed:      now,
-                sampleDesc:    (tx.description || '').substring(0, 60)
-            };
-        } else {
-            const e = mlReconcData[token];
-            e.totalSeen  = (e.totalSeen  || 0) + weight;
-            e.lastUsed   = now;
-            if (tx.debitCode) {
-                if (e.debitAccount === tx.debitCode) {
-                    e.debitCount = (e.debitCount || 0) + weight;
-                } else if ((e.debitCount || 0) < weight * 1.5) {
-                    // Overwrite with new if it's more consistent recently
-                    e.debitAccount = tx.debitCode;
-                    e.debitCount = weight;
-                }
-            }
-            if (tx.creditCode) {
-                if (e.creditAccount === tx.creditCode) {
-                    e.creditCount = (e.creditCount || 0) + weight;
-                } else if ((e.creditCount || 0) < weight * 1.5) {
-                    e.creditAccount = tx.creditCode;
-                    e.creditCount = weight;
-                }
-            }
-            if (!e.sampleDesc) e.sampleDesc = (tx.description || '').substring(0, 60);
-        }
-    }
-    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    const context = sisAiBuildKnowledgeContext(tx);
+    const amountKey = `amt_${context.amountBucket}`;
+    const exactKey = context.signature ? `exact:${context.signature}|${context.direction}|${context.amountBucket}` : '';
+    const signatureAmountKey = context.signature ? `sigamt:${context.signature}|${context.direction}|${context.amountBucket}` : '';
+    const signatureFlowKey = context.signature ? `sig:${context.signature}|${context.direction}` : '';
+    const signatureKey = context.signature ? `sig:${context.signature}` : '';
+    const counterpartyKey = context.counterparty ? `cp:${context.counterparty}` : '';
+    const flowKey = context.counterparty ? `flow:${context.direction}|${context.counterparty}` : '';
+
+    if (exactKey) sisAiApplyKnowledgeVote(exactKey, tx, { kind: 'exact', weight: 5.4, hard: true, exact: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    if (signatureAmountKey) sisAiApplyKnowledgeVote(signatureAmountKey, tx, { kind: 'signatureAmount', weight: 4.2, hard: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    if (signatureFlowKey) sisAiApplyKnowledgeVote(signatureFlowKey, tx, { kind: 'signature', weight: 3.2, hard: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    if (signatureKey) sisAiApplyKnowledgeVote(signatureKey, tx, { kind: 'signature', weight: 2.7, hard: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    if (counterpartyKey) sisAiApplyKnowledgeVote(counterpartyKey, tx, { kind: 'counterparty', weight: 2.4, hard: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    if (flowKey) sisAiApplyKnowledgeVote(flowKey, tx, { kind: 'flow', weight: 3.8, hard: true, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    sisAiApplyKnowledgeVote(amountKey, tx, { kind: 'amount', weight: 0.9, sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    context.tokens.forEach(token => {
+        sisAiApplyKnowledgeVote(token, tx, { kind: 'token', weight: _mlTokenWeight(token), sampleDesc: context.description, signature: context.signature, counterparty: context.counterparty, direction: context.direction, amountBucket: context.amountBucket });
+    });
+    sisAiPersistMlKnowledge();
 }
 
 // ============================================================
@@ -11143,13 +13230,16 @@ function sisAiGetGroupingDescription(tx) {
 function sisAiBuildDescriptionGroups(sourceTransactions = transactions || []) {
     const groups = new Map();
     (sourceTransactions || []).forEach((tx, index) => {
-        const baseText = sisAiComparableText(sisAiGetGroupingDescription(tx)).replace(/\b\d+\b/g, ' ').replace(/\s+/g, ' ').trim();
-        const key = baseText.split(' ').slice(0, 7).join(' ').trim();
+        const context = sisAiBuildKnowledgeContext(tx);
+        const key = [context.direction, context.signature || context.counterparty || 'sem-assinatura'].join('|');
         if (!key || key.length < 4) return;
         if (!groups.has(key)) {
             groups.set(key, {
                 key,
                 sample: sisAiGetGroupingDescription(tx) || 'Sem descricao',
+                signature: context.signature,
+                counterparty: context.counterparty,
+                direction: context.direction,
                 count: 0,
                 totalAmount: 0,
                 amounts: [],
@@ -11417,13 +13507,14 @@ function mlRobotSearch() {
         <div style="font-size:0.76rem;color:rgba(220,252,231,0.62);margin-top:4px;">Tokens relevantes: ${sisAiEscapeHtml(Array.from(prediction.matchedTokens || []).slice(0, 5).map(token => token.replace(/_/g, ' ')).join(', ') || normalizedQuery.replace(/_/g, ' '))}</div>
     </div>` : '';
     const tokenHtml = tokens.slice(0,50).map(t => {
-        const e = mlReconcData[t];
+        const e = sisAiEnsureMlEntry(mlReconcData[t]);
         const tot = (e.debitCount||0)+(e.creditCount||0);
         const conf = tot > 0 ? Math.round(Math.max(e.debitCount||0, e.creditCount||0)/tot*100) : 0;
         return `<div class="ml-token-row">
-            <span style="font-weight:700;flex:1;">${t.replace(/_/g,' ')}</span>
+            <span style="font-weight:700;flex:1;">${sisAiEscapeHtml(sisAiFormatKnowledgeKey(t))}</span>
             <span style="font-size:0.74rem;color:rgba(220,252,231,0.68);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${e.sampleDesc||''}">${e.sampleDesc||'—'}</span>
             <span style="font-size:0.74rem;color:#86efac;min-width:100px;">D:${e.debitAccount||'—'} / C:${e.creditAccount||'—'}</span>
+            <span style="font-size:0.7rem;color:${e.fixed ? '#86efac' : 'rgba(220,252,231,0.58)'};font-weight:700;">${e.fixed ? 'FIXO' : (e.kind || 'PADRAO').toUpperCase()}</span>
             <span style="font-size:0.74rem;font-weight:700;color:#4ade80;">${conf}%</span>
             <button onclick="mlForgetToken('${t}');mlRobotSearch();" title="Esquecer este padrão" style="background:none;border:none;color:#ef4444;cursor:pointer;padding:2px 6px;"><i class="fas fa-trash-alt"></i></button>
         </div>`;
@@ -11533,11 +13624,12 @@ function renderMlManageList() {
     if (!tokens.length) { el.innerHTML = '<p style="color:rgba(220,252,231,0.68);font-size:0.85rem;">Banco de conhecimento vazio.</p>'; return; }
     el.innerHTML = `<div style="font-weight:700;font-size:0.82rem;margin-bottom:8px;color:#f8fafc;">Todos os padrões (${tokens.length}):</div>` +
         tokens.slice(0,200).map(t => {
-            const e = mlReconcData[t];
+            const e = sisAiEnsureMlEntry(mlReconcData[t]);
             return `<div class="ml-token-row">
                 <input type="checkbox" class="ml-chk" value="${t}" style="margin-right:4px;">
-                <span style="flex:1;font-size:0.8rem;">${t.replace(/_/g,' ')}</span>
+                <span style="flex:1;font-size:0.8rem;">${sisAiEscapeHtml(sisAiFormatKnowledgeKey(t))}</span>
                 <span style="font-size:0.75rem;color:rgba(220,252,231,0.68);">D:${e.debitAccount||'—'} C:${e.creditAccount||'—'}</span>
+                <span style="font-size:0.7rem;color:${e.fixed ? '#86efac' : 'rgba(220,252,231,0.58)'};font-weight:700;">${e.fixed ? 'FIXO' : (e.kind || 'PADRAO').toUpperCase()}</span>
                 <span style="font-size:0.72rem;color:#4ade80;">${(e.totalSeen||0).toFixed(0)} obs</span>
             </div>`;
         }).join('');
@@ -11546,7 +13638,8 @@ function renderMlManageList() {
 function updateMlKnowledgeEntry(token, field, value) {
     if (!mlReconcData[token]) return;
     mlReconcData[token][field] = field === 'sampleDesc' ? sisAiNormalizeImportedDescription(value) : value.trim();
-    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    mlReconcData[token] = sisAiRefreshMlEntryMeta(sisAiEnsureMlEntry(mlReconcData[token]));
+    sisAiPersistMlKnowledge();
 }
 
 function renderSisAiLogic() {
@@ -11562,13 +13655,13 @@ function renderSisAiLogic() {
         return;
     }
     table.innerHTML = `<table class="data-table"><thead><tr><th>Token</th><th>Débito</th><th>Crédito</th><th>Amostra</th><th>Obs.</th></tr></thead><tbody>${tokens.map(token => {
-        const entry = mlReconcData[token];
+        const entry = sisAiEnsureMlEntry(mlReconcData[token]);
         const safeToken = token.replace(/'/g, "\\'");
         const debitValue = sisAiEscapeHtml(entry.debitAccount || '');
         const creditValue = sisAiEscapeHtml(entry.creditAccount || '');
         const sampleValue = sisAiEscapeHtml(entry.sampleDesc || '');
         return `<tr>
-            <td style="font-weight:700;">${sisAiEscapeHtml(token.replace(/_/g, ' '))}</td>
+            <td style="font-weight:700;"><div>${sisAiEscapeHtml(sisAiFormatKnowledgeKey(token))}</div><div style="font-size:0.72rem;color:${entry.fixed ? '#86efac' : 'rgba(220,252,231,0.58)'};margin-top:4px;">${entry.fixed ? 'Padrao fixo e autoaplicavel' : 'Tipo: ' + sisAiEscapeHtml(entry.kind || 'padrao')}</div></td>
             <td><input class="input-field" style="min-width:110px;" value="${debitValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'debitAccount', this.value)"></td>
             <td><input class="input-field" style="min-width:110px;" value="${creditValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'creditAccount', this.value)"></td>
             <td><input class="input-field" value="${sampleValue}" onchange="updateMlKnowledgeEntry('${safeToken}', 'sampleDesc', this.value)"></td>
@@ -11580,9 +13673,9 @@ function renderSisAiLogic() {
 function mlForgetToken(token) {
     if (!mlReconcData[token]) return;
     delete mlReconcData[token];
-    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    sisAiPersistMlKnowledge();
     renderSisAiLogic();
-    showStatus('Padrão "' + token.replace(/_/g,' ') + '" removido do banco de conhecimento.', 'success');
+    showStatus('Padrão "' + sisAiFormatKnowledgeKey(token) + '" removido do banco de conhecimento.', 'success');
 }
 
 function mlForgetSelected() {
@@ -11590,7 +13683,7 @@ function mlForgetSelected() {
     if (!checked.length) { showStatus('Selecione pelo menos um padrão para esquecer.', 'warning'); return; }
     if (!confirm(`Remover ${checked.length} padrão(s) selecionado(s)?`)) return;
     checked.forEach(t => delete mlReconcData[t]);
-    localStorage.setItem('mlReconcData', JSON.stringify(mlReconcData));
+    sisAiPersistMlKnowledge();
     renderMlManageList();
     renderSisAiLogic();
     showStatus(`${checked.length} padrão(s) removido(s) com sucesso.`, 'success');
@@ -11652,7 +13745,7 @@ const BALANCETE_EXT_URL = 'https://kauan001c.github.io/balancete/'; // ⬅ Cole 
 // ======================== AREA DE LINKS SUBSISTEMAS ========================
 const CLIENT_SUBSYSTEM_LINKS = [
     {
-        name: 'SIS-F (209)',
+        name: 'SIS-C FINANCEIRO',
         description: 'Acesso direto ao sistema financeiro do cliente.',
         icon: 'fa-wallet',
         tag: 'Financeiro',
@@ -12904,6 +14997,8 @@ function calcLucroReal() {
 let currentDemoModel = 1;
 let demoRows = [];
 let demoLogoBase64 = null;
+let demoBillingOfficeLogoBase64 = null;
+let demoBillingClientLogoBase64 = null;
 
 const demoModelConfig = {
     1: {
@@ -12920,8 +15015,317 @@ const demoModelConfig = {
         title: 'Resumo Patrimonial',
         cols: ['Descrição','Ativo (R$)','Passivo (R$)','PL (R$)'],
         keys: ['descricao','ativo','passivo','pl']
+    },
+    4: {
+        title: 'Gerar Faturamento',
+        cols: ['Mês Referente','Valores (R$)'],
+        keys: ['mesReferente','valor']
     }
 };
+
+function getDemoBillingProfileFields() {
+    return {
+        officeName: getVal('demoBillingOfficeName'),
+        officeCnpj: getVal('demoBillingOfficeCnpj'),
+        department: getVal('demoBillingDepartment'),
+        period: getVal('demoBillingPeriod'),
+        issueDate: getVal('demoBillingIssueDate'),
+        clientName: getVal('demoBillingClientName'),
+        clientCnpj: getVal('demoBillingClientCnpj'),
+        clientResponsible: getVal('demoBillingClientResponsible'),
+        contadorName: getVal('demoBillingContadorName'),
+        contadorCrc: getVal('demoBillingContadorCrc'),
+        showClientSignature: getVal('demoBillingShowClientSignature'),
+        officeLogo: demoBillingOfficeLogoBase64,
+        clientLogo: demoBillingClientLogoBase64
+    };
+}
+
+function applyDemoBillingProfile(profile = {}) {
+    const map = {
+        demoBillingOfficeName: profile.officeName || '',
+        demoBillingOfficeCnpj: profile.officeCnpj || '',
+        demoBillingDepartment: profile.department || '',
+        demoBillingPeriod: profile.period || '',
+        demoBillingIssueDate: profile.issueDate || '',
+        demoBillingClientName: profile.clientName || '',
+        demoBillingClientCnpj: profile.clientCnpj || '',
+        demoBillingClientResponsible: profile.clientResponsible || '',
+        demoBillingContadorName: profile.contadorName || '',
+        demoBillingContadorCrc: profile.contadorCrc || '',
+        demoBillingShowClientSignature: profile.showClientSignature || 'no'
+    };
+    Object.entries(map).forEach(([id, value]) => {
+        const field = document.getElementById(id);
+        if (field) field.value = value;
+    });
+    demoBillingOfficeLogoBase64 = profile.officeLogo || null;
+    demoBillingClientLogoBase64 = profile.clientLogo || null;
+    updateDemoBillingLogoPreview('office');
+    updateDemoBillingLogoPreview('client');
+}
+
+function updateDemoBillingLogoPreview(kind) {
+    const isOffice = kind === 'office';
+    const value = isOffice ? demoBillingOfficeLogoBase64 : demoBillingClientLogoBase64;
+    const img = document.getElementById(isOffice ? 'demoBillingOfficeLogoPreviewImg' : 'demoBillingClientLogoPreviewImg');
+    const text = document.getElementById(isOffice ? 'demoBillingOfficeLogoBtnText' : 'demoBillingClientLogoBtnText');
+    if (img) {
+        if (value) {
+            img.src = value;
+            img.style.display = '';
+        } else {
+            img.removeAttribute('src');
+            img.style.display = 'none';
+        }
+    }
+    if (text) text.innerHTML = value ? 'Logo carregada ✓' : (isOffice ? '<i class="fas fa-building"></i><br>Logo Escritório' : '<i class="fas fa-user-tie"></i><br>Logo Cliente');
+}
+
+function loadDemoBillingLogo(input, kind) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        if (kind === 'office') demoBillingOfficeLogoBase64 = e.target.result;
+        else demoBillingClientLogoBase64 = e.target.result;
+        updateDemoBillingLogoPreview(kind);
+        renderDemoPreview();
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+
+function updateDemoBillingSavedStatus(profile = null) {
+    const status = document.getElementById('demoBillingSavedStatus');
+    if (!status) return;
+    if (!profile || !profile.officeName) {
+        status.textContent = 'Nenhum dado da empresa salvo neste navegador.';
+        return;
+    }
+    status.textContent = `Base salva: ${profile.officeName}${profile.officeCnpj ? ` • ${profile.officeCnpj}` : ''}`;
+}
+
+function loadDemoBillingProfile(silent = true) {
+    let profile = null;
+    try {
+        profile = JSON.parse(localStorage.getItem(DEMO_BILLING_PROFILE_STORAGE_KEY) || 'null');
+    } catch (error) {
+        profile = null;
+    }
+    updateDemoBillingSavedStatus(profile);
+    if (!profile) return;
+    applyDemoBillingProfile(profile);
+    if (!getVal('demoBillingIssueDate')) {
+        const issueField = document.getElementById('demoBillingIssueDate');
+        if (issueField) issueField.value = new Date().toISOString().split('T')[0];
+    }
+    renderDemoPreview();
+    if (!silent) showStatus('Dados da empresa carregados para o faturamento.', 'success');
+}
+
+function saveDemoBillingProfile() {
+    const profile = getDemoBillingProfileFields();
+    if (!profile.officeName.trim()) {
+        showStatus('Informe ao menos o nome do escritório antes de salvar.', 'warning');
+        return;
+    }
+    localStorage.setItem(DEMO_BILLING_PROFILE_STORAGE_KEY, JSON.stringify(profile));
+    updateDemoBillingSavedStatus(profile);
+    showStatus('Dados da empresa salvos para próximas emissões.', 'success');
+}
+
+function toggleDemoBillingPanel() {
+    const card = document.getElementById('demoBillingConfigCard');
+    if (!card) return;
+    card.style.display = currentDemoModel === 4 ? 'block' : 'none';
+    if (currentDemoModel === 4 && !getVal('demoBillingIssueDate')) {
+        const issueField = document.getElementById('demoBillingIssueDate');
+        if (issueField) issueField.value = new Date().toISOString().split('T')[0];
+    }
+}
+
+function getDemoBillingContext() {
+    return {
+        officeName: getVal('demoBillingOfficeName') || '[Nome do Escritório]',
+        officeCnpj: getVal('demoBillingOfficeCnpj') || '',
+        department: getVal('demoBillingDepartment') || '',
+        period: getVal('demoBillingPeriod') || '[Período do Faturamento]',
+        issueDate: getVal('demoBillingIssueDate') || '',
+        clientName: getVal('demoBillingClientName') || '[Nome do Cliente]',
+        clientCnpj: getVal('demoBillingClientCnpj') || '',
+        clientResponsible: getVal('demoBillingClientResponsible') || '[Responsável pela Empresa]',
+        contadorName: getVal('demoBillingContadorName') || '[Nome do Contador]',
+        contadorCrc: getVal('demoBillingContadorCrc') || '',
+        showClientSignature: getVal('demoBillingShowClientSignature') === 'yes'
+    };
+}
+
+function formatDemoIssueDate(value) {
+    if (!value) return 'Data de emissão não informada';
+    const parsed = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString('pt-BR');
+}
+
+function parseDemoMoneyInput(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return 0;
+    return parseBrazilianCurrency(raw);
+}
+
+function renderDemoBillingPreview(area) {
+    const billing = getDemoBillingContext();
+    const billingRows = demoRows.slice(0, DEMO_BILLING_ROWS_LIMIT);
+    const total = billingRows.reduce((sum, row) => sum + parseDemoMoneyInput(row.valor), 0);
+    const logosHtml = [
+        demoBillingOfficeLogoBase64 ? `<div class="demo-billing-logo-card"><img src="${demoBillingOfficeLogoBase64}" alt="Logo do escritório"></div>` : `<div class="demo-billing-logo-card">Logo<br>Escritório</div>`,
+        demoBillingClientLogoBase64 ? `<div class="demo-billing-logo-card"><img src="${demoBillingClientLogoBase64}" alt="Logo do cliente"></div>` : `<div class="demo-billing-logo-card">Logo<br>Cliente</div>`
+    ].join('');
+    const rowsHtml = billingRows.length
+        ? billingRows.map(row => `<tr><td>${row.mesReferente || '—'}</td><td class="demo-billing-value">${formatCurrency(parseDemoMoneyInput(row.valor))}</td></tr>`).join('')
+        : `<tr><td colspan="2" class="demo-billing-empty">Adicione os meses e valores do faturamento para compor o documento.</td></tr>`;
+    const signatureHtml = `<div class="demo-billing-signatures"><div class="demo-billing-signature"><div class="demo-billing-signature-line"></div><strong>${billing.contadorName}</strong><span>${billing.contadorCrc ? `CRC: ${billing.contadorCrc}` : 'CRC não informado'}</span><span>Assinatura do contador responsável</span></div>${billing.showClientSignature ? `<div class="demo-billing-signature"><div class="demo-billing-signature-line"></div><strong>${billing.clientResponsible}</strong><span>${billing.clientName}</span><span>${billing.clientCnpj ? `CNPJ: ${billing.clientCnpj}` : 'CNPJ do cliente não informado'}</span><span>Assinatura do responsável pela empresa</span></div>` : ''}</div>`;
+    area.innerHTML = `
+    <div class="demo-billing-shell">
+        <div class="demo-billing-header">
+            <div class="demo-billing-brand">
+                <div class="demo-billing-title">Faturamento do Período</div>
+                <div class="demo-billing-subtitle">Demonstrativo emitido manualmente pelo escritório com totalização automática, assinatura técnica e formatação pronta para PDF em página única.</div>
+            </div>
+            <div class="demo-billing-logo-stack">${logosHtml}</div>
+        </div>
+        <div class="demo-billing-meta">
+            <div class="demo-billing-meta-card"><span>Escritório</span><strong>${billing.officeName}</strong></div>
+            <div class="demo-billing-meta-card"><span>CNPJ do Escritório</span><strong>${billing.officeCnpj || 'Não informado'}</strong></div>
+            <div class="demo-billing-meta-card"><span>Departamento</span><strong>${billing.department || 'Não informado'}</strong></div>
+            <div class="demo-billing-meta-card"><span>Cliente</span><strong>${billing.clientName}</strong></div>
+            <div class="demo-billing-meta-card"><span>CNPJ do Cliente</span><strong>${billing.clientCnpj || 'Não informado'}</strong></div>
+            <div class="demo-billing-meta-card"><span>Responsável</span><strong>${billing.clientResponsible}</strong></div>
+            <div class="demo-billing-meta-card"><span>Período</span><strong>${billing.period}</strong></div>
+            <div class="demo-billing-meta-card"><span>Emissão</span><strong>${formatDemoIssueDate(billing.issueDate)}</strong></div>
+        </div>
+        <div class="demo-billing-table-wrap">
+            <table class="demo-billing-table">
+                <thead><tr><th>Mês Referente</th><th class="demo-billing-value">Valores</th></tr></thead>
+                <tbody>
+                    ${rowsHtml}
+                    <tr class="demo-billing-total-row"><td>Total de Faturamento do Período</td><td class="demo-billing-value">${formatCurrency(total)}</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="demo-billing-footer">
+            ${signatureHtml}
+            <div class="demo-billing-credit">SIS-C</div>
+        </div>
+    </div>`;
+}
+
+function downloadDemoBillingPDF() {
+    const billing = getDemoBillingContext();
+    const rows = demoRows.slice(0, DEMO_BILLING_ROWS_LIMIT);
+    const total = rows.reduce((sum, row) => sum + parseDemoMoneyInput(row.valor), 0);
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+    doc.setFillColor(15, 23, 42);
+    doc.rect(0, 0, 595.28, 96, 'F');
+    doc.setFillColor(29, 78, 216);
+    doc.rect(0, 96, 595.28, 8, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.text('Faturamento do Período', 40, 46);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text(billing.officeName, 40, 66);
+    doc.text(`Emissão: ${formatDemoIssueDate(billing.issueDate)}`, 40, 82);
+    if (demoBillingOfficeLogoBase64) {
+        try { doc.addImage(demoBillingOfficeLogoBase64, 'PNG', 418, 22, 60, 44); } catch (error) {}
+    }
+    if (demoBillingClientLogoBase64) {
+        try { doc.addImage(demoBillingClientLogoBase64, 'PNG', 488, 22, 60, 44); } catch (error) {}
+    }
+    doc.setTextColor(15, 23, 42);
+    const meta = [
+        { label: 'Escritório', value: billing.officeName },
+        { label: 'CNPJ do Escritório', value: billing.officeCnpj || 'Não informado' },
+        { label: 'Departamento', value: billing.department || 'Não informado' },
+        { label: 'Cliente', value: billing.clientName },
+        { label: 'CNPJ do Cliente', value: billing.clientCnpj || 'Não informado' },
+        { label: 'Responsável', value: billing.clientResponsible },
+        { label: 'Período', value: billing.period },
+        { label: 'Data de Emissão', value: formatDemoIssueDate(billing.issueDate) }
+    ];
+    meta.forEach((item, index) => {
+        const col = index % 2;
+        const row = Math.floor(index / 2);
+        const x = 40 + (col * 258);
+        const y = 126 + (row * 58);
+        doc.setFillColor(248, 250, 252);
+        doc.setDrawColor(191, 219, 254);
+        doc.roundedRect(x, y, 238, 46, 12, 12, 'FD');
+        doc.setFontSize(8);
+        doc.setTextColor(100, 116, 139);
+        doc.text(item.label.toUpperCase(), x + 14, y + 15);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(15, 23, 42);
+        doc.text(String(item.value || '—').slice(0, 36), x + 14, y + 33);
+        doc.setFont('helvetica', 'normal');
+    });
+    const bodyRows = rows.length
+        ? rows.map(row => [row.mesReferente || '—', formatCurrency(parseDemoMoneyInput(row.valor))])
+        : [['—', 'R$ 0,00']];
+    bodyRows.push(['Total de Faturamento do Período', formatCurrency(total)]);
+    doc.autoTable({
+        startY: 370,
+        head: [['Mês Referente', 'Valores']],
+        body: bodyRows,
+        theme: 'grid',
+        styles: { fontSize: 9, cellPadding: 7, textColor: [15, 23, 42], lineColor: [226, 232, 240], lineWidth: 0.6 },
+        headStyles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        columnStyles: {
+            0: { cellWidth: 360 },
+            1: { cellWidth: 155, halign: 'right' }
+        },
+        didParseCell: data => {
+            if (data.row.index === bodyRows.length - 1) {
+                data.cell.styles.fillColor = [219, 234, 254];
+                data.cell.styles.fontStyle = 'bold';
+                data.cell.styles.textColor = [30, 58, 138];
+            }
+        },
+        margin: { left: 40, right: 40 }
+    });
+    const tableEndY = doc.lastAutoTable.finalY;
+    const sigY = Math.min(tableEndY + 56, billing.showClientSignature ? 706 : 734);
+    doc.setDrawColor(15, 23, 42);
+    doc.line(40, sigY, 250, sigY);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text(billing.contadorName, 40, sigY + 16);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.text(`CRC: ${billing.contadorCrc || 'Não informado'}`, 40, sigY + 31);
+    doc.text('Assinatura do contador responsável', 40, sigY + 45);
+    if (billing.showClientSignature) {
+        doc.setDrawColor(15, 23, 42);
+        doc.line(320, sigY, 530, sigY);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text(billing.clientResponsible, 320, sigY + 16);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.text(billing.clientName, 320, sigY + 31);
+        doc.text(`CNPJ: ${billing.clientCnpj || 'Não informado'}`, 320, sigY + 45);
+        doc.text('Assinatura do responsável pela empresa', 320, sigY + 59);
+    }
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(100, 116, 139);
+    doc.text('SIS-C', 555, 810, { align: 'right' });
+    const safeName = `faturamento_${billing.officeName}`.replace(/[^a-zA-Z0-9_]/g, '_');
+    doc.save(`${safeName}.pdf`);
+    showStatus('Faturamento em PDF gerado com sucesso.', 'success');
+}
 
 function loadDemoLogo(input) {
     if (!input.files || !input.files[0]) return;
@@ -12940,12 +15344,13 @@ function loadDemoLogo(input) {
 function selectDemoModel(n) {
     currentDemoModel = n;
     demoRows = [];
-    [1,2,3].forEach(i => {
+    [1,2,3,4].forEach(i => {
         const card = document.getElementById('demoModelCard' + i);
         if (card) { card.classList.toggle('selected', i === n); }
     });
     const titleEl = document.getElementById('demoDataInputTitle');
     if (titleEl) titleEl.textContent = demoModelConfig[n].title;
+    toggleDemoBillingPanel();
     renderDemoDataInputArea();
     renderDemoPreview();
 }
@@ -12967,6 +15372,10 @@ function renderDemoDataInputArea() {
 
 function addDemoRow() {
     const cfg = demoModelConfig[currentDemoModel];
+    if (currentDemoModel === 4 && demoRows.length >= DEMO_BILLING_ROWS_LIMIT) {
+        showStatus('O faturamento aceita no máximo 12 linhas para manter o PDF em uma página.', 'warning');
+        return;
+    }
     const emptyRow = {};
     cfg.keys.forEach(k => emptyRow[k] = '');
     demoRows.push(emptyRow);
@@ -12979,6 +15388,11 @@ function getVal(id) { return document.getElementById(id)?.value || ''; }
 function renderDemoPreview() {
     const area = document.getElementById('demoPreviewArea');
     if (!area) return;
+    toggleDemoBillingPanel();
+    if (currentDemoModel === 4) {
+        renderDemoBillingPreview(area);
+        return;
+    }
     const cfg = demoModelConfig[currentDemoModel];
     const escritorio = getVal('demoEscritorioNome') || '[Nome do Escritório]';
     const contador = getVal('demoContadorNome') || '[Contador]';
@@ -13018,6 +15432,10 @@ function renderDemoPreview() {
 }
 
 function downloadDemoPDF() {
+    if (currentDemoModel === 4) {
+        downloadDemoBillingPDF();
+        return;
+    }
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
     const cfg = demoModelConfig[currentDemoModel];
